@@ -36,13 +36,6 @@ public abstract class AbstractSignPlugin extends AbstractPlugin{
      */
     public void onSignCollision(Object arg){}
 
-    public void callSignEvent(TweakCartSignEvent ev, Object arg) {
-        switch(ev){
-        case VehiclePassesSignEvent:
-            onSignPass(arg);
-        case VehicleCollidesWithSignEvent:
-            onSignCollision(arg);
-        }
-    }
+
 
 }

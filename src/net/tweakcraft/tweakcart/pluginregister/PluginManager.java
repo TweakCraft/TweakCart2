@@ -19,14 +19,14 @@ public class PluginManager {
         List<AbstractPlugin> pluginList = eventPluginMap.get(ev);
         if(pluginList != null){
             for(AbstractPlugin plugin : pluginList){
-                plugin.callEvent(ev, arg);
+                callEvent(plugin, ev, arg);
             }
         }
     }
     
     public void callSignEvent(TweakCartSignEvent ev, String keyword, Object arg){
         AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartSignEvent, String>(ev,keyword));
-        plugin.callSignEvent(ev, arg);
+        callSignEvent(plugin, ev, arg);
     }
     
     public void addEvent(TweakCartEvent ev, AbstractPlugin av){
@@ -42,5 +42,29 @@ public class PluginManager {
     
     public void addSignEvent(TweakCartSignEvent ev, String keyword, AbstractSignPlugin av){
         signEventPluginMap.put(new SimpleEntry<TweakCartSignEvent, String>(ev, keyword), av);
+    }
+    
+    public void callEvent(AbstractPlugin plugin, TweakCartEvent ev, Object data) {
+        switch(ev){
+        case VehicleBlockChangeEvent:
+            plugin.onVehicleBlockChange(data);
+            break;
+        case VehicleBlockCollisionEvent:
+            plugin.onVehicleBlockCollision(data);
+            break;
+        case VehicleDetectEvent:
+            plugin.onVehicleDetect(data);
+            break;
+        }
+        
+    }
+    
+    public void callSignEvent(AbstractSignPlugin plugin, TweakCartSignEvent ev, Object arg) {
+        switch(ev){
+        case VehiclePassesSignEvent:
+            plugin.onSignPass(arg);
+        case VehicleCollidesWithSignEvent:
+            plugin.onSignCollision(arg);
+        }
     }
 }

@@ -34,18 +34,5 @@ public abstract class AbstractPlugin {
         //Is a default bukkit feature
     }
 
-    public final void callEvent(TweakCartEvent ev, Object data) {
-        switch(ev){
-        case VehicleBlockChangeEvent:
-            onVehicleBlockChange(data);
-            break;
-        case VehicleBlockCollisionEvent:
-            onVehicleBlockCollision(data);
-            break;
-        case VehicleDetectEvent:
-            onVehicleDetect(data);
-            break;
-        }
-        
-    }
+
 }
