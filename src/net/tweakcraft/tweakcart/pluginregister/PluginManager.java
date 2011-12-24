@@ -76,11 +76,10 @@ public class PluginManager {
      * Singleton method, there should be exactly one pluginmanager at all time
      * @return
      */
-    public PluginManager getInstance(){
+    public static PluginManager getInstance(){
         if(instance == null){
-            return new PluginManager();
-        }else{
-            return instance;
+            instance =  new PluginManager();
         }
+        return instance;
     }
 }
