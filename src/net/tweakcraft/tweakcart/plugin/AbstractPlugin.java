@@ -1,19 +1,17 @@
 package net.tweakcraft.tweakcart.plugin;
 
+import net.tweakcart.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.CartModel;
 
 public abstract class AbstractPlugin {
+    public abstract void registerEvents(TweakCartEvent... events);
+    
+    public abstract void onEnable();
     
     public void registerParserOnKeyword(AbstractParser p, String keyword){
         return;
     }
-    public void onSignPass(){
-        
-    }
-    
-    public void onSignCollision(){
-        
-    }
+
     
     public void onVehicleBlockChange(){
         //Called when a vehicle enters a new block
