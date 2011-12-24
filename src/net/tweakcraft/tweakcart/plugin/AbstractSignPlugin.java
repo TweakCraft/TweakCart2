@@ -1,5 +1,7 @@
 package net.tweakcraft.tweakcart.plugin;
 
+import java.util.Map.Entry;
+
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
 
@@ -20,7 +22,7 @@ public abstract class AbstractSignPlugin extends AbstractPlugin{
      * The keyword is the word used to find a plugin when an
      * signpass/signcollision event is created
      */
-    public abstract void registerParserOnKeyword(String keyword);
+    public abstract void RegisterSignEvents();
     
     /**
      * Could be overriden, when a cart passes a sign, this method should be called for all

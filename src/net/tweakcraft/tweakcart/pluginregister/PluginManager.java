@@ -13,8 +13,12 @@ import net.tweakcraft.tweakcart.plugin.AbstractPlugin;
 import net.tweakcraft.tweakcart.plugin.AbstractSignPlugin;
 
 public class PluginManager {
+    private PluginManager instance;
     private Map<TweakCartEvent, List<AbstractPlugin>> eventPluginMap = new HashMap<TweakCartEvent,List<AbstractPlugin>>();
     private Map<Entry<TweakCartSignEvent, String>, AbstractSignPlugin> signEventPluginMap = new HashMap<Entry<TweakCartSignEvent, String>, AbstractSignPlugin>();
+    
+    private PluginManager(){};
+    
     public void callEvent(TweakCartEvent ev, Object arg){
         List<AbstractPlugin> pluginList = eventPluginMap.get(ev);
         if(pluginList != null){
@@ -65,6 +69,18 @@ public class PluginManager {
             plugin.onSignPass(arg);
         case VehicleCollidesWithSignEvent:
             plugin.onSignCollision(arg);
+        }
+    }
+    
+    /**
+     * Singleton method, there should be exactly one pluginmanager at all time
+     * @return
+     */
+    public PluginManager getInstance(){
+        if(instance == null){
+            return new PluginManager();
+        }else{
+            return instance;
         }
     }
 }
