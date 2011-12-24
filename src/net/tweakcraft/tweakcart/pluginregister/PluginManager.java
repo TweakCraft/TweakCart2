@@ -1,11 +1,11 @@
-package net.tweakcart.tweakcraft.pluginregister;
+package net.tweakcraft.tweakcart.pluginregister;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.tweakcart.tweakcart.api.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.plugin.AbstractPlugin;
 
 public class PluginManager {

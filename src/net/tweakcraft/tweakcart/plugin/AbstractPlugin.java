@@ -1,7 +1,7 @@
 package net.tweakcraft.tweakcart.plugin;
 
-import net.tweakcart.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.CartModel;
+import net.tweakcraft.tweakcart.api.TweakCartEvent;
 
 public abstract class AbstractPlugin {
     public abstract void registerEvents(TweakCartEvent... events);

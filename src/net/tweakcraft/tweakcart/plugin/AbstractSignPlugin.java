@@ -1,6 +1,6 @@
 package net.tweakcraft.tweakcart.plugin;
 
-import net.tweakcart.tweakcart.api.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.TweakCartEvent;
 
 public abstract class AbstractSignPlugin extends AbstractPlugin{
 

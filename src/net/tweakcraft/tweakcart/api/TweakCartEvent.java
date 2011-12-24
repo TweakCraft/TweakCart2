@@ -1,4 +1,4 @@
-package net.tweakcart.tweakcart.api;
+package net.tweakcraft.tweakcart.api;
 
 public enum TweakCartEvent {
     VehicleBlockChangeEvent(),
