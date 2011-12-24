@@ -1,4 +1,4 @@
-package net.tweakcraft.tweakcart.api;
+package net.tweakcraft.tweakcart.model;
 
 import org.bukkit.Location;
 

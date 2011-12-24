@@ -1,4 +1,4 @@
-package net.tweakcraft.tweakcart.pluginregister;
+package net.tweakcraft.tweakcart;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -9,20 +9,20 @@ import java.util.Map.Entry;
 
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
-import net.tweakcraft.tweakcart.plugin.AbstractPlugin;
+import net.tweakcraft.tweakcart.plugin.AbstractBlockPlugin;
 import net.tweakcraft.tweakcart.plugin.AbstractSignPlugin;
 
 public class PluginManager {
     private PluginManager instance;
-    private Map<TweakCartEvent, List<AbstractPlugin>> eventPluginMap = new HashMap<TweakCartEvent,List<AbstractPlugin>>();
+    private Map<TweakCartEvent, List<AbstractBlockPlugin>> eventPluginMap = new HashMap<TweakCartEvent,List<AbstractBlockPlugin>>();
     private Map<Entry<TweakCartSignEvent, String>, AbstractSignPlugin> signEventPluginMap = new HashMap<Entry<TweakCartSignEvent, String>, AbstractSignPlugin>();
     
     private PluginManager(){};
     
     public void callEvent(TweakCartEvent ev, Object arg){
-        List<AbstractPlugin> pluginList = eventPluginMap.get(ev);
+        List<AbstractBlockPlugin> pluginList = eventPluginMap.get(ev);
         if(pluginList != null){
-            for(AbstractPlugin plugin : pluginList){
+            for(AbstractBlockPlugin plugin : pluginList){
                 callEvent(plugin, ev, arg);
             }
         }
@@ -33,12 +33,12 @@ public class PluginManager {
         callSignEvent(plugin, ev, arg);
     }
     
-    public void addEvent(TweakCartEvent ev, AbstractPlugin av){
+    public void addEvent(TweakCartEvent ev, AbstractBlockPlugin av){
         if(eventPluginMap.get(ev) != null){
-            List<AbstractPlugin> pluginList = (List<AbstractPlugin>)eventPluginMap.get(ev);
+            List<AbstractBlockPlugin> pluginList = (List<AbstractBlockPlugin>)eventPluginMap.get(ev);
             pluginList.add(av);
         }else{
-            List<AbstractPlugin> pluginList = new ArrayList<AbstractPlugin>();
+            List<AbstractBlockPlugin> pluginList = new ArrayList<AbstractBlockPlugin>();
             pluginList.add(av);
             eventPluginMap.put(ev, pluginList);
         }
@@ -48,7 +48,7 @@ public class PluginManager {
         signEventPluginMap.put(new SimpleEntry<TweakCartSignEvent, String>(ev, keyword), av);
     }
     
-    public void callEvent(AbstractPlugin plugin, TweakCartEvent ev, Object data) {
+    public void callEvent(AbstractBlockPlugin plugin, TweakCartEvent ev, Object data) {
         switch(ev){
         case VehicleBlockChangeEvent:
             plugin.onVehicleBlockChange(data);

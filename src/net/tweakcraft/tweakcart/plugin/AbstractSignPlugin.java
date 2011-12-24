@@ -1,11 +1,8 @@
 package net.tweakcraft.tweakcart.plugin;
 
-import java.util.Map.Entry;
-
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
 
-public abstract class AbstractSignPlugin extends AbstractPlugin{
+public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
 
     /**
      * Register your events by the manager

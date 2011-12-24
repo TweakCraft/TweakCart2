@@ -1,4 +1,4 @@
-package net.tweakcraft.tweakcart.api;
+package net.tweakcraft.tweakcart.model;
 
 public class SignLocation {
     private int x, y, z;

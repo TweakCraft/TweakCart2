@@ -3,8 +3,8 @@ package net.tweakcraft.tweakcart.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.tweakcraft.tweakcart.api.Direction;
-import net.tweakcraft.tweakcart.plugin.AbstractPlugin;
+import net.tweakcraft.tweakcart.model.Direction;
+import net.tweakcraft.tweakcart.plugin.AbstractBlockPlugin;
 import net.tweakcraft.tweakcart.util.MathUtil;
 
 import org.bukkit.Material;
@@ -16,10 +16,10 @@ import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 
 public class TweakCartVehicleListener extends VehicleListener{
-    private static List<AbstractPlugin> vehicleSignPassInterested = new ArrayList<AbstractPlugin>();
+    private static List<AbstractBlockPlugin> vehicleSignPassInterested = new ArrayList<AbstractBlockPlugin>();
     
     
-    public static void addInterestInSignPass(AbstractPlugin a){
+    public static void addInterestInSignPass(AbstractBlockPlugin a){
         vehicleSignPassInterested.add(a);
     }
     
