@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.tweakcraft.tweakcart.api.Direction;
-import net.tweakcraft.tweakcart.api.SignLocation;
 import net.tweakcraft.tweakcart.plugin.AbstractPlugin;
 import net.tweakcraft.tweakcart.util.MathUtil;
 
@@ -12,12 +11,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
-import org.bukkit.material.DetectorRail;
-import org.bukkit.material.PoweredRail;
-import org.bukkit.material.Rails;
-
 
 public class TweakCartVehicleListener extends VehicleListener{
     private static List<AbstractPlugin> vehicleSignPassInterested = new ArrayList<AbstractPlugin>();
@@ -44,6 +40,14 @@ public class TweakCartVehicleListener extends VehicleListener{
             }
         }
     }
+    
+    @Override
+    public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
+        Block collideBlock = event.getBlock();
+        if(collideBlock.getType() == Material.SIGN || collideBlock.getType() == Material.SIGN_POST){
+            //lets call the VehicleSignCollision event
+        }
+    };
     
     /**
      * Adds Signs to a list, signs are searched for in the following pattern
