@@ -1,5 +1,8 @@
 package net.tweakcart.tweakcart.api;
 
 public enum TweakCartEvent {
-    VehicleBlockChangeEvent();
+    VehicleBlockChangeEvent(),
+    VehicleBlockCollisionEvent(),
+    VehicleDetectEvent();
+    
 }
