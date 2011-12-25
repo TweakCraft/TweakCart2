@@ -25,14 +25,42 @@ public class TweakPluginManager {
         List<AbstractBlockPlugin> pluginList = eventPluginMap.get(type);
         if (pluginList != null) {
             for (AbstractBlockPlugin plugin : pluginList) {
-                callBlockEvent(plugin, type, event);
+                switch (type) {
+                    case VehicleBlockChangeEvent:
+                        if (event instanceof TweakVehicleBlockChangeEvent) {
+                            plugin.onVehicleBlockChange((TweakVehicleBlockChangeEvent) event);
+                        } else {
+                            //Something went wrong, debug info(?)
+                        }
+                        break;
+                    case VehicleBlockCollisionEvent:
+                        if (event instanceof TweakVehicleBlockCollisionEvent) {
+                            plugin.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) event);
+                        } else {
+                            //Something went wrong, debug info(?)
+                        }
+                        break;
+                    case VehicleBlockDetectEvent:
+                        if (event instanceof TweakVehicleBlockDetectEvent) {
+                            plugin.onVehicleDetect((TweakVehicleBlockDetectEvent) event);
+                        } else {
+                            //Something went wrong, debug info(?)
+                        }
+                        break;
+                }
             }
         }
     }
 
     public void callSignEvent(TweakCartSignEvent type, String keyword, VehicleSignEvent event) {
         AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartSignEvent, String>(type, keyword));
-        callSignEvent(plugin, type, event);
+        //TODO: cast values of event (need to update AbstractSignPlugin first)
+        switch (type) {
+            case VehiclePassesSignEvent:
+                plugin.onSignPass(event);
+            case VehicleCollidesWithSignEvent:
+                plugin.onSignCollision(event);
+        }
     }
 
     public void registerBlockEvents(AbstractBlockPlugin plugin, TweakCartEvent... events) {
@@ -54,30 +82,6 @@ public class TweakPluginManager {
 
     public void addSignEvent(TweakCartSignEvent ev, String keyword, AbstractSignPlugin av) {
         signEventPluginMap.put(new SimpleEntry<TweakCartSignEvent, String>(ev, keyword), av);
-    }
-
-    public void callBlockEvent(AbstractBlockPlugin plugin, TweakCartEvent ev, VehicleBlockEvent vehicleBlockEvent) {
-        switch (ev) {
-            case VehicleBlockChangeEvent:
-                plugin.onVehicleBlockChange((TweakVehicleBlockChangeEvent) vehicleBlockEvent);
-                break;
-            case VehicleBlockCollisionEvent:
-                plugin.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) vehicleBlockEvent);
-                break;
-            case VehicleBlockDetectEvent:
-                plugin.onVehicleDetect((TweakVehicleBlockDetectEvent) vehicleBlockEvent);
-                break;
-        }
-
-    }
-
-    public void callSignEvent(AbstractSignPlugin plugin, TweakCartSignEvent ev, Object arg) {
-        switch (ev) {
-            case VehiclePassesSignEvent:
-                plugin.onSignPass(arg);
-            case VehicleCollidesWithSignEvent:
-                plugin.onSignCollision(arg);
-        }
     }
 
     /**
