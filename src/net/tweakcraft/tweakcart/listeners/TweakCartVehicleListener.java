@@ -3,6 +3,8 @@ package net.tweakcraft.tweakcart.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.tweakcraft.tweakcart.TweakPluginManager;
+import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.plugin.AbstractBlockPlugin;
 import net.tweakcraft.tweakcart.util.MathUtil;
@@ -16,12 +18,8 @@ import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 
 public class TweakCartVehicleListener extends VehicleListener{
-    private static List<AbstractBlockPlugin> vehicleSignPassInterested = new ArrayList<AbstractBlockPlugin>();
-    
-    
-    public static void addInterestInSignPass(AbstractBlockPlugin a){
-        vehicleSignPassInterested.add(a);
-    }
+    private TweakPluginManager manager = TweakPluginManager.getInstance();    
+
     
     @Override
     public void onVehicleMove(VehicleMoveEvent event){
@@ -35,8 +33,14 @@ public class TweakCartVehicleListener extends VehicleListener{
             //we hebben niets te doen met blocks die geen rails zijn
             if(!isRailBlock(toBlock)) return;
             
-            if(getSignLocationAround(toBlock, cartDriveDirection).size() != 0){
+            List<Sign> signBlockList;
+            if((signBlockList = getSignLocationAround(toBlock, cartDriveDirection)).size() != 0){
                 //Woei, we hebben bordjes gevonden
+                for(Sign sign : signBlockList){
+                    String keyword = sign.getLine(0);
+                    //TODO: fix the null
+                    manager.callSignEvent(TweakCartSignEvent.VehiclePassesSignEvent, keyword , null);
+                }
             }
         }
     }
@@ -45,7 +49,10 @@ public class TweakCartVehicleListener extends VehicleListener{
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
         Block collideBlock = event.getBlock();
         if(collideBlock.getType() == Material.SIGN || collideBlock.getType() == Material.SIGN_POST){
-            //lets call the VehicleSignCollision event
+            Sign signBlock = (Sign) collideBlock;
+            String keyword = signBlock.getLine(0);
+            //TODO: fix the null
+            manager.callSignEvent(TweakCartSignEvent.VehicleCollidesWithSignEvent, keyword , null);
         }
     };
     
