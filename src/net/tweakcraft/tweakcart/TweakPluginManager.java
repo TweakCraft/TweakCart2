@@ -2,9 +2,7 @@ package net.tweakcraft.tweakcart;
 
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleBlockCollisionEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleDetectEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleMoveEvent;
+import net.tweakcraft.tweakcart.event.*;
 import net.tweakcraft.tweakcart.plugin.AbstractBlockPlugin;
 import net.tweakcraft.tweakcart.plugin.AbstractSignPlugin;
 
@@ -14,10 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
 public class TweakPluginManager {
-    private static Logger log = Logger.getLogger("Minecraft");
     private static TweakPluginManager instance;
     private Map<TweakCartEvent, List<AbstractBlockPlugin>> eventPluginMap = new HashMap<TweakCartEvent, List<AbstractBlockPlugin>>();
     private Map<Entry<TweakCartSignEvent, String>, AbstractSignPlugin> signEventPluginMap = new HashMap<Entry<TweakCartSignEvent, String>, AbstractSignPlugin>();
@@ -25,23 +21,27 @@ public class TweakPluginManager {
     private TweakPluginManager() {
     }
 
-    ;
-
-    public void callEvent(TweakCartEvent ev, Object arg) {
-        List<AbstractBlockPlugin> pluginList = eventPluginMap.get(ev);
+    public void callBlockEvent(TweakCartEvent type, VehicleBlockEvent event) {
+        List<AbstractBlockPlugin> pluginList = eventPluginMap.get(type);
         if (pluginList != null) {
             for (AbstractBlockPlugin plugin : pluginList) {
-                callEvent(plugin, ev, arg);
+                callBlockEvent(plugin, type, event);
             }
         }
     }
 
-    public void callSignEvent(TweakCartSignEvent ev, String keyword, Object arg) {
-        AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartSignEvent, String>(ev, keyword));
-        callSignEvent(plugin, ev, arg);
+    public void callSignEvent(TweakCartSignEvent type, String keyword, VehicleSignEvent event) {
+        AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartSignEvent, String>(type, keyword));
+        callSignEvent(plugin, type, event);
     }
 
-    public void addEvent(TweakCartEvent ev, AbstractBlockPlugin av) {
+    public void registerBlockEvents(AbstractBlockPlugin plugin, TweakCartEvent... events) {
+        for (TweakCartEvent event : events) {
+            addBlockEvent(event, plugin);
+        }
+    }
+
+    public void addBlockEvent(TweakCartEvent ev, AbstractBlockPlugin av) {
         if (eventPluginMap.get(ev) != null) {
             List<AbstractBlockPlugin> pluginList = (List<AbstractBlockPlugin>) eventPluginMap.get(ev);
             pluginList.add(av);
@@ -56,28 +56,16 @@ public class TweakPluginManager {
         signEventPluginMap.put(new SimpleEntry<TweakCartSignEvent, String>(ev, keyword), av);
     }
 
-    public void callEvent(AbstractBlockPlugin plugin, TweakCartEvent ev, Object data) {
+    public void callBlockEvent(AbstractBlockPlugin plugin, TweakCartEvent ev, VehicleBlockEvent vehicleBlockEvent) {
         switch (ev) {
             case VehicleBlockChangeEvent:
-                if (data instanceof TweakVehicleMoveEvent) {
-                    plugin.onVehicleBlockChange((TweakVehicleMoveEvent) data);
-                } else {
-                    log.severe(String.format("[TweakCart] Could not pass VehicleBlockChangeEvent to %s, failed to cast object", plugin.getPluginName()));
-                }
+                plugin.onVehicleBlockChange((TweakVehicleBlockChangeEvent) vehicleBlockEvent);
                 break;
             case VehicleBlockCollisionEvent:
-                if (data instanceof TweakVehicleBlockCollisionEvent) {
-                    plugin.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) data);
-                } else {
-                    log.severe(String.format("[TweakCart] Could not pass TweakVehicleBlockCollisionEvent to %s, failed to cast object", plugin.getPluginName()));
-                }
+                plugin.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) vehicleBlockEvent);
                 break;
-            case VehicleDetectEvent:
-                if (data instanceof TweakVehicleDetectEvent) {
-                    plugin.onVehicleDetect((TweakVehicleDetectEvent) data);
-                } else {
-                    log.severe(String.format("[TweakCart] Could not pass TweakVehicleDetectEvent to %s, failed to cast object", plugin.getPluginName()));
-                }
+            case VehicleBlockDetectEvent:
+                plugin.onVehicleDetect((TweakVehicleBlockDetectEvent) vehicleBlockEvent);
                 break;
         }
 
