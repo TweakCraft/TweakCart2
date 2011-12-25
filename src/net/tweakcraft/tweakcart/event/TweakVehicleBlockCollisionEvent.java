@@ -1,5 +1,10 @@
 package net.tweakcraft.tweakcart.event;
 
-public class TweakVehicleBlockCollisionEvent {
+import org.bukkit.block.Block;
 
+public class TweakVehicleBlockCollisionEvent extends VehicleBlockEvent {
+
+    public TweakVehicleBlockCollisionEvent(Block b) {
+        super(b);
+    }
 }

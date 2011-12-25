@@ -15,7 +15,7 @@ public enum Direction {
     SOUTH_EAST(SOUTH, EAST),
     SOUTH_WEST(SOUTH, WEST),
     SELF(0, 0, 0);
-    
+
     private int modY;
     private int modZ;
     private int modX;
@@ -45,13 +45,13 @@ public enum Direction {
     }
 
     public static Direction getDirection(Location from, Location to) {
-        if(from.getBlockX() == to.getBlockX() + 1){
-           return Direction.NORTH;
-        }else if(from.getBlockX() + 1 == to.getBlockX()){
+        if (from.getBlockX() == to.getBlockX() + 1) {
+            return Direction.NORTH;
+        } else if (from.getBlockX() + 1 == to.getBlockX()) {
             return Direction.SOUTH;
-        }else if(from.getBlockZ() == to.getBlockZ()+1){
+        } else if (from.getBlockZ() == to.getBlockZ() + 1) {
             return Direction.EAST;
-        }else if(from.getBlockZ() + 1 == to.getBlockZ()){
+        } else if (from.getBlockZ() + 1 == to.getBlockZ()) {
             return Direction.WEST;
         }
         return Direction.SELF;
