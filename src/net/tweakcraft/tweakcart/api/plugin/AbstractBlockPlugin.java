@@ -1,12 +1,19 @@
-package net.tweakcraft.tweakcart.plugin;
+package net.tweakcraft.tweakcart.api.plugin;
 
+import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleBlockChangeEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleBlockCollisionEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleBlockDetectEvent;
-import net.tweakcraft.tweakcart.event.TweakVehicleDispenseEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 
 public abstract class AbstractBlockPlugin {
+    protected TweakCart plugin;
+    
+    public AbstractBlockPlugin(TweakCart p){
+        plugin = p;
+    }
+    
     public void registerEvents(TweakCartEvent... events) {
 
     }

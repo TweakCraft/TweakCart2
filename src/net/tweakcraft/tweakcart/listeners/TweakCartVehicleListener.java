@@ -1,13 +1,17 @@
 package net.tweakcraft.tweakcart.listeners;
 
 import net.tweakcraft.tweakcart.TweakPluginManager;
-import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
+import net.tweakcraft.tweakcart.api.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.MathUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Minecart;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
@@ -21,39 +25,47 @@ public class TweakCartVehicleListener extends VehicleListener {
 
     @Override
     public void onVehicleMove(VehicleMoveEvent event) {
-        if (MathUtil.isSameBlock(event.getFrom(), event.getTo())) {
-            return;
-        } else {
-            Block toBlock = event.getTo().getBlock();
-            Direction cartDriveDirection = Direction.getDirection(event.getFrom(), event.getTo());
+        if (event.getVehicle() instanceof Minecart) {
+            Minecart minecart = (Minecart)event.getVehicle();
+            if (MathUtil.isSameBlock(event.getFrom(), event.getTo())) {
+                return;
+            } else {
+                Block toBlock = event.getTo().getBlock();
+                Direction cartDriveDirection = Direction.getDirection(event.getFrom(), event.getTo());
 
-            //we hebben niets te doen met blocks die geen rails zijn
-            if (!isRailBlock(toBlock)) return;
-
-            List<Sign> signBlockList;
-            if ((signBlockList = getSignLocationAround(toBlock, cartDriveDirection)).size() != 0) {
-                //Woei, we hebben bordjes gevonden
-                for (Sign sign : signBlockList) {
-                    String keyword = sign.getLine(0);
-                    //TODO: fix the null
-                    manager.callSignEvent(TweakCartSignEvent.VehiclePassesSignEvent, keyword, null);
+                //we hebben niets te doen met blocks die geen rails zijn
+                //OH ZEKER WEL! Signs bijvoorbeeld worden niet door blockCollision gevonden. Hier zou ik dus de 'collision checks' daarvoor doen.
+                if (!isRailBlock(toBlock)) {
+                    switch (toBlock.getType()) {
+                        case WALL_SIGN:
+                        case SIGN_POST:
+                            Sign signBlock = (Sign) toBlock;
+                            String keyword = signBlock.getLine(0);
+                            manager.callEvent(TweakCartEvent.Sign.VehicleCollidesWithSignEvent, keyword, new TweakVehicleCollidesWithSignEvent(minecart, cartDriveDirection, signBlock));
+                            break;
+                    }
+                } else {
+                    List<Sign> signBlockList;
+                    if ((signBlockList = getSignLocationAround(toBlock, cartDriveDirection)).size() != 0) {
+                        //Woei, we hebben bordjes gevonden
+                        for (Sign sign : signBlockList) {
+                            String keyword = sign.getLine(0);
+                            //TODO: fix the null
+                            manager.callEvent(TweakCartEvent.Sign.VehiclePassesSignEvent, keyword, new TweakVehiclePassesSignEvent(minecart, cartDriveDirection, sign));
+                        }
+                    }
                 }
             }
         }
     }
 
     @Override
+    //Made a general rule for all blocks. Makes various functions for block collision possible.
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
-        Block collideBlock = event.getBlock();
-        if (collideBlock.getType() == Material.SIGN || collideBlock.getType() == Material.SIGN_POST) {
-            Sign signBlock = (Sign) collideBlock;
-            String keyword = signBlock.getLine(0);
-            //TODO: fix the null
-            manager.callSignEvent(TweakCartSignEvent.VehicleCollidesWithSignEvent, keyword, null);
+        if (event.getVehicle() instanceof Minecart) {
+            manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent((Minecart)event.getVehicle(), event.getBlock()));
         }
     }
-
-    ;
 
     /**
      * Adds Signs to a list, signs are searched for in the following pattern

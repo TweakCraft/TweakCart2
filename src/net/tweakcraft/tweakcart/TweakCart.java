@@ -6,11 +6,12 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class TweakCart extends JavaPlugin {
-    private static Logger log = Logger.getLogger("Minecraft");
+    private static Logger logger = Logger.getLogger("Minecraft");
     private TweakCartVehicleListener vehicleListener;
     private TweakCartBlockListener blockListener;
 
@@ -22,7 +23,7 @@ public class TweakCart extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        log.info("[TweakCart] Enabling TweakCart");
+        log("Enabling!");
         // Initialising variables
         vehicleListener = new TweakCartVehicleListener();
         blockListener = new TweakCartBlockListener();
@@ -32,6 +33,14 @@ public class TweakCart extends JavaPlugin {
         pm.registerEvent(Event.Type.VEHICLE_MOVE, vehicleListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_DISPENSE, blockListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.VEHICLE_COLLISION_BLOCK, vehicleListener, Event.Priority.Normal, this);
+        //pm.registerEvent(Event.Type.REDSTONE_CHANGE, blockListener, Event.Priority.Normal, this);
     }
 
+    public void log(String info, Level level){
+        logger.log(level, "[TweakCart] " + info);
+    }
+    
+    public void log(String info) {
+        log(info, Level.INFO);
+    }
 }

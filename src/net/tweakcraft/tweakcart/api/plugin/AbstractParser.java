@@ -1,4 +1,4 @@
-package net.tweakcraft.tweakcart.plugin;
+package net.tweakcraft.tweakcart.api.plugin;
 
 import org.bukkit.block.Sign;
 

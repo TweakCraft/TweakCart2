@@ -1,4 +1,7 @@
-package net.tweakcraft.tweakcart.plugin;
+package net.tweakcraft.tweakcart.api.plugin;
+
+import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 
 public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
 
@@ -18,18 +21,18 @@ public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
      * Could be overriden, when a cart passes a sign, this method should be called for all
      * registered subplugins
      *
-     * @param arg
+     * @param event
      */
-    public void onSignPass(Object arg) {
+    public void onSignPass(TweakVehiclePassesSignEvent event) {
     }
 
     /**
      * Could be overriden, when a cart collides with a sign, this method should be called for all
      * registered subplugins
      *
-     * @param arg
+     * @param event
      */
-    public void onSignCollision(Object arg) {
+    public void onSignCollision(TweakVehicleCollidesWithSignEvent event) {
     }
 
 

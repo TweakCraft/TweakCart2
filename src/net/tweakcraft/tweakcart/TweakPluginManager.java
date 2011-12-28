@@ -1,10 +1,9 @@
 package net.tweakcraft.tweakcart;
 
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.TweakCartSignEvent;
-import net.tweakcraft.tweakcart.event.*;
-import net.tweakcraft.tweakcart.plugin.AbstractBlockPlugin;
-import net.tweakcraft.tweakcart.plugin.AbstractSignPlugin;
+import net.tweakcraft.tweakcart.api.event.*;
+import net.tweakcraft.tweakcart.api.plugin.AbstractBlockPlugin;
+import net.tweakcraft.tweakcart.api.plugin.AbstractSignPlugin;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -15,14 +14,14 @@ import java.util.Map.Entry;
 
 public class TweakPluginManager {
     private static TweakPluginManager instance;
-    private Map<TweakCartEvent, List<AbstractBlockPlugin>> eventPluginMap = new HashMap<TweakCartEvent, List<AbstractBlockPlugin>>();
-    private Map<Entry<TweakCartSignEvent, String>, AbstractSignPlugin> signEventPluginMap = new HashMap<Entry<TweakCartSignEvent, String>, AbstractSignPlugin>();
+    private Map<TweakCartEvent.Block, List<AbstractBlockPlugin>> blockEventPluginMap = new HashMap<TweakCartEvent.Block, List<AbstractBlockPlugin>>();
+    private Map<Entry<TweakCartEvent.Sign, String>, AbstractSignPlugin> signEventPluginMap = new HashMap<Entry<TweakCartEvent.Sign, String>, AbstractSignPlugin>();
 
     private TweakPluginManager() {
     }
 
-    public void callBlockEvent(TweakCartEvent type, VehicleBlockEvent event) {
-        List<AbstractBlockPlugin> pluginList = eventPluginMap.get(type);
+    public void callEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
+        List<AbstractBlockPlugin> pluginList = blockEventPluginMap.get(type);
         if (pluginList != null) {
             for (AbstractBlockPlugin plugin : pluginList) {
                 switch (type) {
@@ -52,40 +51,50 @@ public class TweakPluginManager {
         }
     }
 
-    public void callSignEvent(TweakCartSignEvent type, String keyword, VehicleSignEvent event) {
-        AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartSignEvent, String>(type, keyword));
+    public void callEvent(TweakCartEvent.Sign type, String keyword, VehicleSignEvent event) {
+        AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
         //TODO: cast values of event (need to update AbstractSignPlugin first)
         switch (type) {
             case VehiclePassesSignEvent:
-                plugin.onSignPass(event);
+                if (event instanceof TweakVehiclePassesSignEvent) {
+                    plugin.onSignPass((TweakVehiclePassesSignEvent) event);
+                } else {
+                    //Something went wrong, debug info(?)
+                }
             case VehicleCollidesWithSignEvent:
-                plugin.onSignCollision(event);
+                if (event instanceof TweakVehicleCollidesWithSignEvent) {
+                    plugin.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
+                } else {
+                    //Something went wrong, debug info(?)
+                }
         }
     }
 
-    public void registerBlockEvents(AbstractBlockPlugin plugin, TweakCartEvent... events) {
-        for (TweakCartEvent event : events) {
+    public void registerEvent(AbstractBlockPlugin plugin, TweakCartEvent.Block... events) {
+        for (TweakCartEvent.Block event : events) {
             addBlockEvent(event, plugin);
         }
     }
 
-    public void addBlockEvent(TweakCartEvent ev, AbstractBlockPlugin av) {
-        if (eventPluginMap.get(ev) != null) {
-            List<AbstractBlockPlugin> pluginList = (List<AbstractBlockPlugin>) eventPluginMap.get(ev);
-            pluginList.add(av);
-        } else {
-            List<AbstractBlockPlugin> pluginList = new ArrayList<AbstractBlockPlugin>();
-            pluginList.add(av);
-            eventPluginMap.put(ev, pluginList);
+    public void registerEvent(AbstractSignPlugin plugin, TweakCartEvent.Sign type, String... keywords) {
+        for (String keyword : keywords) {
+            signEventPluginMap.put(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword), plugin);
         }
     }
 
-    public void addSignEvent(TweakCartSignEvent ev, String keyword, AbstractSignPlugin av) {
-        signEventPluginMap.put(new SimpleEntry<TweakCartSignEvent, String>(ev, keyword), av);
+    private void addBlockEvent(TweakCartEvent.Block type, AbstractBlockPlugin plugin) {
+        List<AbstractBlockPlugin> pluginList = blockEventPluginMap.get(type);
+        if (pluginList != null) {
+            pluginList.add(plugin);
+        } else {
+            pluginList = new ArrayList<AbstractBlockPlugin>();
+            pluginList.add(plugin);
+        }
+        blockEventPluginMap.put(type, pluginList);
     }
 
     /**
-     * Singleton method, there should be exactly one pluginmanager at all time
+     * Singleton method, there should be exactly one PluginManager at all times
      *
      * @return
      */
