@@ -4,7 +4,8 @@ public class TweakCartEvent {
     public enum Block {
         VehicleBlockChangeEvent,
         VehicleBlockCollisionEvent,
-        VehicleBlockDetectEvent
+        VehicleBlockDetectEvent,
+        VehicleDispenseEvent
     }
 
     public enum Sign {

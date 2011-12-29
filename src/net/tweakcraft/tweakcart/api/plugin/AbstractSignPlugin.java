@@ -1,21 +1,19 @@
 package net.tweakcraft.tweakcart.api.plugin;
 
+import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 
 public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
 
-    /**
-     * To be implemented by a plugin
-     */
-    public abstract void onEnable();
+    public AbstractSignPlugin(TweakCart p) {
+        super(p);
+    }
 
     /**
-     * To be implemented by a plugin
-     * The keyword is the word used to find a plugin when an
-     * signpass/signcollision event is created
+     * To be implemented by a plugin, register events etc.
      */
-    public abstract void RegisterSignEvents();
+    public abstract void onEnable();
 
     /**
      * Could be overriden, when a cart passes a sign, this method should be called for all
@@ -34,6 +32,4 @@ public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
      */
     public void onSignCollision(TweakVehicleCollidesWithSignEvent event) {
     }
-
-
 }

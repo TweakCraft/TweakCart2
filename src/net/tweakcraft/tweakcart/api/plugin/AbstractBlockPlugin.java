@@ -1,7 +1,6 @@
 package net.tweakcraft.tweakcart.api.plugin;
 
 import net.tweakcraft.tweakcart.TweakCart;
-import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
@@ -12,10 +11,6 @@ public abstract class AbstractBlockPlugin {
     
     public AbstractBlockPlugin(TweakCart p){
         plugin = p;
-    }
-    
-    public void registerEvents(TweakCartEvent... events) {
-
     }
 
     /**
