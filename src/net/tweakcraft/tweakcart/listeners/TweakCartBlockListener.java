@@ -8,6 +8,7 @@ import net.tweakcraft.tweakcart.TweakPluginManager;
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 import net.tweakcraft.tweakcart.model.Direction;
+import net.tweakcraft.tweakcart.util.VehicleUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,7 +33,7 @@ public class TweakCartBlockListener extends BlockListener {
                 Block b = event.getBlock();
                 Direction d = Direction.getDirection(new Location(b.getWorld(), 0, 0, 0), event.getVelocity().toLocation(b.getWorld()));
                 TweakVehicleDispenseEvent dispenseEvent = new TweakVehicleDispenseEvent(null, d, b, type);
-                manager.callEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type));
+                if(!manager.callCancelableEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type))) VehicleUtil.spawnCart(event.getBlock(), type);
                 break;
         }
     }
