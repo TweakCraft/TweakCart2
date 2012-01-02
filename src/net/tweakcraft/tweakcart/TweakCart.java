@@ -23,7 +23,7 @@ public class TweakCart extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        log(String.Format("Enabling! Version: %s", this.getDescription().getVersion()));
+        log(String.format("Enabling! Version: %s", this.getDescription().getVersion()));
         // Initialising variables
         vehicleListener = new TweakCartVehicleListener();
         blockListener = new TweakCartBlockListener();
