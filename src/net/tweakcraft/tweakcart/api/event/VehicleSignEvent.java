@@ -18,11 +18,11 @@ public class VehicleSignEvent {
     public Sign getSign() {
         return sign;
     }
-    
+
     public Minecart getMinecart() {
         return minecart;
     }
-    
+
     public Direction getDirection() {
         return direction;
     }

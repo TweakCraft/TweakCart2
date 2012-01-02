@@ -26,7 +26,7 @@ public class TweakCartVehicleListener extends VehicleListener {
     @Override
     public void onVehicleMove(VehicleMoveEvent event) {
         if (event.getVehicle() instanceof Minecart) {
-            Minecart minecart = (Minecart)event.getVehicle();
+            Minecart minecart = (Minecart) event.getVehicle();
             if (MathUtil.isSameBlock(event.getFrom(), event.getTo())) {
                 return;
             } else {
@@ -63,7 +63,7 @@ public class TweakCartVehicleListener extends VehicleListener {
     //Made a general rule for all blocks. Makes various functions for block collision possible.
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
         if (event.getVehicle() instanceof Minecart) {
-            manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent((Minecart)event.getVehicle(), Direction.SELF, event.getBlock()));
+            manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent((Minecart) event.getVehicle(), Direction.SELF, event.getBlock()));
         }
     }
 

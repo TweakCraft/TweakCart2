@@ -3,7 +3,6 @@ package net.tweakcraft.tweakcart.model;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-
 public enum Direction {
     NORTH(-1, 0, 0),
     EAST(0, 0, -1),
@@ -57,9 +56,10 @@ public enum Direction {
         }
         return Direction.SELF;
     }
-    
+
     public Vector mod(double mod) {
-    	//TODO: shameless copy paste from old codebase, is this correct?
-        return new Vector(getModX() * mod, getModY() * mod, getModZ() * mod);
+        //TODO: shameless copy paste from old codebase, is this correct?
+        //Yes this is correct
+        return new Vector(modX * mod, modY * mod, modZ * mod);
     }
 }

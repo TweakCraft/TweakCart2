@@ -8,8 +8,8 @@ import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 
 public abstract class AbstractBlockPlugin {
     protected TweakCart plugin;
-    
-    public AbstractBlockPlugin(TweakCart p){
+
+    public AbstractBlockPlugin(TweakCart p) {
         plugin = p;
     }
 

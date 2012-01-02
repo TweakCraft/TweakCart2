@@ -36,10 +36,10 @@ public class TweakCart extends JavaPlugin {
         //pm.registerEvent(Event.Type.REDSTONE_CHANGE, blockListener, Event.Priority.Normal, this);
     }
 
-    public void log(String info, Level level){
+    public void log(String info, Level level) {
         logger.log(level, "[TweakCart] " + info);
     }
-    
+
     public void log(String info) {
         log(info, Level.INFO);
     }

@@ -18,12 +18,12 @@ public class VehicleBlockEvent {
     public Block getBlock() {
         return block;
     }
-    
-    public Minecart getMinecart(){
+
+    public Minecart getMinecart() {
         return minecart;
     }
-    
-    public Direction getDirection(){
+
+    public Direction getDirection() {
         return direction;
     }
 }
