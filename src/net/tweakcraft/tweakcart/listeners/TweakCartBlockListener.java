@@ -35,9 +35,11 @@ public class TweakCartBlockListener extends BlockListener {
                 Block b = event.getBlock();
                 Direction d = Direction.getDirection(new Location(b.getWorld(), 0, 0, 0), event.getVelocity().toLocation(b.getWorld()));
                 //Tjongejonge was het echt nodig om ook een locaal event te maken :p
-                if (!manager.callCancelableEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type))){
+                TweakVehicleDispenseEvent dispenseEvent = new TweakVehicleDispenseEvent(null, d, b, type);
+                manager.callCancelableEvent(TweakCartEvent.Block.VehicleDispenseEvent, dispenseEvent);
+                if (dispenseEvent.isCanceled()) {
                     VehicleUtil.spawnCartFromDispenser(disp, type);
-                } //haakjes voor de duidelijkheid
+                }
                 break;
         }
     }

@@ -19,7 +19,7 @@ public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
      * Could be overriden, when a cart passes a sign, this method should be called for all
      * registered subplugins
      *
-     * @param event
+     * @param event TweakVehiclePassesSignEvent with information of event
      */
     public void onSignPass(TweakVehiclePassesSignEvent event) {
     }
@@ -28,7 +28,7 @@ public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
      * Could be overriden, when a cart collides with a sign, this method should be called for all
      * registered subplugins
      *
-     * @param event
+     * @param event onSignCollisionEvent with information of event
      */
     public void onSignCollision(TweakVehicleCollidesWithSignEvent event) {
     }

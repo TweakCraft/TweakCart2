@@ -24,22 +24,18 @@ public class TweakPluginManager {
      * Returns true if the event is canceled
      * TODO: is this the logical way?
      *
-     * @param type
-     * @param event
-     * @return
+     * @param type  TweakCartEvent.Block with type of event
+     * @param event VehicleBlockEvent with information
      */
-    public boolean callCancelableEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
+    public void callCancelableEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
         List<AbstractBlockPlugin> pluginList = blockEventPluginMap.get(type);
         if (pluginList != null) {
             for (AbstractBlockPlugin plugin : pluginList) {
                 if (event instanceof TweakVehicleDispenseEvent) {
                     plugin.onVehicleDispense((TweakVehicleDispenseEvent) event);
-
                 }
             }
         }
-        //TODO: does this work this way?
-        return event instanceof CancelableVehicleEvent && ((CancelableVehicleEvent) event).isCanceled();
     }
 
     public void callEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
