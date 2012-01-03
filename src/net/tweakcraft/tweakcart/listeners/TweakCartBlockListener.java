@@ -34,9 +34,10 @@ public class TweakCartBlockListener extends BlockListener {
             case POWERED_MINECART:
                 Block b = event.getBlock();
                 Direction d = Direction.getDirection(new Location(b.getWorld(), 0, 0, 0), event.getVelocity().toLocation(b.getWorld()));
-                TweakVehicleDispenseEvent dispenseEvent = new TweakVehicleDispenseEvent(null, d, b, type);
-                if (!manager.callCancelableEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type)))
+                //Tjongejonge was het echt nodig om ook een locaal event te maken :p
+                if (!manager.callCancelableEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type))){
                     VehicleUtil.spawnCartFromDispenser(disp, type);
+                } //haakjes voor de duidelijkheid
                 break;
         }
     }

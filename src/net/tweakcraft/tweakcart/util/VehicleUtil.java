@@ -18,8 +18,7 @@ public class VehicleUtil {
     }
 
     //TODO: should a cart be spawnable on something different then a track?
-    //Long live operator overloading
-    //WTF you need that for?
+    //Long live method overloading
 
     private static boolean spawnCartWithVelocity(Location location, Material type, Direction dir, double velocity) {
         if (isMinecart(type)) {
@@ -38,11 +37,6 @@ public class VehicleUtil {
                     return false;
             }
 
-            /**
-             * @windwarrior;
-             * FOEI! FOEI FOEI FOEI! NOOIT een cart meer dan max_velocity meegeven...
-             * TODO: move cart to correct position (get position from block.getLocation();)
-             */
             cart.setVelocity(dir.mod(velocity > cart.getMaxSpeed() ? cart.getMaxSpeed() : velocity));
         } else {
             return false;
@@ -83,7 +77,14 @@ public class VehicleUtil {
                 dir = Direction.SOUTH;
                 break;
         }
+        
+        // als een cart op een poweredrail staat die niet aan is, zet de snelheid dan op 0
+        if(track.getType() == Material.POWERED_RAIL && !track.isBlockPowered()){
+            velocity = 0.0;
+        }
+        
         return spawnCartWithVelocity(track.getLocation(), type, dir, velocity);
+        
     }
 
     public static boolean spawnCartFromDispenser(Dispenser d, Material type) {
@@ -92,5 +93,16 @@ public class VehicleUtil {
 
     public static boolean isMinecart(Material type) {
         return type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART;
+    }
+    
+    public static boolean canSpawn(Block b){
+        switch(b.getType()){
+        case RAILS:
+        case POWERED_RAIL:
+        case DETECTOR_RAIL:
+            return true;
+        default:
+            return false;
+        }
     }
 }
