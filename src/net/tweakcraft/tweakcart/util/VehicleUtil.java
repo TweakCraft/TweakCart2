@@ -14,28 +14,31 @@ import org.bukkit.entity.StorageMinecart;
 public class VehicleUtil {
 
     public static void moveCart(Minecart cart, int x, int y, int z) {
+        Location location = cart.getLocation();
         if(x != 0){
-            cart.getLocation().setX(x);
+            location.setX(x);
         }
         
         if(y != 0){
-            cart.getLocation().setY(y);
+            location.setY(y);
         }
         
         if(z != 0){
-            cart.getLocation().setZ(z);
+            location.setZ(z);
         }
+        
+        cart.teleport(location);
     }
     
     public static void moveCartRelative(Minecart cart, double x, double y, double z){
-        cart.getLocation().add(x, y, z);
+        cart.teleport(cart.getLocation().add(x, y, z));
     }
 
     //TODO: should a cart be spawnable on something different then a track?
     //Long live method overloading
 
     private static boolean spawnCartWithVelocity(Location location, Material type, Direction dir, double velocity) {
-        if (isMinecart(type)) {
+        if (isMinecart(type) && canSpawn(location.getBlock())) {
             Minecart cart;
             switch (type) {
                 case MINECART:
@@ -71,30 +74,34 @@ public class VehicleUtil {
     }
 
     public static boolean spawnCartFromDispenser(Dispenser d, Material type, double velocity) {
-        Block track = null;
-        Direction dir = null;
+        Block track;
+        Direction dir;
         switch (d.getData().getData()) {
             case 0x2:
-                track = ((Block) d).getRelative(BlockFace.EAST);
+                track = d.getBlock().getRelative(BlockFace.EAST);
                 dir = Direction.EAST;
                 break;
             case 0x3:
-                track = ((Block) d).getRelative(BlockFace.WEST);
+                track = d.getBlock().getRelative(BlockFace.WEST);
                 dir = Direction.WEST;
                 break;
             case 0x4:
-                track = ((Block) d).getRelative(BlockFace.NORTH);
+                track = d.getBlock().getRelative(BlockFace.NORTH);
                 dir = Direction.NORTH;
                 break;
             case 0x5:
-                track = ((Block) d).getRelative(BlockFace.SOUTH);
+                track = d.getBlock().getRelative(BlockFace.SOUTH);
                 dir = Direction.SOUTH;
+                break;
+            default:
+                dir = Direction.SELF;
+                track = d.getBlock();
                 break;
         }
         
         // als een cart op een poweredrail staat die niet aan is, zet de snelheid dan op 0
         if(track.getType() == Material.POWERED_RAIL && !track.isBlockPowered()){
-            velocity = 0.0;
+            velocity = 0.0d;
         }
         
         return spawnCartWithVelocity(track.getLocation(), type, dir, velocity);
