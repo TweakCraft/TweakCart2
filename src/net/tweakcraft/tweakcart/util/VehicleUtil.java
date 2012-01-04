@@ -13,8 +13,22 @@ import org.bukkit.entity.StorageMinecart;
 
 public class VehicleUtil {
 
-    public void moveCart(Minecart cart, int x, int y, int z) {
-
+    public static void moveCart(Minecart cart, int x, int y, int z) {
+        if(x != 0){
+            cart.getLocation().setX(x);
+        }
+        
+        if(y != 0){
+            cart.getLocation().setY(y);
+        }
+        
+        if(z != 0){
+            cart.getLocation().setZ(z);
+        }
+    }
+    
+    public static void moveCartRelative(Minecart cart, double x, double y, double z){
+        cart.getLocation().add(x, y, z);
     }
 
     //TODO: should a cart be spawnable on something different then a track?

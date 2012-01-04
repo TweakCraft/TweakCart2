@@ -3,7 +3,7 @@ package net.tweakcraft.tweakcart.model;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.PoweredMinecart;
 import org.bukkit.entity.StorageMinecart;
-
+@Deprecated
 public enum CartType {
     StorageMinecart(),
     PoweredMinecart(),
