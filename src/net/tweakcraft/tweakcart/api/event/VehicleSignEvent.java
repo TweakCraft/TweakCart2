@@ -8,11 +8,13 @@ public class VehicleSignEvent {
     private Minecart minecart;
     private Direction direction;
     private Sign sign;
-
-    public VehicleSignEvent(Minecart c, Direction d, Sign s) {
+    private String keyword;
+    
+    public VehicleSignEvent(Minecart c, Direction d, Sign s, String kw) {
         minecart = c;
         direction = d;
         sign = s;
+        keyword = kw;
     }
 
     public Sign getSign() {
@@ -25,5 +27,9 @@ public class VehicleSignEvent {
 
     public Direction getDirection() {
         return direction;
+    }
+    
+    public String getKeyword(){
+        return keyword;
     }
 }

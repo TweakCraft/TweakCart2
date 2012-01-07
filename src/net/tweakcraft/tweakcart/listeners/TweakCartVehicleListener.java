@@ -41,7 +41,7 @@ public class TweakCartVehicleListener extends VehicleListener {
                         case SIGN_POST:
                             Sign signBlock = (Sign) toBlock;
                             String keyword = signBlock.getLine(0);
-                            manager.callEvent(TweakCartEvent.Sign.VehicleCollidesWithSignEvent, keyword, new TweakVehicleCollidesWithSignEvent(minecart, cartDriveDirection, signBlock));
+                            manager.callEvent(TweakCartEvent.Sign.VehicleCollidesWithSignEvent, new TweakVehicleCollidesWithSignEvent(minecart, cartDriveDirection, signBlock, keyword));
                             break;
                     }
                 } else {
@@ -51,7 +51,7 @@ public class TweakCartVehicleListener extends VehicleListener {
                         for (Sign sign : signBlockList) {
                             String keyword = sign.getLine(0);
                             //TODO: fix the null
-                            manager.callEvent(TweakCartEvent.Sign.VehiclePassesSignEvent, keyword, new TweakVehiclePassesSignEvent(minecart, cartDriveDirection, sign));
+                            manager.callEvent(TweakCartEvent.Sign.VehiclePassesSignEvent, new TweakVehiclePassesSignEvent(minecart, cartDriveDirection, sign, keyword));
                         }
                     }
                 }

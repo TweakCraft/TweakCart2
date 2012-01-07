@@ -33,6 +33,10 @@ public class VehicleUtil {
     public static void moveCartRelative(Minecart cart, double x, double y, double z){
         cart.teleport(cart.getLocation().add(x, y, z));
     }
+    
+    public static void moveCart(Minecart cart, Location loc){
+        cart.teleport(loc);
+    }
 
     //TODO: should a cart be spawnable on something different then a track?
     //Long live method overloading

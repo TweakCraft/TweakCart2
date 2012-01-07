@@ -32,17 +32,18 @@ public enum Direction {
         this.modZ = dir1.getModZ() + dir2.getModZ();
     }
 
-    private int getModZ() {
+    public int getModZ() {
         return modZ;
     }
 
-    private int getModX() {
+    public int getModX() {
         return modX;
     }
 
-    private int getModY() {
+    public int getModY() {
         return modY;
     }
+    
 
     public static Direction getDirection(Location from, Location to) {
         if (from.getBlockX() == to.getBlockX() + 1) {
