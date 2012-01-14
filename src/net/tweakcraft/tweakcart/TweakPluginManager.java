@@ -4,6 +4,7 @@ import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.plugin.AbstractBlockPlugin;
 import net.tweakcraft.tweakcart.api.plugin.AbstractSignPlugin;
+import net.tweakcraft.tweakcart.util.StringUtil;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class TweakPluginManager {
     }
 
     public void callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
-        String keyword = removeBrackets(event.getKeyword());
+        String keyword = StringUtil.stripBrackets(event.getKeyword()).toLowerCase();
         AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
         //TODO: cast values of event (need to update AbstractSignPlugin first)
         switch (type) {
@@ -124,21 +125,4 @@ public class TweakPluginManager {
         return instance;
     }
     
-    /**
-     * Pasta Copy :(
-     * @param line
-     * @return
-     */
-    public String removeBrackets(String line){
-        String result = line;
-        if(result.length() > 0){
-            if(result.charAt(0) == '['){
-                result.substring(1);
-            }
-            if(result.charAt(result.charAt(result.length()-1)) == ']'){
-                result.substring(0,result.length()-2);
-            }
-        }
-        return result;
-    }
 }

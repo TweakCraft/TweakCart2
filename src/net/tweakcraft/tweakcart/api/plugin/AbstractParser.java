@@ -3,6 +3,12 @@ package net.tweakcraft.tweakcart.api.plugin;
 import org.bukkit.block.Sign;
 
 public abstract class AbstractParser {
+    /**
+     * @deprecated use SingUtil.stripBrackets
+     * @param line
+     * @return
+     */
+    @Deprecated
     public String removeBrackets(String line){
         String result = line;
         if(result.length() > 0){
