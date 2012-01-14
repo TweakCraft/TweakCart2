@@ -43,4 +43,8 @@ public class TweakCart extends JavaPlugin {
     public void log(String info) {
         log(info, Level.INFO);
     }
+    
+    public TweakPluginManager getPluginManager(){
+        return TweakPluginManager.getInstance();
+    }
 }

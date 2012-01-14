@@ -71,8 +71,10 @@ public class TweakPluginManager {
     }
 
     public void callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
+        System.out.println("Calling event " + type);
         String keyword = StringUtil.stripBrackets(event.getKeyword()).toLowerCase();
         AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
+        System.out.println(plugin);
         //TODO: cast values of event (need to update AbstractSignPlugin first)
         switch (type) {
             case VehiclePassesSignEvent:
@@ -83,6 +85,7 @@ public class TweakPluginManager {
                 }
             case VehicleCollidesWithSignEvent:
                 if (event instanceof TweakVehicleCollidesWithSignEvent) {
+                    System.out.println("Still working!");
                     plugin.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
                 } else {
                     //Something went wrong, debug info(?)

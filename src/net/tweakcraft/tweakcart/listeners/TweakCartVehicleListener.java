@@ -39,7 +39,7 @@ public class TweakCartVehicleListener extends VehicleListener {
                     switch (toBlock.getType()) {
                         case WALL_SIGN:
                         case SIGN_POST:
-                            Sign signBlock = (Sign) toBlock;
+                            Sign signBlock = (Sign) toBlock.getState();
                             String keyword = signBlock.getLine(0);
                             manager.callEvent(TweakCartEvent.Sign.VehicleCollidesWithSignEvent, new TweakVehicleCollidesWithSignEvent(minecart, cartDriveDirection, signBlock, keyword));
                             break;

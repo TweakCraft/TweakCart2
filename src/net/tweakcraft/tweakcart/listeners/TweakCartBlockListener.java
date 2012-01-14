@@ -27,7 +27,7 @@ public class TweakCartBlockListener extends BlockListener {
     //TODO: implement this
     public void onBlockDispense(BlockDispenseEvent event) {
         Material type = event.getItem().getType();
-        Dispenser disp = (Dispenser) event.getBlock();
+        Dispenser disp = (Dispenser) event.getBlock().getState();
         switch (type) {
             case MINECART:
             case STORAGE_MINECART:
