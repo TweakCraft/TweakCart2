@@ -102,8 +102,8 @@ public class TweakCartVehicleListener extends VehicleListener {
         }
 
         for (Block b : blockList) {
-            if (b instanceof Sign) {
-                Sign s = (Sign) b;
+            if (b.getState() instanceof Sign) {
+                Sign s = (Sign) b.getState();
                 signList.add(s);
             }
         }

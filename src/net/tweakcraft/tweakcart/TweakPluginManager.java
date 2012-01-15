@@ -44,27 +44,27 @@ public class TweakPluginManager {
         if (pluginList != null) {
             for (AbstractBlockPlugin plugin : pluginList) {
                 switch (type) {
-                    case VehicleBlockChangeEvent:
-                        if (event instanceof TweakVehicleBlockChangeEvent) {
-                            plugin.onVehicleBlockChange((TweakVehicleBlockChangeEvent) event);
-                        } else {
-                            //Something went wrong, debug info(?)
-                        }
-                        break;
-                    case VehicleBlockCollisionEvent:
-                        if (event instanceof TweakVehicleBlockCollisionEvent) {
-                            plugin.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) event);
-                        } else {
-                            //Something went wrong, debug info(?)
-                        }
-                        break;
-                    case VehicleBlockDetectEvent:
-                        if (event instanceof TweakVehicleBlockDetectEvent) {
-                            plugin.onVehicleDetect((TweakVehicleBlockDetectEvent) event);
-                        } else {
-                            //Something went wrong, debug info(?)
-                        }
-                        break;
+                case VehicleBlockChangeEvent:
+                    if (event instanceof TweakVehicleBlockChangeEvent) {
+                        plugin.onVehicleBlockChange((TweakVehicleBlockChangeEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                    break;
+                case VehicleBlockCollisionEvent:
+                    if (event instanceof TweakVehicleBlockCollisionEvent) {
+                        plugin.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                    break;
+                case VehicleBlockDetectEvent:
+                    if (event instanceof TweakVehicleBlockDetectEvent) {
+                        plugin.onVehicleDetect((TweakVehicleBlockDetectEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                    break;
                 }
             }
         }
@@ -74,22 +74,23 @@ public class TweakPluginManager {
         System.out.println("Calling event " + type);
         String keyword = StringUtil.stripBrackets(event.getKeyword()).toLowerCase();
         AbstractSignPlugin plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
-        System.out.println(plugin);
-        //TODO: cast values of event (need to update AbstractSignPlugin first)
-        switch (type) {
-            case VehiclePassesSignEvent:
-                if (event instanceof TweakVehiclePassesSignEvent) {
-                    plugin.onSignPass((TweakVehiclePassesSignEvent) event);
-                } else {
+        if(plugin != null){
+            //TODO: cast values of event (need to update AbstractSignPlugin first)
+            switch (type) {
+                case VehiclePassesSignEvent:
+                    if (event instanceof TweakVehiclePassesSignEvent) {
+                        plugin.onSignPass((TweakVehiclePassesSignEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                case VehicleCollidesWithSignEvent:
+                    if (event instanceof TweakVehicleCollidesWithSignEvent) {
+                        System.out.println("Still working!");
+                        plugin.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
+                    } else {
                     //Something went wrong, debug info(?)
-                }
-            case VehicleCollidesWithSignEvent:
-                if (event instanceof TweakVehicleCollidesWithSignEvent) {
-                    System.out.println("Still working!");
-                    plugin.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
-                } else {
-                    //Something went wrong, debug info(?)
-                }
+                    }
+            }
         }
     }
 
