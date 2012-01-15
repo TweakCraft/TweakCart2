@@ -37,8 +37,10 @@ public class TweakCartBlockListener extends BlockListener {
                 //Tjongejonge was het echt nodig om ook een locaal event te maken :p
                 TweakVehicleDispenseEvent dispenseEvent = new TweakVehicleDispenseEvent(null, d, b, type);
                 manager.callCancelableEvent(TweakCartEvent.Block.VehicleDispenseEvent, dispenseEvent);
-                if (dispenseEvent.isCanceled()) {
+                if (!dispenseEvent.isCanceled()) {
                     VehicleUtil.spawnCartFromDispenser(disp, type);
+                    disp.getInventory().removeItem(event.getItem());
+                    event.setCancelled(true);
                 }
                 break;
         }

@@ -105,7 +105,7 @@ public class VehicleUtil {
         
         // als een cart op een poweredrail staat die niet aan is, zet de snelheid dan op 0
         if(track.getType() == Material.POWERED_RAIL && !track.isBlockPowered()){
-            velocity = 0.0d;
+            velocity = 0.5d;
         }
         
         return spawnCartWithVelocity(track.getLocation(), type, dir, velocity);
@@ -120,6 +120,11 @@ public class VehicleUtil {
         return type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART;
     }
     
+    /**
+     * TODO: rename to isRail(Block b)
+     * @param b
+     * @return
+     */
     public static boolean canSpawn(Block b){
         switch(b.getType()){
         case RAILS:
