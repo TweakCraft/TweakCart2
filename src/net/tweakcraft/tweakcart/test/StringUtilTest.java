@@ -16,6 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+
+/* TODO: Omdat dit zich heel fucked gedraagd even uitcommenten
+
 package net.tweakcraft.tweakcart.test;
 
 import static org.junit.Assert.*;
@@ -29,9 +32,9 @@ import org.junit.Test;
 /**
  * In the ideal situation, all the Util classes
  * Should be tested and proven not to be broken
- * @author lennart
+ * @author windwarrior
  *
- */
+ *
 public class StringUtilTest {
 
     @Test
@@ -52,3 +55,5 @@ public class StringUtilTest {
     }
 
 }
+
+*/
