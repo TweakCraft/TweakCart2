@@ -3,6 +3,7 @@ package net.tweakcraft.tweakcart.listeners;
 import net.tweakcraft.tweakcart.TweakPluginManager;
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 import net.tweakcraft.tweakcart.model.Direction;
@@ -62,7 +63,15 @@ public class TweakCartVehicleListener extends VehicleListener {
     @Override
     //Made a general rule for all blocks. Makes various functions for block collision possible.
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
+        
         if (event.getVehicle() instanceof Minecart) {
+            Minecart cart = (Minecart)event.getVehicle();
+            
+            Block block = event.getBlock();
+            if(event.getBlock().getType() == Material.DISPENSER){
+                //TODO fix the Direction.self
+                manager.callCancelableBlockEvent(TweakCartEvent.Block.VehicleCollectEvent, new TweakVehicleCollectEvent(cart, Direction.SELF, block));
+            }
             manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent((Minecart) event.getVehicle(), Direction.SELF, event.getBlock()));
         }
     }

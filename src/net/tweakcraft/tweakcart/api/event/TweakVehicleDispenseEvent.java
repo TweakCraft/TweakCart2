@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
-public class TweakVehicleDispenseEvent extends VehicleBlockEvent implements CancelableVehicleEvent {
+public class TweakVehicleDispenseEvent extends VehicleBlockEvent implements CancellableVehicleEvent {
     Material vehicleType;
     public boolean isCanceled;
 
@@ -19,12 +19,12 @@ public class TweakVehicleDispenseEvent extends VehicleBlockEvent implements Canc
     }
 
     @Override
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
+    public void setCancelled(boolean cancelled) {
+        isCanceled = cancelled;
     }
 
     @Override
-    public boolean isCanceled() {
+    public boolean isCancelled() {
         return isCanceled;
     }
 }

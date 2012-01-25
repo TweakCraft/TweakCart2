@@ -4,6 +4,7 @@ import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 
 public abstract class AbstractBlockPlugin {
@@ -36,6 +37,11 @@ public abstract class AbstractBlockPlugin {
     public void onVehicleDetect(TweakVehicleBlockDetectEvent event) {
         //Called when a cart is detected
         //Is a default bukkit feature
+    }
+
+    public void onVehicleCollect(TweakVehicleCollectEvent event) {
+        // TODO Auto-generated method stub
+        
     }
 
 
