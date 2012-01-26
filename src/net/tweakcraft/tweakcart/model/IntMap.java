@@ -21,6 +21,8 @@ package net.tweakcraft.tweakcart.model;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
+import java.util.Arrays;
+
 /**
  * DEFINITELY NOT Created by Eclipse. Shitty Eclipse...
  *
@@ -30,7 +32,6 @@ public class IntMap {
     public static final int materialSize = Material.values().length;
     public static final int mapSize = materialSize + 57;
     private int[] mapData;
-    private Direction dir;
 
     public IntMap() {
         mapData = new int[mapSize];
@@ -160,6 +161,13 @@ public class IntMap {
         }
     }
 
+    /**
+     * Combine two IntMaps, with otherMap having higher priority than this.
+     * Please do not use this function, as it is slow.
+     *
+     * @param otherMap Map to combine with.
+     */
+    @Deprecated
     public void combine(IntMap otherMap) {
         for (int index = 0; index < mapData.length; index++) {
             if (otherMap.mapData[index] != 0)
@@ -230,15 +238,11 @@ public class IntMap {
     public boolean equals(Object other) {
         if (other instanceof IntMap) {
             IntMap otherMap = (IntMap) other;
-            if (otherMap.getDirection() == this.getDirection()) {
-                for (int index = 0; index < mapData.length; index++) {
-                    if (mapData[index] != otherMap.mapData[index])
-                        return false;
-                }
-                return true;
-            } else {
-                return false;
+            for (int index = 0; index < mapData.length; index++) {
+                if (mapData[index] != otherMap.mapData[index])
+                    return false;
             }
+            return true;
         } else {
             return false;
         }
@@ -246,11 +250,12 @@ public class IntMap {
 
     @Override
     public int hashCode() {
-        return mapData.hashCode();
+        return Arrays.hashCode(mapData);
     }
 
     @Override
-    public IntMap clone() {
+    public IntMap clone() throws CloneNotSupportedException {
+        super.clone();
         return new IntMap(mapData.clone());
     }
 
@@ -267,17 +272,14 @@ public class IntMap {
     }
 
     public void fillAll() {
+        fillAll(false);
+    }
+
+    public void fillAll(boolean negative) {
+        int value = negative ? -Integer.MAX_VALUE : Integer.MAX_VALUE;
         for (int i = 0; i < mapData.length; i++) {
-            mapData[i] = Integer.MAX_VALUE;
+            mapData[i] = value;
         }
 
-    }
-
-    public void setDirection(Direction dir) {
-        this.dir = dir;
-    }
-
-    public Direction getDirection() {
-        return dir;
     }
 }
