@@ -24,7 +24,7 @@ import org.bukkit.material.MaterialData;
 import java.util.Arrays;
 
 /**
- * DEFINITELY NOT Created by Eclipse. Shitty Eclipse...
+ * *hihi* Edited with eclipse
  *
  * @author Edoxile
  */
@@ -276,7 +276,7 @@ public class IntMap {
     }
 
     public void fillAll(boolean negative) {
-        int value = negative ? -Integer.MAX_VALUE : Integer.MAX_VALUE;
+        int value = negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         for (int i = 0; i < mapData.length; i++) {
             mapData[i] = value;
         }
