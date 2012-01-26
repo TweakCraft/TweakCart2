@@ -46,15 +46,30 @@ public class TweakPluginManager {
      * @param type  TweakCartEvent.Block with type of event
      * @param event VehicleBlockEvent with information
      */
-    public void callCancelableEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
+    public boolean callCancelableBlockEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
         List<AbstractBlockPlugin> pluginList = blockEventPluginMap.get(type);
         if (pluginList != null) {
             for (AbstractBlockPlugin plugin : pluginList) {
-                if (event instanceof TweakVehicleDispenseEvent) {
-                    plugin.onVehicleDispense((TweakVehicleDispenseEvent) event);
-                }
+                switch (type) {
+                case VehicleDispenseEvent:
+                    if (event instanceof TweakVehicleDispenseEvent) {
+                        plugin.onVehicleDispense((TweakVehicleDispenseEvent) event);
+                    }else{
+                        //uh ooh
+                    }
+                    break;
+                case VehicleCollectEvent:
+                    if (event instanceof TweakVehicleCollectEvent) {
+                        plugin.onVehicleCollect((TweakVehicleCollectEvent) event);
+                    }else{
+                        //uh ooh
+                    }
+                    break;
+               }
             }
         }
+        
+        return event instanceof CancellableVehicleEvent && ((CancelableVehicleEvent) event).isCanceled();
     }
 
     public void callEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
