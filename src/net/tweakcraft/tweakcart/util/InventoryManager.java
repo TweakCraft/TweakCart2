@@ -28,6 +28,19 @@ import org.bukkit.inventory.ItemStack;
  */
 public class InventoryManager {
 
+    public static int moveContainerContents(Inventory cart, Inventory chest, IntMap[] maps) {
+        if (maps.length == 2) {
+            //TODO: do something with return arguments.
+            moveContainerContents(cart, chest, maps[0]);
+            moveContainerContents(chest, cart, maps[1]);
+            //Is this the correct order?
+            return 0;
+        } else {
+            //Incorrect size of maps
+            return -2;
+        }
+    }
+
     //returns state of FROM-container {-1=empty,0=space left,1=full}
     public static int moveContainerContents(Inventory iFrom, Inventory iTo, IntMap map) {
         ItemStack[] from = iFrom.getContents();
@@ -110,15 +123,15 @@ public class InventoryManager {
                         sTo[j] = fStack;
                         sFrom[i] = null;
                         continue fromLoop;
-                    } else if(fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().isEmpty()){
+                    } else if (fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().isEmpty()) {
                         int total = fStack.getAmount() + tStack.getAmount();
-                        if(total > 64){
+                        if (total > 64) {
                             tStack.setAmount(64);
                             fStack.setAmount(total - 64);
                         } else {
                             tStack.setAmount(total);
                             int remainder = total - 64;
-                            if(remainder == 0){
+                            if (remainder == 0) {
                                 sFrom[i] = null;
                                 sTo[j] = tStack;
                                 continue fromLoop;
@@ -129,7 +142,7 @@ public class InventoryManager {
                     } else {
                         continue;
                     }
-                    sTo[j]=tStack;
+                    sTo[j] = tStack;
                 }
             }
             sFrom[i] = fStack;
