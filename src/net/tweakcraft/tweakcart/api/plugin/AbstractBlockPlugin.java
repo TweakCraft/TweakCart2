@@ -19,17 +19,24 @@
 package net.tweakcraft.tweakcart.api.plugin;
 
 import net.tweakcraft.tweakcart.TweakCart;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
+import net.tweakcraft.tweakcart.api.event.*;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
+//TODO: I'm not happy with the naming here. Couldn't we refactor and make it something like AbstractBlockEventListener?
+//TODO: ATM it's more like an event listener than anything else.
+//TODO: Also, should move onEnable() to the real 'plugin', because a listener can't tell the pluginmanager which events should be called.
+//TODO: Create a plugin base for any TweakCart plugins. ATM we need to have a (Bukkit)plugin, and a TweakCart plugin.
+//TODO: These to should be put togeter. E.G.: TweakCartPlugin extends JavaPlugin
+//TODO: The above could override .onEnable() and do stuff like fetching the running TweakCart plugin from the server.
 public abstract class AbstractBlockPlugin {
     protected TweakCart plugin;
 
-    public AbstractBlockPlugin(TweakCart p) {
-        plugin = p;
+    public AbstractBlockPlugin() {
+        Plugin tweakCart = Bukkit.getServer().getPluginManager().getPlugin("TweakCart");
+        if (tweakCart != null) {
+            plugin = (TweakCart) tweakCart;
+        }
     }
 
     /**
@@ -59,7 +66,7 @@ public abstract class AbstractBlockPlugin {
 
     public void onVehicleCollect(TweakVehicleCollectEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
 
