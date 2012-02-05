@@ -46,7 +46,7 @@ public class TweakPluginManager {
      * @param type  TweakCartEvent.Block with type of event
      * @param event VehicleBlockEvent with information
      */
-    public boolean callCancelableBlockEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
+    public boolean callCancellableBlockEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
         List<TweakBlockEventListener> eventListenerList = blockEventPluginMap.get(type);
         if (eventListenerList != null) {
             for (TweakBlockEventListener eventListener : eventListenerList) {
