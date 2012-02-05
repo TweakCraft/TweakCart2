@@ -69,7 +69,7 @@ public class TweakPluginManager {
             }
         }
         
-        return event instanceof CancellableVehicleEvent && ((CancelableVehicleEvent) event).isCanceled();
+        return event instanceof CancellableVehicleEvent && ((CancellableVehicleEvent) event).isCancelled();
     }
 
     public void callEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
