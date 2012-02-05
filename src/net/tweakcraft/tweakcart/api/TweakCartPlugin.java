@@ -24,7 +24,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,7 +32,6 @@ import java.util.logging.Logger;
  */
 public abstract class TweakCartPlugin extends JavaPlugin {
     TweakCart tweakCart;
-    public Logger logger = Logger.getLogger("Minecraft");
     public TweakPluginManager pluginManager = TweakPluginManager.getInstance();
 
     public void onEnable() {
@@ -54,10 +52,10 @@ public abstract class TweakCartPlugin extends JavaPlugin {
     public abstract void registerEvents(TweakPluginManager pluginManager);
 
     public void log(String message) {
-        log(message, Level.INFO);
+        tweakCart.log(message);
     }
 
     public void log(String message, Level level) {
-        logger.log(level, "[TweakCart] " + message);
+        tweakCart.log(message, level);
     }
 }
