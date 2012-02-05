@@ -48,7 +48,7 @@ public class TweakCart extends JavaPlugin {
         vehicleListener = new TweakCartVehicleListener();
         blockListener = new TweakCartBlockListener();
         playerListener = new TweakCartPlayerListener();
-        // Load plugin-manager and register events
+        // Load listeners-manager and register events
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.VEHICLE_MOVE, vehicleListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_DISPENSE, blockListener, Event.Priority.Normal, this);

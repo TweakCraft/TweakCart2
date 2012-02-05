@@ -16,27 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api.plugin;
+package net.tweakcraft.tweakcart.api.listeners;
 
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 
 //TODO: I'm not happy with the naming here. Couldn't we refactor and make it something like AbstractSignEventListener?
 //TODO: ATM it's more like an event listener than anything else.
-//TODO: Also, should move onEnable() to the real 'plugin', because a listener can't tell the pluginmanager which events should be called.
-//TODO: Create a plugin base for any TweakCart plugins. ATM we need to have a (Bukkit)plugin, and a TweakCart plugin.
+//TODO: Also, should move onEnable() to the real 'listeners', because a listener can't tell the pluginmanager which events should be called.
+//TODO: Create a listeners base for any TweakCart plugins. ATM we need to have a (Bukkit)listeners, and a TweakCart listeners.
 //TODO: These to should be put togeter. E.G.: TweakCartPlugin extends JavaPlugin
-//TODO: The above could override .onEnable() and do stuff like fetching the running TweakCart plugin from the server.
-public abstract class AbstractSignPlugin extends AbstractBlockPlugin {
-
-    public AbstractSignPlugin() {
-        super();
-    }
-
-    /**
-     * To be implemented by a plugin, register events etc.
-     */
-    public abstract void onEnable();
+//TODO: The above could override .onEnable() and do stuff like fetching the running TweakCart listeners from the server.
+public abstract class TweakSignEventListener extends TweakBlockEventListener {
 
     /**
      * Could be overriden, when a cart passes a sign, this method should be called for all

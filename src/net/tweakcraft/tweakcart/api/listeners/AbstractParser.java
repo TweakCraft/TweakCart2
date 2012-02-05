@@ -16,10 +16,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api.plugin;
+package net.tweakcraft.tweakcart.api.listeners;
 
 import org.bukkit.block.Sign;
 
+@Deprecated
 public abstract class AbstractParser {
     /**
      * @deprecated use SingUtil.stripBrackets
