@@ -89,7 +89,7 @@ public class TweakCartVehicleListener implements Listener {
             Block block = event.getBlock();
             if(event.getBlock().getType() == Material.DISPENSER){
                 //TODO fix the Direction.self
-                manager.callCancelableBlockEvent(TweakCartEvent.Block.VehicleCollectEvent, new TweakVehicleCollectEvent(cart, Direction.SELF, block));
+                manager.callCancellableBlockEvent(TweakCartEvent.Block.VehicleCollectEvent, new TweakVehicleCollectEvent(cart, Direction.SELF, block));
             }
             manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent((Minecart) event.getVehicle(), Direction.SELF, event.getBlock()));
         }
