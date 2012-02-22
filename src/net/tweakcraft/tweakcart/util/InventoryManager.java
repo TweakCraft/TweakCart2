@@ -28,28 +28,34 @@ import org.bukkit.inventory.ItemStack;
  */
 public class InventoryManager {
 
-    public static int moveContainerContents(Inventory cart, Inventory chest, IntMap[] maps) {
+    public static int[] moveContainerContents(Inventory cart, Inventory chest, IntMap[] maps) {
         if (maps.length == 2) {
             //TODO: do something with return arguments.
-            moveContainerContents(cart, chest, maps[0]);
-            moveContainerContents(chest, cart, maps[1]);
-            //Is this the correct order?
-            return 0;
+            int data[] = moveContainerContents(cart, chest, maps[0]);
+            if(data[2] == 64) {
+                return data;
+            } else {
+                return moveContainerContents(chest, cart, maps[1]);
+            }
         } else {
-            //Incorrect size of maps
-            return -2;
+            return null;
         }
     }
 
     //returns state of FROM-container {-1=empty,0=space left,1=full}
-    public static int moveContainerContents(Inventory iFrom, Inventory iTo, IntMap map) {
+    public static int[] moveContainerContents(Inventory iFrom, Inventory iTo, IntMap map) {
         ItemStack[] from = iFrom.getContents();
         ItemStack[] to = iTo.getContents();
+
+        //Compile the return data from these four bytes
+        int[] returnData = new int[3];
+
         fromLoop:
         for (int i = 0; i < from.length; i++) {
             ItemStack fStack = from[i];
             int maxAmountToMove = map.getInt(fStack.getType(), (byte) fStack.getDurability());
             if (fStack == null || maxAmountToMove == 0) {
+                returnData[0]++;
                 continue;
             }
             toLoop:
@@ -58,8 +64,10 @@ public class InventoryManager {
                 if (tStack == null) {
                     to[j] = fStack;
                     from[i] = null;
+                    returnData[0]++;
                     continue fromLoop;
                 } else if (tStack.getAmount() == 64) {
+                    returnData[1]++;
                     continue;
                 } else if (fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().isEmpty()) {
                     //And now the magic begins
@@ -70,10 +78,12 @@ public class InventoryManager {
                             map.setInt(tStack.getType(), (byte) tStack.getDurability(), map.getInt(tStack.getType(), (byte) tStack.getDurability()) - (64 - tStack.getAmount()));
                             tStack.setAmount(64);
                             fStack.setAmount(total - 64);
+                            returnData[1]++;
                         } else {
                             map.setInt(tStack.getType(), (byte) tStack.getDurability(), map.getInt(tStack.getType(), (byte) tStack.getDurability()) - fStack.getAmount());
                             tStack.setAmount(total);
                             from[i] = null;
+                            returnData[0]++;
                             continue fromLoop;
                         }
                     } else {
@@ -85,18 +95,21 @@ public class InventoryManager {
                             maxAmountToMove -= 64 - tStack.getAmount();
                             tStack.setAmount(64);
                             fStack.setAmount(total - 64 + stableAmount);
+                            returnData[1]++;
                         } else {
                             map.setInt(tStack.getType(), (byte) tStack.getDurability(), map.getInt(tStack.getType(), (byte) tStack.getDurability()) - maxAmountToMove);
                             tStack.setAmount(total);
-                            if (stableAmount > 0) {
+                            //TODO: I think this part is never run (because stableAmount is always > 0). Check?
+                            //if (stableAmount > 0) {
                                 from[i].setAmount(stableAmount);
-                            } else {
-                                from[i] = null;
-                            }
+                            //} else {
+                            //    from[i] = null;
+                            //}
                             continue fromLoop;
                         }
                     }
                 } else {
+                    returnData[2]++;
                     continue;
                 }
                 to[j] = tStack;
@@ -104,7 +117,7 @@ public class InventoryManager {
             from[i] = fStack;
         }
         //For now, just return 0. Check are to be built in after this is properly tested.
-        return 0;
+        return returnData;
     }
 
     //Why can't java return 2 objects? Stupid java... Would like to return whether the ItemStack... sFrom is empty or not...  {boolean, ItemStack[]}
