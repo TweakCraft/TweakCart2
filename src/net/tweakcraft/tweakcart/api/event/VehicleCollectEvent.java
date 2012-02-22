@@ -23,7 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 
-public abstract class VehicleCollectEvent {
+public abstract class VehicleCollectEvent implements TweakEvent {
     private Material type;
     private Block block;
     public VehicleCollectEvent(Material type, Block block){

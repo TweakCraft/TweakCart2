@@ -24,7 +24,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
-public class TweakVehicleCollectEvent extends VehicleBlockEvent implements CancellableVehicleEvent{
+public class TweakVehicleCollectEvent extends VehicleBlockEvent implements CancellableEvent{
     private boolean isCancelled = false;
     private Material vehicletype;
     

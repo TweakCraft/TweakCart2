@@ -22,7 +22,7 @@ import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
-public class VehicleBlockEvent {
+public class VehicleBlockEvent implements TweakEvent {
     private Block block;
     private Direction direction;
     private Minecart minecart;

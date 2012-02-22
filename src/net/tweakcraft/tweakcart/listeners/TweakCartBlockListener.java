@@ -56,7 +56,7 @@ public class TweakCartBlockListener implements Listener {
                 Direction d = Direction.getDirection(new Location(b.getWorld(), 0, 0, 0), event.getVelocity().toLocation(b.getWorld()));
                 //Tjongejonge was het echt nodig om ook een locaal event te maken :p
                 //TODO: fix the null idd
-                if (!manager.callCancellableBlockEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type))) {
+                if (!manager.callEvent(TweakCartEvent.Block.VehicleDispenseEvent, new TweakVehicleDispenseEvent(null, d, b, type))) {
                     VehicleUtil.spawnCartFromDispenser(disp, type);
                     disp.getInventory().removeItem(event.getItem());
                     event.setCancelled(true);

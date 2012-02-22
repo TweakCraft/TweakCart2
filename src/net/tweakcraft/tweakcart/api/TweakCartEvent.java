@@ -24,7 +24,8 @@ public class TweakCartEvent {
         VehicleBlockCollisionEvent,
         VehicleBlockDetectEvent,
         VehicleDispenseEvent,
-        VehicleCollectEvent
+        VehicleCollectEvent,
+        VehicleSlabInDispenserEvent;
     }
 
     public enum Sign {
@@ -32,7 +33,4 @@ public class TweakCartEvent {
         VehicleCollidesWithSignEvent
     }
     
-    public enum Collect {
-        VehicleSlabInDispenserEvent;
-    }
 }

@@ -39,40 +39,7 @@ public class TweakPluginManager {
     private TweakPluginManager() {
     }
 
-    /**
-     * Returns true if the event is canceled
-     * TODO: is this the logical way?
-     *
-     * @param type  TweakCartEvent.Block with type of event
-     * @param event VehicleBlockEvent with information
-     */
-    public boolean callCancellableBlockEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
-        List<TweakBlockEventListener> eventListenerList = blockEventPluginMap.get(type);
-        if (eventListenerList != null) {
-            for (TweakBlockEventListener eventListener : eventListenerList) {
-                switch (type) {
-                case VehicleDispenseEvent:
-                    if (event instanceof TweakVehicleDispenseEvent) {
-                        eventListener.onVehicleDispense((TweakVehicleDispenseEvent) event);
-                    }else{
-                        //uh ooh
-                    }
-                    break;
-                case VehicleCollectEvent:
-                    if (event instanceof TweakVehicleCollectEvent) {
-                        eventListener.onVehicleCollect((TweakVehicleCollectEvent) event);
-                    }else{
-                        //uh ooh
-                    }
-                    break;
-               }
-            }
-        }
-        
-        return event instanceof CancellableVehicleEvent && ((CancellableVehicleEvent) event).isCancelled();
-    }
-
-    public void callEvent(TweakCartEvent.Block type, VehicleBlockEvent event) {
+    public boolean callEvent(TweakCartEvent.Block type, TweakEvent event) {
         List<TweakBlockEventListener> eventListenerList = blockEventPluginMap.get(type);
         if (eventListenerList != null) {
             for (TweakBlockEventListener eventListener : eventListenerList) {
@@ -98,12 +65,35 @@ public class TweakPluginManager {
                         //Something went wrong, debug info(?)
                     }
                     break;
+                case VehicleDispenseEvent:
+                	if (event instanceof TweakVehicleDispenseEvent) {
+                        eventListener.onVehicleDispense((TweakVehicleDispenseEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                    break;
+                case VehicleCollectEvent:
+                	if (event instanceof TweakVehicleCollectEvent) {
+                        eventListener.onVehicleCollect((TweakVehicleCollectEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                    break;
+                case VehicleSlabInDispenserEvent:
+                	if (event instanceof TweakSlabCartInDispenserEvent) {
+                        eventListener.onVehicleSlabInDispenserEvent((TweakSlabCartInDispenserEvent) event);
+                    } else {
+                        //Something went wrong, debug info(?)
+                    }
+                    break;
+                
                 }
             }
         }
+        return event instanceof CancellableEvent && ((CancellableEvent) event).isCancelled();
     }
 
-    public void callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
+    public boolean callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
         System.out.println("Calling event " + type);
         String keyword = StringUtil.stripBrackets(event.getKeyword()).toLowerCase();
         TweakSignEventListener plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
@@ -125,6 +115,7 @@ public class TweakPluginManager {
                     }
             }
         }
+        return event instanceof CancellableEvent && ((CancellableEvent) event).isCancelled();
     }
 
     public void registerEvent(TweakBlockEventListener eventListener, TweakCartEvent.Block... events) {

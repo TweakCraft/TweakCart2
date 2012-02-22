@@ -45,5 +45,11 @@ public abstract class TweakBlockEventListener {
 
     }
 
+	public void onVehicleSlabInDispenserEvent(
+			TweakSlabCartInDispenserEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

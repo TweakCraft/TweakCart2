@@ -18,27 +18,8 @@
 
 package net.tweakcraft.tweakcart.api.event;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
+public interface CancellableEvent {
+    public void setCancelled(boolean cancelled);
 
-public class TweakSlabCartInDispenserEvent extends VehicleCollectEvent implements CancellableEvent{
-    private boolean isCancelled = false;
-    
-    public TweakSlabCartInDispenserEvent(Material type, Block block) {
-        super(type, block);
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return isCancelled;
-    }
-
-
-
-
+    public boolean isCancelled();
 }
