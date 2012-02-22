@@ -31,6 +31,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Minecart;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
@@ -38,11 +40,11 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TweakCartVehicleListener extends VehicleListener {
+public class TweakCartVehicleListener implements Listener {
     private TweakPluginManager manager = TweakPluginManager.getInstance();
 
 
-    @Override
+    @EventHandler
     public void onVehicleMove(VehicleMoveEvent event) {
         if (event.getVehicle() instanceof Minecart) {
             Minecart minecart = (Minecart) event.getVehicle();
@@ -77,9 +79,8 @@ public class TweakCartVehicleListener extends VehicleListener {
             }
         }
     }
-
-    @Override
-    //Made a general rule for all blocks. Makes various functions for block collision possible.
+    
+    @EventHandler
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
         
         if (event.getVehicle() instanceof Minecart) {

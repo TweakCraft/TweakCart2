@@ -31,18 +31,20 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-public class TweakCartBlockListener extends BlockListener {
+public class TweakCartBlockListener implements Listener {
     private TweakPluginManager manager = TweakPluginManager.getInstance();
 
-    //TODO: need hooks for this?
+    @EventHandler
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
     }
 
-    //TODO: implement this
+    @EventHandler
     public void onBlockDispense(BlockDispenseEvent event) {
         Material type = event.getItem().getType();
         Dispenser disp = (Dispenser) event.getBlock().getState();
