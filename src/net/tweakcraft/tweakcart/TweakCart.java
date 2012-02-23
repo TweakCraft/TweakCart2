@@ -21,7 +21,6 @@ package net.tweakcraft.tweakcart;
 import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -49,11 +48,11 @@ public class TweakCart extends JavaPlugin {
         blockListener = new TweakCartBlockListener();
         playerListener = new TweakCartPlayerListener();
         // Load pluginManager and register events
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.VEHICLE_MOVE, vehicleListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.BLOCK_DISPENSE, blockListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.VEHICLE_COLLISION_BLOCK, vehicleListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Normal, this);
+        PluginManager pm = getServer().getPluginManager();        
+        pm.registerEvents(vehicleListener, this);
+        pm.registerEvents(blockListener, this);
+        pm.registerEvents(playerListener, this);
+        
         //pm.registerEvent(Event.Type.REDSTONE_CHANGE, blockListener, Event.Priority.Normal, this);
     }
 

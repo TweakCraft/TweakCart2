@@ -24,77 +24,89 @@ import java.util.HashMap;
 
 public class DirectionParser {
 
-    public static Direction parseDirection(String line) {
-        if (line.length() > 2) {
-            if (line.charAt(1) == DirectionCharacter.DELIMITER.getCharacter().charAt(0)) {
-                return DirectionCharacter.getDirectionCharacter(Character.toString(line.charAt(0))).getDirection();
-            }
-        }
-        return Direction.SELF;
-    }
+	public static Direction parseDirection(String line) {
+		if (line.length() > 2) {
+			if (line.length() > 1 && line.charAt(1) == DirectionCharacter.DELIMITER.getCharacter()) {
+				return DirectionCharacter.getDirection(line.charAt(0));
+			}
+		}
+		return Direction.SELF;
+	}
 
-    public static String removeDirection(String line) {
-        if (line.length() > 2) {
-            if (line.charAt(1) == DirectionCharacter.DELIMITER.getCharacter().charAt(0)) {
-                return line.substring(2);
-            }
-        }
-        return line;
-    }
+	public static String removeDirection(String line) {
+		if (line.length() > 2) {
+			if (line.length() > 1 && line.charAt(1) == DirectionCharacter.DELIMITER.getCharacter()) {
+				return line.substring(2);
+			}
+		}
+		return line;
+	}
 
-    private enum DirectionCharacter {
-        DELIMITER("+"),
-        NORTH("n", Direction.NORTH),
-        EAST("e", Direction.EAST),
-        SOUTH("s", Direction.SOUTH),
-        WEST("w", Direction.WEST);
+	private enum DirectionCharacter {
+		DELIMITER('+'),
+		NORTH('n', Direction.NORTH),
+		EAST('e', Direction.EAST),
+		SOUTH('s', Direction.SOUTH),
+		WEST('w', Direction.WEST);
 
-        private String character;
-        private Direction direction;
-        private static HashMap<String, Direction> directionMap = new HashMap<String, Direction>();
-        private static HashMap<Direction, DirectionCharacter> directionCharacterMap = new HashMap<Direction, DirectionCharacter>();
+		private char character;
+		private Direction direction;
 
-        static {
-            for (DirectionCharacter d : DirectionCharacter.values()) {
-                directionMap.put(d.getCharacter(), d.getDirection());
-                directionCharacterMap.put(d.getDirection(), d);
-            }
-        }
 
-        private DirectionCharacter(String c) {
-            character = c;
-            direction = Direction.SELF;
-        }
+		private DirectionCharacter(char c) {
+			character = c;
+			direction = Direction.SELF;
+		}
 
-        private DirectionCharacter(String c, Direction d) {
-            character = c;
-            direction = d;
-        }
+		private DirectionCharacter(char c, Direction d) {
+			character = c;
+			direction = d;
+		}
 
-        public String getCharacter() {
-            return character;
-        }
+		public char getCharacter() {
+			return character;
+		}
 
-        public Direction getDirection() {
-            return direction;
-        }
+		public Direction getDirection() {
+			return direction;
+		}
 
-        public static Direction getDirection(String c) {
-            Direction d = directionMap.get(c);
-            return (d == null) ? Direction.SELF : d;
-        }
+		public static Direction getDirection(char c) {
+			switch(c){
+			case 'N':
+			case 'n':
+				return Direction.NORTH;
+			case 'S':
+			case 's':
+				return Direction.SOUTH;
+			case 'E':
+			case 'e':
+				return Direction.EAST;
+			case 'W':
+			case 'w':
+				return Direction.WEST;
+			default:
+				return Direction.SELF;
+			}
+		}
 
-        public static DirectionCharacter getDirectionCharacter(Direction d) {
-            return directionCharacterMap.get(d);
-        }
-
-        public static DirectionCharacter getDirectionCharacter(String c) {
-            Direction d = directionMap.get(c);
-            if (d != null) {
-                return directionCharacterMap.get(d);
-            } else {
-                return null;
-            }
-        }
-    }
+		public static DirectionCharacter getDirectionCharacter(Direction d) {
+			switch(d){
+			case NORTH:
+				return DirectionCharacter.NORTH;
+			case SOUTH:
+				return DirectionCharacter.SOUTH;
+			case EAST:
+				return DirectionCharacter.EAST;
+			case WEST:
+				return DirectionCharacter.WEST;
+			default:
+				return DirectionCharacter.DELIMITER;
+			}
+		}
+		public static DirectionCharacter getDirectionCharacter(char c) {
+			Direction d = getDirection(c);
+			return d != null ? getDirectionCharacter(d) : null;
+		}
+	}
 }
