@@ -30,7 +30,6 @@ public class InventoryManager {
 
     public static int[] moveContainerContents(Inventory cart, Inventory chest, IntMap[] maps) {
         if (maps.length == 2) {
-            //TODO: do something with return arguments.
             int data[] = moveContainerContents(cart, chest, maps[0]);
             if(data[2] == 64) {
                 return data;
@@ -58,7 +57,6 @@ public class InventoryManager {
                 returnData[0]++;
                 continue;
             }
-            //Toloop, wanted it to be warning free :p
             for (int j = 0; j < to.length; j++) {
                 ItemStack tStack = to[j];
                 if (tStack == null) {
@@ -116,13 +114,9 @@ public class InventoryManager {
             }
             from[i] = fStack;
         }
-        //For now, just return 0. Check are to be built in after this is properly tested.
         return returnData;
     }
 
-    //Why can't java return 2 objects? Stupid java... Would like to return whether the ItemStack... sFrom is empty or not...  {boolean, ItemStack[]}
-    //This IS possible, you can make another class with two properties, or even hackier, return an Entry, like a thing stored in a map.
-    //Things java cant do is return Tuples, thats a sad thing :(
     public static ItemStack[] putContents(Inventory iTo, ItemStack... sFrom) {
         ItemStack[] sTo = iTo.getContents();
         fromLoop:
@@ -131,7 +125,6 @@ public class InventoryManager {
             if (fStack == null) {
                 continue;
             } else {
-                //toloop: wanted it to be warning free
                 for (int j = 0; j < sTo.length; j++) {
                     ItemStack tStack = sTo[j];
                     if (tStack == null) {

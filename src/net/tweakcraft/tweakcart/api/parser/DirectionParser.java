@@ -20,8 +20,6 @@ package net.tweakcraft.tweakcart.api.parser;
 
 import net.tweakcraft.tweakcart.model.Direction;
 
-import java.util.HashMap;
-
 public class DirectionParser {
 
 	public static Direction parseDirection(String line) {
@@ -43,7 +41,7 @@ public class DirectionParser {
 	}
 
 	private enum DirectionCharacter {
-		DELIMITER('+'),
+		DELIMITER('+', null),
 		NORTH('n', Direction.NORTH),
 		EAST('e', Direction.EAST),
 		SOUTH('s', Direction.SOUTH),
@@ -51,12 +49,6 @@ public class DirectionParser {
 
 		private char character;
 		private Direction direction;
-
-
-		private DirectionCharacter(char c) {
-			character = c;
-			direction = Direction.SELF;
-		}
 
 		private DirectionCharacter(char c, Direction d) {
 			character = c;
@@ -72,36 +64,32 @@ public class DirectionParser {
 		}
 
 		public static Direction getDirection(char c) {
-			switch(c){
-			case 'N':
+			switch(Character.toLowerCase(c)){
 			case 'n':
 				return Direction.NORTH;
-			case 'S':
 			case 's':
 				return Direction.SOUTH;
-			case 'E':
 			case 'e':
 				return Direction.EAST;
-			case 'W':
 			case 'w':
 				return Direction.WEST;
 			default:
-				return Direction.SELF;
+				return null;
 			}
 		}
 
 		public static DirectionCharacter getDirectionCharacter(Direction d) {
 			switch(d){
 			case NORTH:
-				return DirectionCharacter.NORTH;
+				return NORTH;
 			case SOUTH:
-				return DirectionCharacter.SOUTH;
+				return SOUTH;
 			case EAST:
-				return DirectionCharacter.EAST;
+				return EAST;
 			case WEST:
-				return DirectionCharacter.WEST;
+				return WEST;
 			default:
-				return DirectionCharacter.DELIMITER;
+				return null;
 			}
 		}
 		public static DirectionCharacter getDirectionCharacter(char c) {
