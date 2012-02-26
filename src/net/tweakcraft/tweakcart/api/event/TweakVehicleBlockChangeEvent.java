@@ -23,7 +23,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
 public class TweakVehicleBlockChangeEvent extends VehicleBlockEvent {
-    public TweakVehicleBlockChangeEvent(Minecart c, Direction d, Block b) {
+    public TweakVehicleBlockChangeEvent(final Minecart c, final Direction d, final Block b) {
         super(c, d, b);
     }
 }

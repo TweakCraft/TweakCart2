@@ -18,12 +18,21 @@
 
 package net.tweakcraft.tweakcart.api.event;
 
+import net.tweakcraft.tweakcart.api.CartType;
 import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
 public class TweakVehicleBlockDetectEvent extends VehicleBlockEvent {
-    public TweakVehicleBlockDetectEvent(Minecart c, Direction d, Block b) {
+    private final CartType cartType;
+
+    public TweakVehicleBlockDetectEvent(final Minecart c, final Direction d, final Block b, final CartType cartType) {
         super(c, d, b);
+        this.cartType = cartType;
     }
+
+    public CartType getCartType() {
+        return cartType;
+    }
+
 }

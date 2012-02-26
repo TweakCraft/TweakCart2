@@ -23,7 +23,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Minecart;
 
 public class TweakVehiclePassesSignEvent extends VehicleSignEvent {
-    public TweakVehiclePassesSignEvent(Minecart c, Direction d, Sign s, String kw) {
+    public TweakVehiclePassesSignEvent(final Minecart c, final Direction d, final Sign s, final String kw) {
         super(c, d, s, kw);
     }
 }

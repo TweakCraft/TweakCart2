@@ -23,7 +23,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
 public class TweakVehicleBlockCollisionEvent extends VehicleBlockEvent {
-    public TweakVehicleBlockCollisionEvent(Minecart c, Direction d, Block b) {
+    public TweakVehicleBlockCollisionEvent(final Minecart c, final Direction d, final Block b) {
         super(c, d, b);
     }
 }
