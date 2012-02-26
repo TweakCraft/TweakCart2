@@ -92,6 +92,9 @@ public class DirectionParser {
 				return null;
 			}
 		}
+
+        //Not needed so deprecated
+        @Deprecated
 		public static DirectionCharacter getDirectionCharacter(char c) {
 			Direction d = getDirection(c);
 			return d != null ? getDirectionCharacter(d) : null;
