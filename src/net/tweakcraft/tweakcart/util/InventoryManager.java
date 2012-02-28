@@ -157,4 +157,13 @@ public class InventoryManager {
         }
         return sFrom;
     }
+    
+    public static boolean isEmpty(ItemStack... stacks){
+        for(ItemStack stack : stacks){
+            if(stack != null && stack.getAmount() != 0){
+                return false;
+            }
+        }
+        return true;
+    }
 }
