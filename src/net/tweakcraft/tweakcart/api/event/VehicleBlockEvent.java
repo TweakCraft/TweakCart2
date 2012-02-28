@@ -23,11 +23,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
 public class VehicleBlockEvent implements TweakEvent {
-    private Block block;
-    private Direction direction;
-    private Minecart minecart;
+    private final Block block;
+    private final Direction direction;
+    private final Minecart minecart;
 
-    public VehicleBlockEvent(Minecart c, Direction d, Block b) {
+    public VehicleBlockEvent(final Minecart c, final Direction d, final Block b) {
         minecart = c;
         direction = d;
         block = b;

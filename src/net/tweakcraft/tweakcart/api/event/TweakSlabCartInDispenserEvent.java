@@ -24,7 +24,7 @@ import org.bukkit.block.Block;
 public class TweakSlabCartInDispenserEvent extends VehicleCollectEvent implements CancellableEvent{
     private boolean isCancelled = false;
     
-    public TweakSlabCartInDispenserEvent(Material type, Block block) {
+    public TweakSlabCartInDispenserEvent(final Material type, final Block block) {
         super(type, block);
     }
 

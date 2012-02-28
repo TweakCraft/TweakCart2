@@ -24,10 +24,10 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
 public class TweakVehicleDispenseEvent extends VehicleBlockEvent implements CancellableEvent {
-    Material vehicleType;
+    private final Material vehicleType;
     public boolean isCanceled;
 
-    public TweakVehicleDispenseEvent(Minecart c, Direction d, Block b, Material vehicle) {
+    public TweakVehicleDispenseEvent(final Minecart c, final Direction d, final Block b, final Material vehicle) {
         super(c, d, b);
         vehicleType = vehicle;
     }

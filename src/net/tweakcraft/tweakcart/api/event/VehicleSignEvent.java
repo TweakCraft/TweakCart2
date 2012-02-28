@@ -23,12 +23,12 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Minecart;
 
 public class VehicleSignEvent implements TweakEvent{
-    private Minecart minecart;
-    private Direction direction;
-    private Sign sign;
-    private String keyword;
+    private final Minecart minecart;
+    private final Direction direction;
+    private final Sign sign;
+    private final String keyword;
     
-    public VehicleSignEvent(Minecart c, Direction d, Sign s, String kw) {
+    public VehicleSignEvent(final Minecart c, final Direction d, final Sign s, final String kw) {
         minecart = c;
         direction = d;
         sign = s;

@@ -38,7 +38,6 @@ public class TweakCartPlayerListener implements Listener{
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.isCancelled() || event.getAction() != Action.LEFT_CLICK_BLOCK){
-			System.out.println("noes?");
 			return;
 		}
 		if(event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Dispenser && VehicleUtil.isMinecart(event.getItem().getType())){
@@ -61,9 +60,7 @@ public class TweakCartPlayerListener implements Listener{
 					if(inHand != null){
 						event.getPlayer().getInventory().setItemInHand(inHand);
 					}else{
-						System.out.println("oioi");
 						int slot = event.getPlayer().getInventory().getHeldItemSlot();
-						System.out.println("slot is " + slot);
 						event.getPlayer().getInventory().clear(slot);
 					}
 				}
