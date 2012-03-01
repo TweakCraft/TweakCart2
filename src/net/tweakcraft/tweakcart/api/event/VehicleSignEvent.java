@@ -22,12 +22,12 @@ import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Minecart;
 
-public class VehicleSignEvent implements TweakEvent{
+public class VehicleSignEvent implements TweakEvent {
     private final Minecart minecart;
     private final Direction direction;
     private final Sign sign;
     private final String keyword;
-    
+
     public VehicleSignEvent(final Minecart c, final Direction d, final Sign s, final String kw) {
         minecart = c;
         direction = d;
@@ -46,8 +46,8 @@ public class VehicleSignEvent implements TweakEvent{
     public Direction getDirection() {
         return direction;
     }
-    
-    public String getKeyword(){
+
+    public String getKeyword() {
         return keyword;
     }
 }

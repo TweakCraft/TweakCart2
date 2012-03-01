@@ -22,9 +22,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 @Deprecated
-public class TweakSlabCartInDispenserEvent extends VehicleCollectEvent implements CancellableEvent{
+public class TweakSlabCartInDispenserEvent extends VehicleCollectEvent implements CancellableEvent {
     private boolean isCancelled = false;
-    
+
     public TweakSlabCartInDispenserEvent(final Material type, final Block block) {
         super(type, block);
     }
@@ -38,8 +38,6 @@ public class TweakSlabCartInDispenserEvent extends VehicleCollectEvent implement
     public boolean isCancelled() {
         return isCancelled;
     }
-
-
 
 
 }

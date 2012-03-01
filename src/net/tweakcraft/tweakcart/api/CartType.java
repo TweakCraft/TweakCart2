@@ -8,13 +8,13 @@ public enum CartType {
     MINECART,
     STORAGECART,
     POWEREDCART;
-    
-    public static CartType getCartType(Minecart m){
-        if(m instanceof PoweredMinecart){
+
+    public static CartType getCartType(Minecart m) {
+        if (m instanceof PoweredMinecart) {
             return POWEREDCART;
-        }else if(m instanceof StorageMinecart){
+        } else if (m instanceof StorageMinecart) {
             return STORAGECART;
-        }else{
+        } else {
             return MINECART;
         }
     }

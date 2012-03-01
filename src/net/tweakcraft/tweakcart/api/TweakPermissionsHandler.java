@@ -23,6 +23,6 @@ import org.bukkit.entity.Player;
 
 public interface TweakPermissionsHandler {
     public boolean canDispense(Player p, Location location);
-    
+
     public boolean canSlapCollect(Player p, Location location);
 }

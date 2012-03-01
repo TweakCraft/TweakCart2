@@ -44,11 +44,11 @@ public class TweakCart extends JavaPlugin {
     public void onEnable() {
         log(String.format("Enabling! Version: %s", this.getDescription().getVersion()));
         // Load pluginManager and register events
-        PluginManager pm = getServer().getPluginManager();        
+        PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(vehicleListener, this);
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
-        
+
         //pm.registerEvent(Event.Type.REDSTONE_CHANGE, blockListener, Event.Priority.Normal, this);
     }
 
@@ -59,9 +59,9 @@ public class TweakCart extends JavaPlugin {
     public static void log(String info) {
         log(info, Level.INFO);
     }
-    
-    public TweakPluginManager getPluginManager(){
+
+    public TweakPluginManager getPluginManager() {
         return TweakPluginManager.getInstance();
     }
-    
+
 }

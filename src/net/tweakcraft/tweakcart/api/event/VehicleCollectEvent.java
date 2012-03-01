@@ -25,13 +25,16 @@ import org.bukkit.block.Block;
 public abstract class VehicleCollectEvent implements TweakEvent {
     private final Material type;
     private final Block block;
-    public VehicleCollectEvent(final Material type, final Block block){
+
+    public VehicleCollectEvent(final Material type, final Block block) {
         this.type = type;
         this.block = block;
     }
+
     public Block getBlock() {
         return block;
     }
+
     public Material getType() {
         return type;
     }

@@ -31,7 +31,7 @@ public class InventoryManager {
     public static int[] moveContainerContents(Inventory cart, Inventory chest, IntMap[] maps) {
         if (maps.length == 2) {
             int data[] = moveContainerContents(cart, chest, maps[0]);
-            if(data[2] == 64) {
+            if (data[2] == 64) {
                 return data;
             } else {
                 return moveContainerContents(chest, cart, maps[1]);
@@ -99,7 +99,7 @@ public class InventoryManager {
                             tStack.setAmount(total);
                             //TODO: I think this part is never run (because stableAmount is always > 0). Check?
                             //if (stableAmount > 0) {
-                                from[i].setAmount(stableAmount);
+                            from[i].setAmount(stableAmount);
                             //} else {
                             //    from[i] = null;
                             //}
@@ -157,10 +157,10 @@ public class InventoryManager {
         }
         return sFrom;
     }
-    
-    public static boolean isEmpty(ItemStack... stacks){
-        for(ItemStack stack : stacks){
-            if(stack != null && stack.getAmount() != 0){
+
+    public static boolean isEmpty(ItemStack... stacks) {
+        for (ItemStack stack : stacks) {
+            if (stack != null && stack.getAmount() != 0) {
                 return false;
             }
         }

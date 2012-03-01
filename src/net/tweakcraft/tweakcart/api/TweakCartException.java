@@ -24,8 +24,8 @@ package net.tweakcraft.tweakcart.api;
  * @author Edoxile
  */
 public class TweakCartException extends Exception {
-	private static final long serialVersionUID = 2407048636434179025L;
-	String pluginName;
+    private static final long serialVersionUID = 2407048636434179025L;
+    String pluginName;
     TweakCartPlugin plugin;
 
     public TweakCartException(String message, TweakCartPlugin p) {

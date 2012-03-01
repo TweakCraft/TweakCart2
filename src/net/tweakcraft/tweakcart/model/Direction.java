@@ -61,7 +61,7 @@ public enum Direction {
     public int getModY() {
         return modY;
     }
-    
+
 
     public static Direction getDirection(Location from, Location to) {
         if (from.getBlockX() == to.getBlockX() + 1) {

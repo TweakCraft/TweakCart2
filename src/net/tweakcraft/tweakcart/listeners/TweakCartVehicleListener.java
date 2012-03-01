@@ -21,12 +21,7 @@ package net.tweakcraft.tweakcart.listeners;
 import net.tweakcraft.tweakcart.TweakPluginManager;
 import net.tweakcraft.tweakcart.api.CartType;
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
+import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.MathUtil;
 import org.bukkit.Material;
@@ -50,14 +45,11 @@ public class TweakCartVehicleListener implements Listener {
     public void onVehicleMove(VehicleMoveEvent event) {
         if (event.getVehicle() instanceof Minecart) {
             Minecart minecart = (Minecart) event.getVehicle();
-            if (MathUtil.isSameBlock(event.getFrom(), event.getTo())) {
-                return;
-            } else {
-                
+            if (!MathUtil.isSameBlock(event.getFrom(), event.getTo())) {
                 Block toBlock = event.getTo().getBlock();
                 Direction cartDriveDirection = Direction.getDirection(event.getFrom(), event.getTo());
                 manager.callEvent(TweakCartEvent.Block.VehicleBlockChangeEvent, new TweakVehicleBlockChangeEvent(minecart, cartDriveDirection, toBlock));
-                if(toBlock.getType() == Material.DETECTOR_RAIL){
+                if (toBlock.getType() == Material.DETECTOR_RAIL) {
                     manager.callEvent(TweakCartEvent.Block.VehicleBlockDetectEvent, new TweakVehicleBlockDetectEvent(minecart, cartDriveDirection, toBlock, CartType.getCartType(minecart)));
                 }
                 //we hebben niets te doen met blocks die geen rails zijn
@@ -85,16 +77,16 @@ public class TweakCartVehicleListener implements Listener {
             }
         }
     }
-    
+
     @EventHandler
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
-        
+
         if (event.getVehicle() instanceof Minecart) {
-            Minecart cart = (Minecart)event.getVehicle();
+            Minecart cart = (Minecart) event.getVehicle();
             Block block = event.getBlock();
             Direction dir = Direction.getDirection(event.getVehicle().getLocation(), event.getBlock().getLocation());
             manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent(cart, dir, block));
-            if(event.getBlock().getType() == Material.DISPENSER){
+            if (event.getBlock().getType() == Material.DISPENSER) {
                 //TODO fix the Direction.self
                 manager.callEvent(TweakCartEvent.Block.VehicleCollectEvent, new TweakVehicleCollectEvent(cart, Direction.SELF, block));
             }

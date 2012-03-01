@@ -33,26 +33,26 @@ public class VehicleUtil {
 
     public static void moveCart(Minecart cart, int x, int y, int z) {
         Location location = cart.getLocation();
-        if(x != 0){
+        if (x != 0) {
             location.setX(x);
         }
-        
-        if(y != 0){
+
+        if (y != 0) {
             location.setY(y);
         }
-        
-        if(z != 0){
+
+        if (z != 0) {
             location.setZ(z);
         }
-        
+
         cart.teleport(location);
     }
-    
-    public static void moveCartRelative(Minecart cart, double x, double y, double z){
+
+    public static void moveCartRelative(Minecart cart, double x, double y, double z) {
         cart.teleport(cart.getLocation().add(x, y, z));
     }
-    
-    public static void moveCart(Minecart cart, Location loc){
+
+    public static void moveCart(Minecart cart, Location loc) {
         cart.teleport(loc);
     }
 
@@ -120,14 +120,14 @@ public class VehicleUtil {
                 track = d.getBlock();
                 break;
         }
-        
+
         // als een cart op een poweredrail staat die niet aan is, zet de snelheid dan op 0
-        if(track.getType() == Material.POWERED_RAIL && !track.isBlockPowered()){
+        if (track.getType() == Material.POWERED_RAIL && !track.isBlockPowered()) {
             velocity = 0.5d;
         }
-        
+
         return spawnCartWithVelocity(track.getLocation(), type, dir, velocity);
-        
+
     }
 
     public static boolean spawnCartFromDispenser(Dispenser d, Material type) {
@@ -137,20 +137,21 @@ public class VehicleUtil {
     public static boolean isMinecart(Material type) {
         return type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART;
     }
-    
+
     /**
      * TODO: rename to isRail(Block b)
+     *
      * @param b
      * @return
      */
-    public static boolean canSpawn(Block b){
-        switch(b.getType()){
-        case RAILS:
-        case POWERED_RAIL:
-        case DETECTOR_RAIL:
-            return true;
-        default:
-            return false;
+    public static boolean canSpawn(Block b) {
+        switch (b.getType()) {
+            case RAILS:
+            case POWERED_RAIL:
+            case DETECTOR_RAIL:
+                return true;
+            default:
+                return false;
         }
     }
 }
