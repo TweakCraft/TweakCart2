@@ -16,26 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.util;
+package net.tweakcraft.tweakcart.api;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-public class MathUtil {
-
-    public static int floor(double d) {
-        int rt = (int) d;
-        return rt > d ? rt - 1 : rt;
-    }
-
-    public static boolean isSameBlock(Location from, Location to) {
-        return floor(from.getX()) == floor(to.getX()) && floor(from.getY()) == floor(to.getY()) && floor(from.getZ()) == floor(to.getZ());
-    }
-
-    public static double abs(double d) {
-        return d < 0 ? -d : d;
-    }
-
-    public static double max(double a, double b) {
-        return (a < b) ? a : b;
-    }
+public interface TweakPermissionsHandler {
+    public boolean canDispense(Player p, Location location);
+    
+    public boolean canSlapCollect(Player p, Location location);
 }

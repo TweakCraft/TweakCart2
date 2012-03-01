@@ -27,7 +27,7 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.api.TweakPermissionsHandler;
 import net.tweakcraft.tweakcart.api.event.CancellableEvent;
 import net.tweakcraft.tweakcart.api.event.TweakEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
@@ -51,7 +51,7 @@ public class TweakPluginManager {
     private static TweakPluginManager instance;
     private Map<TweakCartEvent.Block, List<TweakBlockEventListener>> blockEventPluginMap = new HashMap<TweakCartEvent.Block, List<TweakBlockEventListener>>();
     private Map<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener> signEventPluginMap = new HashMap<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener>();
-    private List<TweakPermissionsManager> permissionsHandlers = new ArrayList<TweakPermissionsManager>();
+    private List<TweakPermissionsHandler> permissionsHandlers = new ArrayList<TweakPermissionsHandler>();
     private TweakCart t;
     
     public TweakPluginManager (TweakCart t){
@@ -166,19 +166,19 @@ public class TweakPluginManager {
         }else{
             //let others handle this one
             //modularity ftw, but little slower
-            for(TweakPermissionsManager perm : permissionsHandlers){
+            for(TweakPermissionsHandler perm : permissionsHandlers){
                 switch(event){
                 case VehicleDispenseEvent:
                     if(!perm.canDispense(p, location)) return false;
                 case VehicleSlabInDispenserEvent:
-                    if(!perm.canSlabCollect(p, location)) return false;
+                    if(!perm.canSlapCollect(p, location)) return false;
                 }
             }
             return true;
         }
     }
     
-    public void addPermissionsManager(TweakPermissionsManager perm){
+    public void addPermissionsManager(TweakPermissionsHandler perm){
         
     }
 

@@ -21,8 +21,6 @@ package net.tweakcraft.tweakcart;
 import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;
-
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,9 +30,9 @@ import java.util.logging.Logger;
 
 public class TweakCart extends JavaPlugin {
     private static Logger logger = Logger.getLogger("Minecraft");
-    private TweakCartVehicleListener vehicleListener;
-    private TweakCartBlockListener blockListener;
-    private TweakCartPlayerListener playerListener;
+    private TweakCartVehicleListener vehicleListener = new TweakCartVehicleListener();
+    private TweakCartBlockListener blockListener = new TweakCartBlockListener();
+    private TweakCartPlayerListener playerListener = new TweakCartPlayerListener();
 
     @Override
     public void onDisable() {
@@ -45,10 +43,6 @@ public class TweakCart extends JavaPlugin {
     @Override
     public void onEnable() {
         log(String.format("Enabling! Version: %s", this.getDescription().getVersion()));
-        // Initialising variables
-        vehicleListener = new TweakCartVehicleListener();
-        blockListener = new TweakCartBlockListener();
-        playerListener = new TweakCartPlayerListener();
         // Load pluginManager and register events
         PluginManager pm = getServer().getPluginManager();        
         pm.registerEvents(vehicleListener, this);
@@ -58,11 +52,11 @@ public class TweakCart extends JavaPlugin {
         //pm.registerEvent(Event.Type.REDSTONE_CHANGE, blockListener, Event.Priority.Normal, this);
     }
 
-    public void log(String info, Level level) {
+    public static void log(String info, Level level) {
         logger.log(level, "[TweakCart] " + info);
     }
 
-    public void log(String info) {
+    public static void log(String info) {
         log(info, Level.INFO);
     }
     
