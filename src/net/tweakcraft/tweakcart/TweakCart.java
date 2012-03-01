@@ -21,6 +21,8 @@ package net.tweakcraft.tweakcart;
 import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;
+
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -67,4 +69,5 @@ public class TweakCart extends JavaPlugin {
     public TweakPluginManager getPluginManager(){
         return TweakPluginManager.getInstance();
     }
+    
 }

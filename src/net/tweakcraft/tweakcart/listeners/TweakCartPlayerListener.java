@@ -45,7 +45,7 @@ public class TweakCartPlayerListener implements Listener{
 			Block dispBlock = event.getClickedBlock();
 
 			//TODO: call cancellable event
-			if(manager.callEvent(TweakCartEvent.Block.VehicleSlabInDispenserEvent, new TweakSlabCartInDispenserEvent(type, dispBlock))){
+			if(manager.canDoAction(TweakCartEvent.Block.VehicleSlabInDispenserEvent, event.getPlayer(), event.getPlayer().getLocation())){
 				Dispenser disp = (Dispenser) dispBlock.getState();
 				ItemStack inHand = event.getItem();
 				if(disp.getInventory().addItem(new ItemStack(type, 1)).size() == 0){

@@ -21,6 +21,7 @@ package net.tweakcraft.tweakcart.api.event;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+@Deprecated
 public class TweakSlabCartInDispenserEvent extends VehicleCollectEvent implements CancellableEvent{
     private boolean isCancelled = false;
     
