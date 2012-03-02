@@ -24,11 +24,15 @@ import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.Dispenser;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,6 +48,7 @@ public class TweakPermissionsManager {
 
         private ZonesAccess.Rights rights;
 
+        //TODO: can such a system also be used with WorldGuard? It would save a lot of time...
         private PermissionType(ZonesAccess.Rights rightsNeeded) {
             rights = rightsNeeded;
         }
@@ -53,12 +58,44 @@ public class TweakPermissionsManager {
         }
     }
 
+    public enum PermissionRequest {
+        SLAP,
+        DISPENSE,
+        VEHICLE_COLLECT
+    }
+
+    public class RequestData {
+        private Player player;
+        private Dispenser dispenser;
+        private Minecart cart;
+
+        public RequestData(Player p, Dispenser d, Minecart c) {
+            player = p;
+            dispenser = d;
+            cart = c;
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public Dispenser getDispenser() {
+            return dispenser;
+        }
+
+        public Minecart getMinecart() {
+            return cart;
+        }
+    }
+
     private boolean zonesEnabled = false;
     private boolean worldGuardEnabled = false;
     private boolean permissionsEnabled = false;
 
     private Zones zones;
     private WorldGuardPlugin worldGuard;
+
+    private ArrayList<TweakPermissionsHandler> permissionsHandlers = new ArrayList<TweakPermissionsHandler>();
 
     public TweakPermissionsManager() {
         //TODO: load some kind of config here
@@ -85,7 +122,7 @@ public class TweakPermissionsManager {
         }
     }
 
-    public boolean canDo(Player player, PermissionType type, String node, Block block) {
+    public boolean playerCanDo(Player player, PermissionType type, String node, Block block) {
         if (permissionsEnabled) {
             if (player.isOp()) {
                 return true;
@@ -107,4 +144,41 @@ public class TweakPermissionsManager {
             return true;
         }
     }
+
+    public boolean coreCanDo(PermissionRequest requestType, RequestData requestData) {
+        switch (requestType) {
+            case SLAP:
+                for (TweakPermissionsHandler handler : permissionsHandlers) {
+                    if (!handler.canSlapCollect(requestData.getPlayer(), requestData.getDispenser())) {
+                        return false;
+                    }
+                }
+                break;
+            case DISPENSE:
+                for (TweakPermissionsHandler handler : permissionsHandlers) {
+                    if (!handler.canDispense(requestData.getDispenser())) {
+                        return false;
+                    }
+                }
+                break;
+            case VEHICLE_COLLECT:
+                for (TweakPermissionsHandler handler : permissionsHandlers) {
+                    if (!handler.canVehicleCollect(requestData.getMinecart(), requestData.getDispenser())) {
+                        return false;
+                    }
+                }
+                break;
+        }
+        return true;
+    }
+
+    public void registerPermissionsHandler(TweakPermissionsHandler handler) {
+        //TODO: check if this works without overwriting .hashCode() & .equals()
+        if (!permissionsHandlers.contains(handler)) {
+            permissionsHandlers.add(handler);
+        } else {
+            TweakCart.log("TweakPermissionsHandler " + handler.getName() + " is already registered!", Level.WARNING);
+        }
+    }
+
 }
