@@ -24,16 +24,22 @@ import net.tweakcraft.tweakcart.api.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.model.Direction;
+import net.tweakcraft.tweakcart.util.InventoryManager;
 import net.tweakcraft.tweakcart.util.MathUtil;
+import net.tweakcraft.tweakcart.util.VehicleUtil;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Dispenser;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Minecart;
+import org.bukkit.entity.StorageMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +94,22 @@ public class TweakCartVehicleListener implements Listener {
             if (event.getBlock().getType() == Material.DISPENSER) {
                 TweakVehicleCollectEvent collectEvent = new TweakVehicleCollectEvent(cart, block);
                 permissionsManager.cartCanCollect(collectEvent);
-                if(!collectEvent.isCancelled()){
-                    //TODO: collect the cart in the dispenser
+                if (!collectEvent.isCancelled()) {
+                    if (cart instanceof StorageMinecart) {
+                        ItemStack[] leftovers = ((StorageMinecart) cart).getInventory().getContents();
+                        Location dropLocation = cart.getLocation();
+                        for (ItemStack i : leftovers) {
+                            if (i != null) {
+                                cart.getWorld().dropItem(dropLocation, i);
+                            }
+                        }
+                    }
+                    ItemStack itemStack = new ItemStack(VehicleUtil.itemId(cart), 1);
+                    Dispenser dispenser = (Dispenser) block.getState();
+                    ItemStack[] leftovers = InventoryManager.putContents(dispenser.getInventory(), itemStack);
+                    if (leftovers[0] == null) {
+                        cart.remove();
+                    }
                 }
             } else {
                 manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent(cart, direction, block));

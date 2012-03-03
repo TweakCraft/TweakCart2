@@ -41,7 +41,7 @@ public class TweakCartPlayerListener implements Listener {
             Dispenser dispenser = (Dispenser) event.getClickedBlock().getState();
             TweakPlayerCollectEvent collectEvent = new TweakPlayerCollectEvent(event.getPlayer(), dispenser);
             permissionsManager.playerCanSlap(collectEvent);
-            if(!event.isCancelled()){
+            if (!event.isCancelled()) {
                 ItemStack inHand = event.getItem();
                 ItemStack[] leftOver = InventoryManager.putContents(dispenser.getInventory(), inHand);
                 event.getPlayer().setItemInHand(leftOver[0]);

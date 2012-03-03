@@ -147,7 +147,7 @@ public class TweakPermissionsManager {
     public void cartCanCollect(TweakVehicleCollectEvent event) {
         for (TweakPermissionsHandler handler : permissionsHandlers) {
             handler.canVehicleCollect(event);
-            if(event.isCancelled())  {
+            if (event.isCancelled()) {
                 return;
             }
         }
@@ -156,7 +156,7 @@ public class TweakPermissionsManager {
     public void cartCanDispense(TweakVehicleDispenseEvent event) {
         for (TweakPermissionsHandler handler : permissionsHandlers) {
             handler.canDispense(event);
-            if(event.isCancelled()){
+            if (event.isCancelled()) {
                 return;
             }
         }

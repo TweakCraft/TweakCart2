@@ -36,7 +36,7 @@ public class TweakCart extends JavaPlugin {
     private TweakCartVehicleListener vehicleListener = new TweakCartVehicleListener();
     private TweakCartBlockListener blockListener = new TweakCartBlockListener();
     private TweakCartPlayerListener playerListener = new TweakCartPlayerListener();
-    
+
     private static YamlConfiguration configuration = new YamlConfiguration();
 
     @Override

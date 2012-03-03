@@ -18,7 +18,9 @@
 
 package net.tweakcraft.tweakcart.api.listeners;
 
-import net.tweakcraft.tweakcart.api.event.*;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
 
 public abstract class TweakBlockEventListener {
 

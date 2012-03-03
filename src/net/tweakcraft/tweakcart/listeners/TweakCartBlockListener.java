@@ -47,7 +47,7 @@ public class TweakCartBlockListener implements Listener {
             case POWERED_MINECART:
                 Direction d = Direction.getDirection(event.getVelocity());
                 manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
-                if(!event.isCancelled()) {
+                if (!event.isCancelled()) {
                     VehicleUtil.spawnCartFromDispenser(dispenser, type);
                     dispenser.getInventory().removeItem(event.getItem());
                     event.setCancelled(true);

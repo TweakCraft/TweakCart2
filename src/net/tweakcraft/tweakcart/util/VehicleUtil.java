@@ -135,6 +135,16 @@ public class VehicleUtil {
         return type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART;
     }
 
+    public static int itemId(Minecart cart) {
+        if (cart instanceof StorageMinecart) {
+            return Material.STORAGE_MINECART.getId();
+        } else if (cart instanceof PoweredMinecart) {
+            return Material.POWERED_MINECART.getId();
+        } else {
+            return Material.MINECART.getId();
+        }
+    }
+
     /**
      * @param b
      * @return
