@@ -18,7 +18,11 @@
 
 package net.tweakcraft.tweakcart.api;
 
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.bukkit.BukkitPlayer;
+import com.sk89q.worldguard.bukkit.BukkitUtil;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.zones.Zones;
 import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
@@ -112,12 +116,18 @@ public class TweakPermissionsManager {
             Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
             if (p != null && p instanceof Zones) {
                 zones = (Zones) p;
+            } else {
+                zonesEnabled = false;
+                //TODO: log some kind of error that Zones is not found
             }
         }
         if (worldGuardEnabled) {
             Plugin p = Bukkit.getServer().getPluginManager().getPlugin("worldguard");
             if (p != null && p instanceof WorldGuardPlugin) {
                 worldGuard = (WorldGuardPlugin) p;
+            } else {
+                worldGuardEnabled = false;
+                //TODO: log some kind of error that WorldGuard is not found
             }
         }
     }
@@ -129,14 +139,34 @@ public class TweakPermissionsManager {
             }
             if (player.hasPermission("tweakcart." + node)) {
                 if (zonesEnabled) {
-                    //TODO: do something with the return argument
-                    zones.getWorldManager(block.getWorld()).getActiveZone(block).getAccess(player).canDo(type.getRights());
+                    if (!zones.getWorldManager(block.getWorld()).getActiveZone(block).getAccess(player).canDo(type.getRights())) {
+                        return false;
+                    }
                 }
                 if (worldGuardEnabled) {
-                    //TODO: implement this part
-                    worldGuard.getRegionManager(block.getWorld());
+                    LocalPlayer localPlayer = new BukkitPlayer(worldGuard, player);
+                    ApplicableRegionSet regionSet = worldGuard.getRegionManager(block.getWorld()).getApplicableRegions(BukkitUtil.toVector(block));
+                    switch (type) {
+                        case ALL:
+                            if (!regionSet.canBuild(localPlayer) || !regionSet.canUse(localPlayer)) {
+                                return false;
+                            }
+                            break;
+                        case BUILD:
+                            if (!regionSet.canBuild(localPlayer)) {
+                                return false;
+                            }
+                            break;
+                        case REDSTONE:
+                            if (!regionSet.canUse(localPlayer)) {
+                                return false;
+                            }
+                            break;
+                    }
+                    return true;
+                } else {
+                    return false;
                 }
-                return true;
             } else {
                 return false;
             }
