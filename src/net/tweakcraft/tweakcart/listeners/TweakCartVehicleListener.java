@@ -95,7 +95,7 @@ public class TweakCartVehicleListener implements Listener {
             Block block = event.getBlock();
             Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "BlockType: " + block.getType());
             Direction direction = Direction.getDirection(event.getVehicle().getLocation(), event.getBlock().getLocation());
-            if (event.getBlock().getType() == Material.DISPENSER) {
+            if (event.getBlock().getTypeId() == Material.DISPENSER.getId()) {
                 TweakVehicleCollectEvent collectEvent = new TweakVehicleCollectEvent(cart, block);
                 permissionsManager.cartCanCollect(collectEvent);
                 if (!collectEvent.isCancelled()) {
