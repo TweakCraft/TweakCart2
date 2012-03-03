@@ -21,9 +21,12 @@ package net.tweakcraft.tweakcart;
 import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,23 +36,30 @@ public class TweakCart extends JavaPlugin {
     private TweakCartVehicleListener vehicleListener = new TweakCartVehicleListener();
     private TweakCartBlockListener blockListener = new TweakCartBlockListener();
     private TweakCartPlayerListener playerListener = new TweakCartPlayerListener();
+    
+    private static YamlConfiguration configuration = new YamlConfiguration();
 
     @Override
     public void onDisable() {
-        // TODO Auto-generated method stub
-
+        log("Disabled");
     }
 
     @Override
     public void onEnable() {
         log(String.format("Enabling! Version: %s", this.getDescription().getVersion()));
-        // Load pluginManager and register events
+
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(vehicleListener, this);
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
 
-        //pm.registerEvent(Event.Type.REDSTONE_CHANGE, blockListener, Event.Priority.Normal, this);
+        try {
+            configuration.load(getFile());
+        } catch (IOException e) {
+            log("Config file could not be read. Please make sure it exists.", Level.SEVERE);
+        } catch (InvalidConfigurationException e) {
+            log("Config file has an invalid syntax. Please check.", Level.SEVERE);
+        }
     }
 
     public static void log(String info, Level level) {
@@ -64,4 +74,7 @@ public class TweakCart extends JavaPlugin {
         return TweakPluginManager.getInstance();
     }
 
+    public static YamlConfiguration getYamlConfig() {
+        return configuration;
+    }
 }

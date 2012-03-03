@@ -26,15 +26,16 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.zones.Zones;
 import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
+import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -44,6 +45,12 @@ import java.util.logging.Level;
  * @author Edoxile
  */
 public class TweakPermissionsManager {
+    private static TweakPermissionsManager instance = new TweakPermissionsManager();
+
+    public static TweakPermissionsManager getInstance() {
+        return instance;
+    }
+
     public enum PermissionType {
         REDSTONE(ZonesAccess.Rights.HIT),
         BUILD(ZonesAccess.Rights.BUILD),
@@ -52,43 +59,13 @@ public class TweakPermissionsManager {
 
         private ZonesAccess.Rights rights;
 
-        //TODO: can such a system also be used with WorldGuard? It would save a lot of time...
+        //TODO: can such a system also be used with WorldGuard? It would save some cycles...
         private PermissionType(ZonesAccess.Rights rightsNeeded) {
             rights = rightsNeeded;
         }
 
         public ZonesAccess.Rights getRights() {
             return rights;
-        }
-    }
-
-    public enum PermissionRequest {
-        SLAP,
-        DISPENSE,
-        VEHICLE_COLLECT
-    }
-
-    public class RequestData {
-        private Player player;
-        private Dispenser dispenser;
-        private Minecart cart;
-
-        public RequestData(Player p, Dispenser d, Minecart c) {
-            player = p;
-            dispenser = d;
-            cart = c;
-        }
-
-        public Player getPlayer() {
-            return player;
-        }
-
-        public Dispenser getDispenser() {
-            return dispenser;
-        }
-
-        public Minecart getMinecart() {
-            return cart;
         }
     }
 
@@ -100,15 +77,9 @@ public class TweakPermissionsManager {
     private WorldGuardPlugin worldGuard;
 
     private ArrayList<TweakPermissionsHandler> permissionsHandlers = new ArrayList<TweakPermissionsHandler>();
+    private YamlConfiguration config = TweakCart.getYamlConfig();
 
-    public TweakPermissionsManager() {
-        //TODO: load some kind of config here
-        YamlConfiguration config = new YamlConfiguration();
-        try {
-            config.load(new File("."));
-        } catch (Exception e) {
-            TweakCart.log(e.getMessage());
-        }
+    private TweakPermissionsManager() {
         permissionsEnabled = config.getBoolean("permissions.use-permissions");
         zonesEnabled = config.getBoolean("permissions.use-zones");
         worldGuardEnabled = config.getBoolean("permissions.use-worldguard");
@@ -118,7 +89,7 @@ public class TweakPermissionsManager {
                 zones = (Zones) p;
             } else {
                 zonesEnabled = false;
-                //TODO: log some kind of error that Zones is not found
+                TweakCart.log("Zones was enabled in the config but not found running on the server!", Level.SEVERE);
             }
         }
         if (worldGuardEnabled) {
@@ -127,7 +98,7 @@ public class TweakPermissionsManager {
                 worldGuard = (WorldGuardPlugin) p;
             } else {
                 worldGuardEnabled = false;
-                //TODO: log some kind of error that WorldGuard is not found
+                TweakCart.log("WorldGuard was enabled in the config but not found running on the server!", Level.SEVERE);
             }
         }
     }
@@ -175,31 +146,41 @@ public class TweakPermissionsManager {
         }
     }
 
-    public boolean coreCanDo(PermissionRequest requestType, RequestData requestData) {
-        switch (requestType) {
-            case SLAP:
-                for (TweakPermissionsHandler handler : permissionsHandlers) {
-                    if (!handler.canSlapCollect(requestData.getPlayer(), requestData.getDispenser())) {
-                        return false;
-                    }
+    public boolean cartCanCollect(TweakVehicleCollectEvent event) {
+        if (event.getBlock().getState() instanceof Dispenser) {
+            Dispenser dispenser = (Dispenser) event.getBlock().getState();
+            for (TweakPermissionsHandler handler : permissionsHandlers) {
+                if (!handler.canVehicleCollect(event.getMinecart(), dispenser)) {
+                    return false;
                 }
-                break;
-            case DISPENSE:
-                for (TweakPermissionsHandler handler : permissionsHandlers) {
-                    if (!handler.canDispense(requestData.getDispenser())) {
-                        return false;
-                    }
-                }
-                break;
-            case VEHICLE_COLLECT:
-                for (TweakPermissionsHandler handler : permissionsHandlers) {
-                    if (!handler.canVehicleCollect(requestData.getMinecart(), requestData.getDispenser())) {
-                        return false;
-                    }
-                }
-                break;
+            }
+            return true;
+        } else {
+            return false;
         }
-        return true;
+    }
+
+    public boolean cartCanDispense(TweakVehicleDispenseEvent event) {
+        if (event.getBlock().getState() instanceof Dispenser) {
+            Dispenser dispenser = (Dispenser) event.getBlock();
+            for (TweakPermissionsHandler handler : permissionsHandlers) {
+                if (!handler.canDispense(dispenser)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean playerCanSlap(TweakPlayerCollectEvent event){
+        for (TweakPermissionsHandler handler : permissionsHandlers) {
+            if (!handler.canSlapCollect(event.getPlayer(), event.getDispenser())) {
+                return false;
+            }
+        }
+        return false;
     }
 
     public void registerPermissionsHandler(TweakPermissionsHandler handler) {
@@ -208,6 +189,42 @@ public class TweakPermissionsManager {
             permissionsHandlers.add(handler);
         } else {
             TweakCart.log("TweakPermissionsHandler " + handler.getName() + " is already registered!", Level.WARNING);
+        }
+    }
+
+    public void reloadConfig() {
+        permissionsEnabled = config.getBoolean("permissions.use-permissions");
+        zonesEnabled = config.getBoolean("permissions.use-zones");
+        worldGuardEnabled = config.getBoolean("permissions.use-worldguard");
+
+        if (permissionsEnabled) {
+            if (zonesEnabled && zones == null) {
+                Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
+                if (p != null && p instanceof Zones) {
+                    zones = (Zones) p;
+                } else {
+                    zonesEnabled = false;
+                    TweakCart.log("Zones was enabled in the config but not found running on the server!", Level.SEVERE);
+                }
+            } else {
+                zones = null;
+            }
+            if (worldGuardEnabled && worldGuard == null) {
+                Plugin p = Bukkit.getServer().getPluginManager().getPlugin("worldguard");
+                if (p != null && p instanceof WorldGuardPlugin) {
+                    worldGuard = (WorldGuardPlugin) p;
+                } else {
+                    worldGuardEnabled = false;
+                    TweakCart.log("WorldGuard was enabled in the config but not found running on the server!", Level.SEVERE);
+                }
+            } else {
+                worldGuard = null;
+            }
+        } else {
+            worldGuardEnabled = false;
+            zonesEnabled = false;
+            worldGuard = null;
+            zones = null;
         }
     }
 

@@ -31,28 +31,8 @@ public abstract class TweakBlockEventListener {
         //Is a default bukkit feature
     }
 
-    @Deprecated
-    public void onVehicleDispense(TweakVehicleDispenseEvent event) {
-        //Called when tweakcart desides to dispense a cart
-    }
-
     public void onVehicleDetect(TweakVehicleBlockDetectEvent event) {
         //Called when a cart is detected
         //Is a default bukkit feature
     }
-
-    @Deprecated
-    public void onVehicleCollect(TweakVehicleCollectEvent event) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Deprecated
-    public void onVehicleSlabInDispenserEvent(
-            TweakSlabCartInDispenserEvent event) {
-        // TODO Auto-generated method stub
-
-    }
-
-
 }

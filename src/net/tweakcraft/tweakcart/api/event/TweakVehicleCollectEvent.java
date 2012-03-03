@@ -27,7 +27,6 @@ public class TweakVehicleCollectEvent extends VehicleBlockEvent implements Cance
 
     public TweakVehicleCollectEvent(final Minecart c, final Direction dir, final Block b) {
         super(c, dir, b);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

@@ -18,11 +18,10 @@
 
 package net.tweakcraft.tweakcart.listeners;
 
-import net.tweakcraft.tweakcart.TweakPluginManager;
-import net.tweakcraft.tweakcart.api.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
+import net.tweakcraft.tweakcart.util.InventoryManager;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +30,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class TweakCartPlayerListener implements Listener {
-    private TweakPluginManager manager = TweakPluginManager.getInstance();
+    private TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -39,29 +38,12 @@ public class TweakCartPlayerListener implements Listener {
             return;
         }
         if (event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Dispenser && VehicleUtil.isMinecart(event.getItem().getType())) {
-            Material type = event.getItem().getType();
-            Block dispBlock = event.getClickedBlock();
-
-            //TODO: call cancellable event
-            if (manager.canDoAction(TweakCartEvent.Block.VehicleSlabInDispenserEvent, event.getPlayer(), event.getPlayer().getLocation())) {
-                Dispenser disp = (Dispenser) dispBlock.getState();
+            Dispenser dispenser = (Dispenser) event.getClickedBlock().getState();
+            TweakPlayerCollectEvent collectEvent = new TweakPlayerCollectEvent(event.getPlayer(), dispenser);
+            if (permissionsManager.playerCanSlap(collectEvent)) {
                 ItemStack inHand = event.getItem();
-                if (disp.getInventory().addItem(new ItemStack(type, 1)).size() == 0) {
-                    if (inHand.getAmount() == 1) {
-                        inHand = null;
-                    } else {
-                        inHand.setAmount(inHand.getAmount() - 1);
-                    }
-
-                    //TODO: dit netter maken, carts moeten stacken, plus dat het gebruik moet maken van een Inventory framework achtig iets
-
-                    if (inHand != null) {
-                        event.getPlayer().getInventory().setItemInHand(inHand);
-                    } else {
-                        int slot = event.getPlayer().getInventory().getHeldItemSlot();
-                        event.getPlayer().getInventory().clear(slot);
-                    }
-                }
+                ItemStack[] leftOver = InventoryManager.putContents(dispenser.getInventory(), inHand);
+                event.getPlayer().setItemInHand(leftOver[0]);
             }
         }
     }
