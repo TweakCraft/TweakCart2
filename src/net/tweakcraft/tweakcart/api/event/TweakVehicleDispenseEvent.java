@@ -21,14 +21,13 @@ package net.tweakcraft.tweakcart.api.event;
 import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Minecart;
 
 public class TweakVehicleDispenseEvent extends VehicleBlockEvent implements CancellableEvent {
     private final Material vehicleType;
-    public boolean isCanceled;
+    private boolean cancelled;
 
-    public TweakVehicleDispenseEvent(final Minecart c, final Direction d, final Block b, final Material vehicle) {
-        super(c, d, b);
+    public TweakVehicleDispenseEvent(final Direction d, final Block b, final Material vehicle) {
+        super(null, d, b);
         vehicleType = vehicle;
     }
 
@@ -37,12 +36,12 @@ public class TweakVehicleDispenseEvent extends VehicleBlockEvent implements Canc
     }
 
     @Override
-    public void setCancelled(boolean cancelled) {
-        isCanceled = cancelled;
+    public void setCancelled(boolean isCancelled) {
+        cancelled = isCancelled;
     }
 
     @Override
     public boolean isCancelled() {
-        return isCanceled;
+        return cancelled;
     }
 }

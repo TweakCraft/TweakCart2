@@ -25,8 +25,6 @@ import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.listeners.TweakBlockEventListener;
 import net.tweakcraft.tweakcart.api.listeners.TweakSignEventListener;
 import net.tweakcraft.tweakcart.util.StringUtil;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -68,34 +66,18 @@ public class TweakPluginManager {
                             //Something went wrong, debug info(?)
                         }
                         break;
-                    case VehicleDispenseEvent:
-                        if (event instanceof TweakVehicleDispenseEvent) {
-                            permissionsManager.cartCanDispense((TweakVehicleDispenseEvent) event);
-                        } else {
-                            //Something went wrong, debug info(?)
-                        }
-                        break;
-                    case VehicleCollectEvent:
-                        if (event instanceof TweakVehicleCollectEvent) {
-                            permissionsManager.cartCanCollect((TweakVehicleCollectEvent) event);
-                        } else {
-                            //Something went wrong, debug info(?)
-                        }
-                        break;
-
-                    case VehicleSlabInDispenserEvent:
+                    default:
                         break;
                 }
             }
         }
     }
 
-    public boolean callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
+    public void callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
         System.out.println("Calling event " + type);
         String keyword = StringUtil.stripBrackets(event.getKeyword()).toLowerCase();
         TweakSignEventListener plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
         if (plugin != null) {
-            //TODO: cast values of event (need to update TweakSignEventListener first)
             switch (type) {
                 case VehiclePassesSignEvent:
                     if (event instanceof TweakVehiclePassesSignEvent) {
@@ -112,7 +94,8 @@ public class TweakPluginManager {
                     }
             }
         }
-        return event instanceof CancellableEvent && ((CancellableEvent) event).isCancelled();
+        //This is never the case. You cannot cancel a move event.
+        //return event instanceof CancellableEvent && ((CancellableEvent) event).isCancelled();
     }
 
     public void registerEvent(TweakBlockEventListener eventListener, TweakCartEvent.Block... events) {
@@ -136,36 +119,6 @@ public class TweakPluginManager {
             eventListenerList.add(eventListener);
         }
         blockEventPluginMap.put(type, eventListenerList);
-    }
-
-    @Deprecated
-    public boolean canDoAction(TweakCartEvent.Block event, Player p, Location location) {
-        /*
-        if (t.getConfig().getBoolean("UseDefaults")) {
-            //let zones etc handle this one...
-            //fastest way for our configuration
-
-            //there are two options, first off we can handle permissions here
-            //second off, we can implement the interface i made (TweakCartPermissionsManager)
-            //with zones and perms, but that would make the else clause more suitable
-
-
-            return true;
-        } else {
-            //let others handle this one
-            //modularity ftw, but little slower
-            for (TweakPermissionsHandler perm : permissionsHandlers) {
-                switch (event) {
-                    case VehicleDispenseEvent:
-                        if (!perm.canDispense(p, location)) return false;
-                    case VehicleSlabInDispenserEvent:
-                        if (!perm.canSlapCollect(p, location)) return false;
-                }
-            }
-            return true;
-        }
-        */
-        return true;
     }
 
     public void addPermissionsManager(TweakPermissionsHandler perm) {

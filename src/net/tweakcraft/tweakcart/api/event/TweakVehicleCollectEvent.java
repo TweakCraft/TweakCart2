@@ -18,15 +18,14 @@
 
 package net.tweakcraft.tweakcart.api.event;
 
-import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;
 
 public class TweakVehicleCollectEvent extends VehicleBlockEvent implements CancellableEvent {
     private boolean isCancelled = false;
 
-    public TweakVehicleCollectEvent(final Minecart c, final Direction dir, final Block b) {
-        super(c, dir, b);
+    public TweakVehicleCollectEvent(final Minecart c, final Block b) {
+        super(c, null, b);
     }
 
     @Override

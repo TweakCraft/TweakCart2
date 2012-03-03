@@ -76,9 +76,23 @@ public enum Direction {
         return Direction.SELF;
     }
 
+    public static Direction getDirection(Vector velocity) {
+        double xVel = velocity.getX();
+        double zVel = velocity.getZ();
+        if (xVel >= 0 && zVel >= 0) {
+            return (xVel > zVel) ? Direction.WEST : Direction.SOUTH;
+        } else if (xVel <= 0 && zVel <= 0) {
+            return (xVel > zVel) ? Direction.NORTH : Direction.EAST;
+        } else if (xVel >= 0 && zVel <= 0) {
+            return (xVel > (-zVel)) ? Direction.WEST : Direction.NORTH;
+        } else if (xVel <= 0 && zVel >= 0) {
+            return ((-xVel) > zVel) ? Direction.EAST : Direction.SOUTH;
+        } else {
+            return Direction.SELF;
+        }
+    }
+
     public Vector mod(double mod) {
-        //TODO: shameless copy paste from old codebase, is this correct?
-        //Yes this is correct
         return new Vector(modX * mod, modY * mod, modZ * mod);
     }
 }

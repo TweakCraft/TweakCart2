@@ -21,6 +21,7 @@ package net.tweakcraft.tweakcart.listeners;
 import net.tweakcraft.tweakcart.TweakPluginManager;
 import net.tweakcraft.tweakcart.api.CartType;
 import net.tweakcraft.tweakcart.api.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.MathUtil;
@@ -39,6 +40,7 @@ import java.util.List;
 
 public class TweakCartVehicleListener implements Listener {
     private TweakPluginManager manager = TweakPluginManager.getInstance();
+    private TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
 
 
     @EventHandler
@@ -52,8 +54,7 @@ public class TweakCartVehicleListener implements Listener {
                 if (toBlock.getType() == Material.DETECTOR_RAIL) {
                     manager.callEvent(TweakCartEvent.Block.VehicleBlockDetectEvent, new TweakVehicleBlockDetectEvent(minecart, cartDriveDirection, toBlock, CartType.getCartType(minecart)));
                 }
-                //we hebben niets te doen met blocks die geen rails zijn
-                //OH ZEKER WEL! Signs bijvoorbeeld worden niet door blockCollision gevonden. Hier zou ik dus de 'collision checks' daarvoor doen.
+                //Signs worden niet door blockCollision gevonden. 'collision checks' hier.
                 if (!isRailBlock(toBlock)) {
                     switch (toBlock.getType()) {
                         case WALL_SIGN:
@@ -80,17 +81,19 @@ public class TweakCartVehicleListener implements Listener {
 
     @EventHandler
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
-
         if (event.getVehicle() instanceof Minecart) {
             Minecart cart = (Minecart) event.getVehicle();
             Block block = event.getBlock();
-            Direction dir = Direction.getDirection(event.getVehicle().getLocation(), event.getBlock().getLocation());
-            manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent(cart, dir, block));
+            Direction direction = Direction.getDirection(event.getVehicle().getLocation(), event.getBlock().getLocation());
             if (event.getBlock().getType() == Material.DISPENSER) {
-                //TODO fix the Direction.self
-                manager.callEvent(TweakCartEvent.Block.VehicleCollectEvent, new TweakVehicleCollectEvent(cart, Direction.SELF, block));
+                TweakVehicleCollectEvent collectEvent = new TweakVehicleCollectEvent(cart, block);
+                permissionsManager.cartCanCollect(collectEvent);
+                if(!collectEvent.isCancelled()){
+                    //TODO: collect the cart in the dispenser
+                }
+            } else {
+                manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent(cart, direction, block));
             }
-            manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent((Minecart) event.getVehicle(), Direction.SELF, event.getBlock()));
         }
     }
 

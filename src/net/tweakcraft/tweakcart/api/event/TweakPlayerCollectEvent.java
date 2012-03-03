@@ -26,13 +26,14 @@ import org.bukkit.entity.Player;
  *
  * @author Edoxile
  */
-public class TweakPlayerCollectEvent implements CancellableEvent {
+public class TweakPlayerCollectEvent extends VehicleBlockEvent implements CancellableEvent {
     public boolean cancelled = false;
 
     private Player player;
     private Dispenser dispenser;
 
     public TweakPlayerCollectEvent(Player p, Dispenser d) {
+        super(null, null, d.getBlock());
         player = p;
         dispenser = d;
     }

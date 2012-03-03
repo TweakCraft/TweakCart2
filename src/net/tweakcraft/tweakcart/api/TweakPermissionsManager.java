@@ -31,7 +31,6 @@ import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.block.Dispenser;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -59,7 +58,6 @@ public class TweakPermissionsManager {
 
         private ZonesAccess.Rights rights;
 
-        //TODO: can such a system also be used with WorldGuard? It would save some cycles...
         private PermissionType(ZonesAccess.Rights rightsNeeded) {
             rights = rightsNeeded;
         }
@@ -146,41 +144,28 @@ public class TweakPermissionsManager {
         }
     }
 
-    public boolean cartCanCollect(TweakVehicleCollectEvent event) {
-        if (event.getBlock().getState() instanceof Dispenser) {
-            Dispenser dispenser = (Dispenser) event.getBlock().getState();
-            for (TweakPermissionsHandler handler : permissionsHandlers) {
-                if (!handler.canVehicleCollect(event.getMinecart(), dispenser)) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean cartCanDispense(TweakVehicleDispenseEvent event) {
-        if (event.getBlock().getState() instanceof Dispenser) {
-            Dispenser dispenser = (Dispenser) event.getBlock();
-            for (TweakPermissionsHandler handler : permissionsHandlers) {
-                if (!handler.canDispense(dispenser)) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean playerCanSlap(TweakPlayerCollectEvent event){
+    public void cartCanCollect(TweakVehicleCollectEvent event) {
         for (TweakPermissionsHandler handler : permissionsHandlers) {
-            if (!handler.canSlapCollect(event.getPlayer(), event.getDispenser())) {
-                return false;
+            handler.canVehicleCollect(event);
+            if(event.isCancelled())  {
+                return;
             }
         }
-        return false;
+    }
+
+    public void cartCanDispense(TweakVehicleDispenseEvent event) {
+        for (TweakPermissionsHandler handler : permissionsHandlers) {
+            handler.canDispense(event);
+            if(event.isCancelled()){
+                return;
+            }
+        }
+    }
+
+    public void playerCanSlap(TweakPlayerCollectEvent event) {
+        for (TweakPermissionsHandler handler : permissionsHandlers) {
+            handler.canSlapCollect(event);
+        }
     }
 
     public void registerPermissionsHandler(TweakPermissionsHandler handler) {

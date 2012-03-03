@@ -56,11 +56,8 @@ public class VehicleUtil {
         cart.teleport(loc);
     }
 
-    //TODO: should a cart be spawnable on something different then a track?
-    //Long live method overloading
-
     private static boolean spawnCartWithVelocity(Location location, Material type, Direction dir, double velocity) {
-        if (isMinecart(type) && canSpawn(location.getBlock())) {
+        if (isMinecart(type) && isRail(location.getBlock())) {
             Minecart cart;
             switch (type) {
                 case MINECART:
@@ -139,12 +136,10 @@ public class VehicleUtil {
     }
 
     /**
-     * TODO: rename to isRail(Block b)
-     *
      * @param b
      * @return
      */
-    public static boolean canSpawn(Block b) {
+    public static boolean isRail(Block b) {
         switch (b.getType()) {
             case RAILS:
             case POWERED_RAIL:

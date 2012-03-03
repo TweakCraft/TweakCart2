@@ -21,12 +21,6 @@ package net.tweakcraft.tweakcart.api.listeners;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 
-//TODO: I'm not happy with the naming here. Couldn't we refactor and make it something like AbstractSignEventListener?
-//TODO: ATM it's more like an event listener than anything else.
-//TODO: Also, should move onEnable() to the real 'listeners', because a listener can't tell the pluginmanager which events should be called.
-//TODO: Create a listeners base for any TweakCart plugins. ATM we need to have a (Bukkit)listeners, and a TweakCart listeners.
-//TODO: These to should be put togeter. E.G.: TweakCartPlugin extends JavaPlugin
-//TODO: The above could override .onEnable() and do stuff like fetching the running TweakCart listeners from the server.
 public abstract class TweakSignEventListener extends TweakBlockEventListener {
 
     /**

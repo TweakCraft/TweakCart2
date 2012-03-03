@@ -18,6 +18,7 @@
 
 package net.tweakcraft.tweakcart.api.event;
 
+@Deprecated
 public interface CancellableVehicleEvent {
     public void setCancelled(boolean cancelled);
 

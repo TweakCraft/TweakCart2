@@ -18,17 +18,17 @@
 
 package net.tweakcraft.tweakcart.api;
 
-import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Player;
+import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 
 public interface TweakPermissionsHandler {
 
-    public boolean canVehicleCollect(Minecart cart, Dispenser dispenser);
+    public boolean canVehicleCollect(TweakVehicleCollectEvent event);
 
-    public boolean canDispense(Dispenser dispenser);
+    public boolean canDispense(TweakVehicleDispenseEvent event);
 
-    public boolean canSlapCollect(Player player, Dispenser dispenser);
+    public boolean canSlapCollect(TweakPlayerCollectEvent event);
 
     public String getName();
 }

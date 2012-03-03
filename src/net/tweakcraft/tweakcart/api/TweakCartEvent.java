@@ -25,7 +25,8 @@ public class TweakCartEvent {
         VehicleBlockDetectEvent,
         VehicleDispenseEvent,
         VehicleCollectEvent,
-        VehicleSlabInDispenserEvent;
+        VehicleSlabInDispenserEvent,
+        PlayerSlapEvent
     }
 
     public enum Sign {
