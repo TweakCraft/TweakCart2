@@ -213,4 +213,7 @@ public class TweakPermissionsManager {
         }
     }
 
+    public void addHandler(TweakPermissionsHandler handler) {
+        permissionsHandlers.add(handler);
+    }
 }

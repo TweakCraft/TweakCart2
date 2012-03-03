@@ -33,5 +33,4 @@ public class TweakCartEvent {
         VehiclePassesSignEvent,
         VehicleCollidesWithSignEvent
     }
-
 }
