@@ -114,6 +114,8 @@ public class InventoryManager {
             }
             from[i] = fStack;
         }
+        iFrom.setContents(from);
+        iTo.setContents(to);
         return returnData;
     }
 
@@ -155,6 +157,7 @@ public class InventoryManager {
             }
             sFrom[i] = fStack;
         }
+        iTo.setContents(sTo);
         return sFrom;
     }
 
