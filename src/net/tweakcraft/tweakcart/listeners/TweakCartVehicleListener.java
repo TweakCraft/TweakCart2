@@ -27,6 +27,9 @@ import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.InventoryManager;
 import net.tweakcraft.tweakcart.util.MathUtil;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -90,6 +93,7 @@ public class TweakCartVehicleListener implements Listener {
         if (event.getVehicle() instanceof Minecart) {
             Minecart cart = (Minecart) event.getVehicle();
             Block block = event.getBlock();
+            Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "BlockType: " + block.getType());
             Direction direction = Direction.getDirection(event.getVehicle().getLocation(), event.getBlock().getLocation());
             if (event.getBlock().getType() == Material.DISPENSER) {
                 TweakVehicleCollectEvent collectEvent = new TweakVehicleCollectEvent(cart, block);
