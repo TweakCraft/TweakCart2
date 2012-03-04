@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api.parser;
+package net.tweakcraft.tweakcart.api.model.parser;
 
 import net.tweakcraft.tweakcart.model.Direction;
 

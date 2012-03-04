@@ -16,15 +16,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart;
+package net.tweakcraft.tweakcart.util;
 
-import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.TweakPermissionsHandler;
-import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
+import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.*;
-import net.tweakcraft.tweakcart.api.listeners.TweakBlockEventListener;
-import net.tweakcraft.tweakcart.api.listeners.TweakSignEventListener;
-import net.tweakcraft.tweakcart.util.StringUtil;
+import net.tweakcraft.tweakcart.api.event.listeners.TweakBlockEventListener;
+import net.tweakcraft.tweakcart.api.event.listeners.TweakSignEventListener;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;

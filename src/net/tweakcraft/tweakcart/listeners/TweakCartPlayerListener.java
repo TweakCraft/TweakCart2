@@ -18,17 +18,14 @@
 
 package net.tweakcraft.tweakcart.listeners;
 
-import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.util.InventoryManager;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
-
-import org.bukkit.Material;
 import org.bukkit.block.Dispenser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 

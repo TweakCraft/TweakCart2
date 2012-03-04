@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api;
+package net.tweakcraft.tweakcart.api.util;
 
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.BukkitPlayer;
@@ -26,6 +26,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.zones.Zones;
 import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
+import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;

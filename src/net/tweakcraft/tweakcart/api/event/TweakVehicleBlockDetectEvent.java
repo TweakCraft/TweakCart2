@@ -18,7 +18,7 @@
 
 package net.tweakcraft.tweakcart.api.event;
 
-import net.tweakcraft.tweakcart.api.CartType;
+import net.tweakcraft.tweakcart.api.model.CartType;
 import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Minecart;

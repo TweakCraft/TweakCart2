@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api;
+package net.tweakcraft.tweakcart.api.model;
 
 import net.tweakcraft.tweakcart.TweakCart;
-import net.tweakcraft.tweakcart.TweakPluginManager;
+import net.tweakcraft.tweakcart.util.TweakPluginManager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -18,16 +18,15 @@
 
 package net.tweakcraft.tweakcart.listeners;
 
-import net.tweakcraft.tweakcart.TweakPluginManager;
-import net.tweakcraft.tweakcart.api.CartType;
-import net.tweakcraft.tweakcart.api.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.util.TweakPluginManager;
+import net.tweakcraft.tweakcart.api.model.CartType;
+import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
+import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.InventoryManager;
 import net.tweakcraft.tweakcart.util.MathUtil;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
