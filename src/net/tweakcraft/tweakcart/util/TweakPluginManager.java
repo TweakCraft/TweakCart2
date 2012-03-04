@@ -18,12 +18,11 @@
 
 package net.tweakcraft.tweakcart.util;
 
-import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
-import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.event.listeners.TweakBlockEventListener;
 import net.tweakcraft.tweakcart.api.event.listeners.TweakSignEventListener;
+import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -31,13 +30,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 public class TweakPluginManager {
     private static TweakPluginManager instance = new TweakPluginManager();
     private Map<TweakCartEvent.Block, List<TweakBlockEventListener>> blockEventPluginMap = new HashMap<TweakCartEvent.Block, List<TweakBlockEventListener>>();
     private Map<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener> signEventPluginMap = new HashMap<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener>();
-
-    private TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
 
     public void callEvent(TweakCartEvent.Block type, TweakEvent event) {
         List<TweakBlockEventListener> eventListenerList = blockEventPluginMap.get(type);
@@ -48,21 +46,21 @@ public class TweakPluginManager {
                         if (event instanceof TweakVehicleBlockChangeEvent) {
                             eventListener.onVehicleBlockChange((TweakVehicleBlockChangeEvent) event);
                         } else {
-                            //Something went wrong, debug info(?)
+                            TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
                         }
                         break;
                     case VehicleBlockCollisionEvent:
                         if (event instanceof TweakVehicleBlockCollisionEvent) {
                             eventListener.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) event);
                         } else {
-                            //Something went wrong, debug info(?)
+                            TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
                         }
                         break;
                     case VehicleBlockDetectEvent:
                         if (event instanceof TweakVehicleBlockDetectEvent) {
                             eventListener.onVehicleDetect((TweakVehicleBlockDetectEvent) event);
                         } else {
-                            //Something went wrong, debug info(?)
+                            TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
                         }
                         break;
                     default:
@@ -82,19 +80,17 @@ public class TweakPluginManager {
                     if (event instanceof TweakVehiclePassesSignEvent) {
                         plugin.onSignPass((TweakVehiclePassesSignEvent) event);
                     } else {
-                        //Something went wrong, debug info(?)
+                        TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
                     }
                 case VehicleCollidesWithSignEvent:
                     if (event instanceof TweakVehicleCollidesWithSignEvent) {
                         System.out.println("Still working!");
                         plugin.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
                     } else {
-                        //Something went wrong, debug info(?)
+                        TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
                     }
             }
         }
-        //This is never the case. You cannot cancel a move event.
-        //return event instanceof CancellableEvent && ((CancellableEvent) event).isCancelled();
     }
 
     public void registerEvent(TweakBlockEventListener eventListener, TweakCartEvent.Block... events) {
@@ -118,10 +114,6 @@ public class TweakPluginManager {
             eventListenerList.add(eventListener);
         }
         blockEventPluginMap.put(type, eventListenerList);
-    }
-
-    public void addPermissionsManager(TweakPermissionsHandler perm) {
-
     }
 
     /**
