@@ -119,46 +119,56 @@ public class InventoryManager {
         return returnData;
     }
 
-    public static ItemStack[] putContents(Inventory iTo, ItemStack... sFrom) {
-        ItemStack[] sTo = iTo.getContents();
+    public static ItemStack[] putContents(Inventory iTo, ItemStack... stackFrom) {
+        ItemStack[] stackTo = iTo.getContents();
         fromLoop:
-        for (int i = 0; i < sFrom.length; i++) {
-            ItemStack fStack = sFrom[i];
-            if (fStack == null) {
+        for (int i = 0; i < stackFrom.length; i++) {
+            ItemStack fromStack = stackFrom[i];
+            if (fromStack == null) {
                 continue;
             } else {
-                for (int j = 0; j < sTo.length; j++) {
-                    ItemStack tStack = sTo[j];
-                    if (tStack == null) {
-                        sTo[j] = fStack;
-                        sFrom[i] = null;
+                for (int j = 0; j < stackTo.length; j++) {
+                    //Voor de inventory To
+                    //Dit is de huidige stack
+                    ItemStack toStack = stackTo[j];
+                    if (toStack == null) {
+                        //Als de huidige stack leeg is
+                        //Zet dan de nieuwe stack daarneer
+                        stackTo[j] = fromStack;
+                        //En maak de nieuwe stack leeg
+                        stackFrom[i] = null;
                         continue fromLoop;
-                    } else if (fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().isEmpty()) {
-                        int total = fStack.getAmount() + tStack.getAmount();
+                    } else if (fromStack.getTypeId() == toStack.getTypeId() && fromStack.getDurability() == toStack.getDurability() && toStack.getEnchantments().isEmpty()) {
+                        //als het dezelfde stacks zijn, bereken
+                        //dan het totaal
+                        int total = fromStack.getAmount() + toStack.getAmount();
                         if (total > 64) {
-                            tStack.setAmount(64);
-                            fStack.setAmount(total - 64);
+                            //als het totaal groter is dan 64
+                            //zet dan tostack op 64
+                            toStack.setAmount(64);
+                            //en de fromstack op het totaal minus 64 (de rest dus)
+                            fromStack.setAmount(total - 64);
                         } else {
-                            tStack.setAmount(total);
+                            toStack.setAmount(total);
                             int remainder = total - 64;
-                            if (remainder == 0) {
-                                sFrom[i] = null;
-                                sTo[j] = tStack;
+                            if (remainder <= 0) {
+                                stackFrom[i] = null;
+                                stackTo[j] = toStack;
                                 continue fromLoop;
                             } else {
-                                fStack.setAmount(remainder);
+                                fromStack.setAmount(remainder);
                             }
                         }
                     } else {
                         continue;
                     }
-                    sTo[j] = tStack;
+                    stackTo[j] = toStack;
                 }
             }
-            sFrom[i] = fStack;
+            stackFrom[i] = fromStack;
         }
-        iTo.setContents(sTo);
-        return sFrom;
+        iTo.setContents(stackTo);
+        return stackFrom;
     }
 
     public static boolean isEmpty(ItemStack... stacks) {

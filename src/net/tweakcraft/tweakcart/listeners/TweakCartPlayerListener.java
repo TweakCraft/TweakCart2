@@ -22,10 +22,13 @@ import net.tweakcraft.tweakcart.api.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.util.InventoryManager;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
+
+import org.bukkit.Material;
 import org.bukkit.block.Dispenser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -41,10 +44,11 @@ public class TweakCartPlayerListener implements Listener {
             Dispenser dispenser = (Dispenser) event.getClickedBlock().getState();
             TweakPlayerCollectEvent collectEvent = new TweakPlayerCollectEvent(event.getPlayer(), dispenser);
             permissionsManager.playerCanSlap(collectEvent);
-            if (!event.isCancelled()) {
+            if (!collectEvent.isCancelled()) {
                 ItemStack inHand = event.getItem();
                 ItemStack[] leftOver = InventoryManager.putContents(dispenser.getInventory(), inHand);
                 event.getPlayer().setItemInHand(leftOver[0]);
+                event.setCancelled(true);
             }
         }
     }

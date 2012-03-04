@@ -132,7 +132,7 @@ public class VehicleUtil {
     }
 
     public static boolean isMinecart(Material type) {
-        return type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART;
+        return (type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART);
     }
 
     public static int itemId(Minecart cart) {
