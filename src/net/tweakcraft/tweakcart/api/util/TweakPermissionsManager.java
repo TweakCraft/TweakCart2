@@ -18,23 +18,14 @@
 
 package net.tweakcraft.tweakcart.api.util;
 
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.bukkit.BukkitPlayer;
-import com.sk89q.worldguard.bukkit.BukkitUtil;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.zones.Zones;
-import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
-import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
-import org.bukkit.Bukkit;
+import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -44,6 +35,7 @@ import java.util.logging.Level;
  *
  * @author Edoxile
  */
+
 public class TweakPermissionsManager {
     private static TweakPermissionsManager instance = new TweakPermissionsManager();
 
@@ -52,36 +44,27 @@ public class TweakPermissionsManager {
     }
 
     public enum PermissionType {
-        REDSTONE(ZonesAccess.Rights.HIT),
-        BUILD(ZonesAccess.Rights.BUILD),
-        NODE(null),
-        ALL(ZonesAccess.Rights.ALL);
-
-        private ZonesAccess.Rights rights;
-
-        private PermissionType(ZonesAccess.Rights rightsNeeded) {
-            rights = rightsNeeded;
-        }
-
-        public ZonesAccess.Rights getRights() {
-            return rights;
-        }
+        REDSTONE,
+        BUILD,
+        NODE,
+        ALL
     }
 
     private boolean zonesEnabled = false;
     private boolean worldGuardEnabled = false;
     private boolean permissionsEnabled = false;
 
-    private Zones zones;
-    private WorldGuardPlugin worldGuard;
+    //private Zones zones;
+    //private WorldGuardPlugin worldGuard;
 
     private ArrayList<TweakPermissionsHandler> permissionsHandlers = new ArrayList<TweakPermissionsHandler>();
     private YamlConfiguration config = TweakCart.getYamlConfig();
 
     private TweakPermissionsManager() {
-        permissionsEnabled = config.getBoolean("permissions.use-permissions");
-        zonesEnabled = config.getBoolean("permissions.use-zones");
-        worldGuardEnabled = config.getBoolean("permissions.use-worldguard");
+        permissionsEnabled = config.getBoolean("permissions.use-permissions", false);
+        zonesEnabled = config.getBoolean("permissions.use-zones", false);
+        worldGuardEnabled = config.getBoolean("permissions.use-worldguard", false);
+        /*
         if (zonesEnabled) {
             Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
             if (p != null && p instanceof Zones) {
@@ -100,6 +83,7 @@ public class TweakPermissionsManager {
                 TweakCart.log("WorldGuard was enabled in the config but not found running on the server!", Level.SEVERE);
             }
         }
+        */
     }
 
     public boolean playerCanDo(Player player, PermissionType type, String node, Block block) {
@@ -108,6 +92,7 @@ public class TweakPermissionsManager {
                 return true;
             }
             if (player.hasPermission("tweakcart." + node)) {
+                /*
                 if (zonesEnabled) {
                     if (!zones.getWorldManager(block.getWorld()).getActiveZone(block).getAccess(player).canDo(type.getRights())) {
                         return false;
@@ -137,6 +122,8 @@ public class TweakPermissionsManager {
                 } else {
                     return false;
                 }
+                */
+                return true;
             } else {
                 return false;
             }
@@ -179,11 +166,12 @@ public class TweakPermissionsManager {
     }
 
     public void reloadConfig() {
-        permissionsEnabled = config.getBoolean("permissions.use-permissions");
-        zonesEnabled = config.getBoolean("permissions.use-zones");
-        worldGuardEnabled = config.getBoolean("permissions.use-worldguard");
+        permissionsEnabled = config.getBoolean("permissions.use-permissions", false);
+        zonesEnabled = config.getBoolean("permissions.use-zones", false);
+        worldGuardEnabled = config.getBoolean("permissions.use-worldguard", false);
 
         if (permissionsEnabled) {
+            /*
             if (zonesEnabled && zones == null) {
                 Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
                 if (p != null && p instanceof Zones) {
@@ -206,11 +194,12 @@ public class TweakPermissionsManager {
             } else {
                 worldGuard = null;
             }
+            */
         } else {
             worldGuardEnabled = false;
             zonesEnabled = false;
-            worldGuard = null;
-            zones = null;
+            //worldGuard = null;
+            //zones = null;
         }
     }
 

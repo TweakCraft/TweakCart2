@@ -31,13 +31,13 @@ import java.util.logging.Level;
  * @author Edoxile
  */
 public abstract class TweakCartPlugin extends JavaPlugin {
-    TweakCart tweakCart;
-    public TweakPluginManager pluginManager = TweakPluginManager.getInstance();
+    protected TweakCart core;
+    protected TweakPluginManager pluginManager = TweakPluginManager.getInstance();
 
     public void onEnable() {
         Plugin p = getServer().getPluginManager().getPlugin("TweakCart");
         if (p != null && p instanceof TweakCart) {
-            tweakCart = (TweakCart) p;
+            core = (TweakCart) p;
         }
         registerEvents(pluginManager);
         log(getPluginName() + " enabled!");
@@ -52,10 +52,14 @@ public abstract class TweakCartPlugin extends JavaPlugin {
     public abstract void registerEvents(TweakPluginManager pluginManager);
 
     public void log(String message) {
-        tweakCart.log(message);
+        TweakCart.log("[" + getPluginName() + "] " + message);
     }
 
     public void log(String message, Level level) {
-        tweakCart.log(message, level);
+        TweakCart.log("[" + getPluginName() + "] " + message, level);
+    }
+    
+    protected TweakCart getCore(){
+        return core;
     }
 }
