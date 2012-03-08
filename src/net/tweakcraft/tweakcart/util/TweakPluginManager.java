@@ -34,11 +34,12 @@ import java.util.logging.Level;
 
 public class TweakPluginManager {
     private static TweakPluginManager instance = new TweakPluginManager();
-    private Map<TweakCartEvent.Block, List<TweakBlockEventListener>> blockEventPluginMap = new HashMap<TweakCartEvent.Block, List<TweakBlockEventListener>>();
-    private Map<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener> signEventPluginMap = new HashMap<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener>();
+    private Map<TweakCartEvent.Block, List<TweakBlockEventListener>> blockEventListenerMap = new HashMap<TweakCartEvent.Block, List<TweakBlockEventListener>>();
+    private Map<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener> signEventListenerMap = new HashMap<Entry<TweakCartEvent.Sign, String>, TweakSignEventListener>();
+    private Map<TweakCartEvent.Sign, List<TweakSignEventListener>> anySignEventListenerMap = new HashMap<TweakCartEvent.Sign, List<TweakSignEventListener>>();
 
     public void callEvent(TweakCartEvent.Block type, TweakEvent event) {
-        List<TweakBlockEventListener> eventListenerList = blockEventPluginMap.get(type);
+        List<TweakBlockEventListener> eventListenerList = blockEventListenerMap.get(type);
         if (eventListenerList != null) {
             for (TweakBlockEventListener eventListener : eventListenerList) {
                 switch (type) {
@@ -71,49 +72,65 @@ public class TweakPluginManager {
     }
 
     public void callEvent(TweakCartEvent.Sign type, VehicleSignEvent event) {
-        System.out.println("Calling event " + type);
         String keyword = StringUtil.stripBrackets(event.getKeyword()).toLowerCase();
-        TweakSignEventListener plugin = signEventPluginMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
-        if (plugin != null) {
-            switch (type) {
-                case VehiclePassesSignEvent:
-                    if (event instanceof TweakVehiclePassesSignEvent) {
-                        plugin.onSignPass((TweakVehiclePassesSignEvent) event);
-                    } else {
-                        TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+        List<TweakSignEventListener> eventListeners = anySignEventListenerMap.get(type);
+        if (eventListeners == null) {
+            eventListeners = new ArrayList<TweakSignEventListener>();
+        }
+        TweakSignEventListener eventListener = signEventListenerMap.get(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword));
+        if (eventListener != null) {
+            eventListeners.add(eventListener);
+        }
+        switch (type) {
+            case VehiclePassesSignEvent:
+                if (event instanceof TweakVehiclePassesSignEvent) {
+                    for (TweakSignEventListener listener : eventListeners) {
+                        listener.onSignPass((TweakVehiclePassesSignEvent) event);
                     }
-                case VehicleCollidesWithSignEvent:
-                    if (event instanceof TweakVehicleCollidesWithSignEvent) {
-                        System.out.println("Still working!");
-                        plugin.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
-                    } else {
-                        TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                } else {
+                    TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                }
+            case VehicleCollidesWithSignEvent:
+                if (event instanceof TweakVehicleCollidesWithSignEvent) {
+                    for (TweakSignEventListener listener : eventListeners) {
+                        listener.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
                     }
-            }
+                } else {
+                    TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                }
         }
     }
 
-    public void registerEvent(TweakBlockEventListener eventListener, TweakCartEvent.Block... events) {
-        for (TweakCartEvent.Block event : events) {
-            addBlockEvent(event, eventListener);
+    public void registerEvent(TweakBlockEventListener eventListener, TweakCartEvent.Block... types) {
+        for (TweakCartEvent.Block type : types) {
+            addBlockEvent(type, eventListener);
         }
     }
 
-    public void registerEvent(TweakSignEventListener plugin, TweakCartEvent.Sign type, String... keywords) {
+    public void registerEvent(TweakSignEventListener eventListener, TweakCartEvent.Sign type, String... keywords) {
         for (String keyword : keywords) {
-            signEventPluginMap.put(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword), plugin);
+            signEventListenerMap.put(new SimpleEntry<TweakCartEvent.Sign, String>(type, keyword), eventListener);
         }
+    }
+
+    public void registerEvent(TweakSignEventListener eventListener, TweakCartEvent.Sign type) {
+        List<TweakSignEventListener> list = anySignEventListenerMap.get(type);
+        if (list == null) {
+            list = new ArrayList<TweakSignEventListener>();
+        }
+        list.add(eventListener);
+        anySignEventListenerMap.put(type, list);
     }
 
     private void addBlockEvent(TweakCartEvent.Block type, TweakBlockEventListener eventListener) {
-        List<TweakBlockEventListener> eventListenerList = blockEventPluginMap.get(type);
+        List<TweakBlockEventListener> eventListenerList = blockEventListenerMap.get(type);
         if (eventListenerList != null) {
             eventListenerList.add(eventListener);
         } else {
             eventListenerList = new ArrayList<TweakBlockEventListener>();
             eventListenerList.add(eventListener);
         }
-        blockEventPluginMap.put(type, eventListenerList);
+        blockEventListenerMap.put(type, eventListenerList);
     }
 
     /**
