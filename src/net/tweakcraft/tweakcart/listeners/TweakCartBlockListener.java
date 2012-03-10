@@ -35,24 +35,27 @@ public class TweakCartBlockListener implements Listener {
     @EventHandler
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
     }
-    */
+     */
 
     @EventHandler
     public void onBlockDispense(BlockDispenseEvent event) {
         Material type = event.getItem().getType();
         Dispenser dispenser = (Dispenser) event.getBlock().getState();
         switch (type) {
-            case MINECART:
-            case STORAGE_MINECART:
-            case POWERED_MINECART:
-                Direction d = Direction.getDirection(event.getVelocity());
+        case MINECART:
+        case STORAGE_MINECART:
+        case POWERED_MINECART:
+            Direction d = Direction.getDirection(event.getVelocity());
+            System.out.println("Direction: " + d);
+            if(VehicleUtil.canSpawn(dispenser)){
                 manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
                 if (!event.isCancelled()) {
                     VehicleUtil.spawnCartFromDispenser(dispenser, type);
                     dispenser.getInventory().removeItem(event.getItem());
                     event.setCancelled(true);
                 }
-                break;
+            }
+            break;
         }
     }
 }

@@ -34,7 +34,7 @@ public class TweakCartPlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.isCancelled() || event.getAction() != Action.LEFT_CLICK_BLOCK) {
+        if (event.isCancelled() || event.getAction() != Action.LEFT_CLICK_BLOCK || event.getItem() == null) {
             return;
         }
         if (event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Dispenser && VehicleUtil.isMinecart(event.getItem().getType())) {

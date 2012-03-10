@@ -150,6 +150,8 @@ public class VehicleUtil {
      * @return
      */
     public static boolean isRail(Block b) {
+
+        System.out.println(b.getType());
         switch (b.getType()) {
             case RAILS:
             case POWERED_RAIL:
@@ -158,5 +160,20 @@ public class VehicleUtil {
             default:
                 return false;
         }
+    }
+
+    public static boolean canSpawn(Dispenser disp) {
+        switch (disp.getData().getData()) {
+        case 0x2:
+            return(isRail(disp.getBlock().getRelative(BlockFace.EAST)));
+        case 0x3:
+            return(isRail(disp.getBlock().getRelative(BlockFace.WEST)));
+        case 0x5:
+            return(isRail(disp.getBlock().getRelative(BlockFace.SOUTH)));
+        case 0x4:
+            return(isRail(disp.getBlock().getRelative(BlockFace.NORTH)));
+        default:
+            return false;
+    }
     }
 }

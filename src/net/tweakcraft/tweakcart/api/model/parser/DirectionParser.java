@@ -59,10 +59,6 @@ public class DirectionParser {
             return character;
         }
 
-        public Direction getDirection() {
-            return direction;
-        }
-
         public static Direction getDirection(char c) {
             switch (Character.toLowerCase(c)) {
                 case 'n':
@@ -93,11 +89,5 @@ public class DirectionParser {
             }
         }
 
-        //Not needed so deprecated
-        @Deprecated
-        public static DirectionCharacter getDirectionCharacter(char c) {
-            Direction d = getDirection(c);
-            return d != null ? getDirectionCharacter(d) : null;
-        }
     }
 }

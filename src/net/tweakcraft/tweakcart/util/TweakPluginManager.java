@@ -47,21 +47,21 @@ public class TweakPluginManager {
                         if (event instanceof TweakVehicleBlockChangeEvent) {
                             eventListener.onVehicleBlockChange((TweakVehicleBlockChangeEvent) event);
                         } else {
-                            TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                            TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockChangeEvent, Level.WARNING);
                         }
                         break;
                     case VehicleBlockCollisionEvent:
                         if (event instanceof TweakVehicleBlockCollisionEvent) {
                             eventListener.onVehicleBlockCollision((TweakVehicleBlockCollisionEvent) event);
                         } else {
-                            TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                            TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockCollisionEvent, Level.WARNING);
                         }
                         break;
                     case VehicleBlockDetectEvent:
                         if (event instanceof TweakVehicleBlockDetectEvent) {
                             eventListener.onVehicleDetect((TweakVehicleBlockDetectEvent) event);
                         } else {
-                            TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                            TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockDetectEvent, Level.WARNING);
                         }
                         break;
                     default:
@@ -88,16 +88,18 @@ public class TweakPluginManager {
                         listener.onSignPass((TweakVehiclePassesSignEvent) event);
                     }
                 } else {
-                    TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                    TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Sign.VehiclePassesSignEvent, Level.WARNING);
                 }
+                break;
             case VehicleCollidesWithSignEvent:
                 if (event instanceof TweakVehicleCollidesWithSignEvent) {
                     for (TweakSignEventListener listener : eventListeners) {
                         listener.onSignCollision((TweakVehicleCollidesWithSignEvent) event);
                     }
                 } else {
-                    TweakCart.log("Event was thrown but event and type do not correspond", Level.WARNING);
+                    TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Sign.VehicleCollidesWithSignEvent, Level.WARNING);
                 }
+                break;
         }
     }
 
