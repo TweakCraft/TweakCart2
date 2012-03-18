@@ -43,6 +43,8 @@ public class InventoryManager {
 
     //returns state of FROM-container {-1=empty,0=space left,1=full}
     public static int[] moveContainerContents(Inventory iFrom, Inventory iTo, IntMap map) {
+        System.out.println("Moving!");
+        System.out.println(map);
         ItemStack[] from = iFrom.getContents();
         ItemStack[] to = iTo.getContents();
 
@@ -52,6 +54,7 @@ public class InventoryManager {
         fromLoop:
         for (int i = 0; i < from.length; i++) {
             ItemStack fStack = from[i];
+            if(fStack == null) continue;
             int maxAmountToMove = map.getInt(fStack.getType(), (byte) fStack.getDurability());
             if (fStack == null || maxAmountToMove == 0) {
                 returnData[0]++;
