@@ -119,7 +119,7 @@ public class IntMap {
                             return -1;
                     case WOOL:
                         if (data < 16)
-                            return materialSize + (int) data +21;
+                            return materialSize + (int) data + 21;
                         else
                             return -1;
                     case INK_SACK:
@@ -155,6 +155,8 @@ public class IntMap {
                     case SANDSTONE:
                         if(data < 3)
                             return materialSize + (int) data + 66;
+                        else
+                            return -1;
                     default:
                         return m.ordinal();
                 }
@@ -165,13 +167,17 @@ public class IntMap {
 
     private boolean hasDataValue(int id) {
         switch (id) {
+            case 5:
             case 6:
             case 17:
             case 18:
+            case 24:  
+            case 31:
             case 35:
             case 44:
+            case 98:
             case 263:
-            case 351:
+            case 351:                     
                 return true;
             default:
                 return false;
