@@ -19,6 +19,7 @@
 package net.tweakcraft.tweakcart.util;
 
 import net.tweakcraft.tweakcart.model.IntMap;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -62,11 +63,25 @@ public class InventoryManager {
             }
             for (int j = 0; j < to.length; j++) {
                 ItemStack tStack = to[j];
-                if (tStack == null) {
-                    to[j] = fStack;
-                    from[i] = null;
-                    returnData[0]++;
-                    continue fromLoop;
+                if (tStack == null){
+                    //Als de toStack leeg is, dan zetten we er een fromstack neer
+                    //hier gaat iets mis, hier wordt namelijk niets in de intmap aangepast
+                    //en gewoon een stack in de nieuwe inventory geduwt, ongeacht
+                    //de hoeveelheid die in de intmap staat
+                    
+                    if(fStack.getAmount() < maxAmountToMove){
+                        to[j] = fStack;
+                        from[i] = null;
+                        returnData[0]++;
+                        map.setInt(fStack.getType(), (byte) fStack.getData().getData(), maxAmountToMove - fStack.getAmount());
+                        continue fromLoop;
+                    }else{
+                        to[j] = new ItemStack(fStack.getType(), maxAmountToMove, fStack.getDurability(),  fStack.getData().getData());
+                        fStack.setAmount(fStack.getAmount() - maxAmountToMove);
+                        map.setInt(fStack.getType(), fStack.getData().getData(), 0);
+                        
+                    }
+                    
                 } else if (tStack.getAmount() == 64) {
                     returnData[1]++;
                     continue;

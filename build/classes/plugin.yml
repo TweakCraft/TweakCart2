@@ -1,0 +1,6 @@
+name: TweakCart
+main: net.tweakcraft.tweakcart.TweakCart
+authors: [Meaglin, The-Sec, windwarrior, Edoxile]
+website: https://github.com/TweakCraft/TweakCart2
+version: 2.0.0b1
+softdepend: [WorldEdit, WorldGuard, Zones]
