@@ -76,7 +76,7 @@ public class NewIntMap {
             //hij bevat dit element al :(
             //optellen dan maar
             IntMapEntry mapEnt = entryList.get(entryList.indexOf(ent));
-            mapEnt.setAmount(Math.max(mapEnt.getAmount() + ent.getAmount(), Integer.MAX_VALUE));
+            mapEnt.setAmount((int) Math.min((long) (mapEnt.getAmount() + ent.getAmount()), (long)Integer.MAX_VALUE));
         }else{
            entryList.add(ent); 
         }

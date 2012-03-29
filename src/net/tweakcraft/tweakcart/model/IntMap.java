@@ -30,7 +30,7 @@ import java.util.Arrays;
  */
 public class IntMap {
     public static final int materialSize = Material.values().length;
-    public static final int mapSize = materialSize + 57;
+    public static final int mapSize = materialSize + 67;
     private int[] mapData;
 
     public IntMap() {
@@ -103,41 +103,58 @@ public class IntMap {
                 //Alle andere gevallen
                 switch (m) {
                     case SAPLING:
-                        if (data < 3)
+                        if (data < 4)
                             return materialSize + (int) data;
                         else
                             return -1;
                     case LOG:
-                        if (data < 3)
-                            return materialSize + (int) data + 2;
+                        if (data < 4)
+                            return materialSize + (int) data + 3;
                         else
                             return -1;
                     case LEAVES:
                         if (data < 3)
-                            return materialSize + (int) data + 4;
+                            return materialSize + (int) data + 6;
                         else
                             return -1;
                     case WOOL:
                         if (data < 16)
-                            return materialSize + (int) data + 19;
+                            return materialSize + (int) data +21;
                         else
                             return -1;
                     case INK_SACK:
                         if (data < 16)
-                            return materialSize + (int) data + 34;
+                            return materialSize + (int) data + 36;
                         else
                             return -1;
                     case COAL:
                         if (data < 2)
-                            return materialSize + (int) data + 49;
+                            return materialSize + (int) data + 51;
                         else
                             return -1;
                     case STEP:
                         if (data < 7)
-                            return materialSize + (int) data + 50;
+                            return materialSize + (int) data + 52;
                         else
                             return -1;
-
+                    case LONG_GRASS:
+                        if(data < 3)
+                            return materialSize + (int) data + 58;
+                        else
+                            return -1;
+                    case WOOD:
+                        if(data < 4)
+                            return materialSize + (int) data + 61;
+                        else
+                            return -1;
+                    case SMOOTH_BRICK:
+                        if(data < 4)
+                            return materialSize + (int) data + 64;
+                        else
+                            return -1;
+                    case SANDSTONE:
+                        if(data < 3)
+                            return materialSize + (int) data + 66;
                     default:
                         return m.ordinal();
                 }
