@@ -113,18 +113,21 @@ public class InventoryManager {
                     //en gewoon een stack in de nieuwe inventory geduwt, ongeacht
                     //de hoeveelheid die in de intmap staat
                     
-                    if(fStack.getAmount() < maxAmountToMove){
-                        to[j] = fStack;
-                        from[i] = null;
-                        returnData[0]++;
-                        map.setInt(fStack.getType(), (byte) fStack.getData().getData(), maxAmountToMove - fStack.getAmount());
-                        continue fromLoop;
-                    }else{
-                        to[j] = new ItemStack(fStack.getType(), maxAmountToMove, fStack.getDurability(),  fStack.getData().getData());
-                        fStack.setAmount(fStack.getAmount() - maxAmountToMove);
-                        map.setInt(fStack.getType(), fStack.getData().getData(), 0);
-                        
-                    }
+    				if (fStack.getAmount() < maxAmountToMove)
+					{
+						to[j] = fStack;
+						from[i] = null;
+						returnData[0]++;
+						map.setInt(fStack.getType(), (byte) fStack.getData().getData(), maxAmountToMove - fStack.getAmount());
+						continue fromLoop;
+					}
+					else
+					{
+						to[j] = new ItemStack(fStack.getType(), maxAmountToMove, fStack.getDurability(), fStack.getData().getData());
+						fStack.setAmount(fStack.getAmount() - maxAmountToMove);
+						map.setInt(fStack.getType(), (byte) fStack.getData().getData(), 0);
+						continue;
+					}
                     
                 } else if (tStack.getAmount() == 64) {
                     returnData[1]++;
