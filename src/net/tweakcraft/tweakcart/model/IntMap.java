@@ -154,7 +154,7 @@ public class IntMap {
                             return -1;
                     case SANDSTONE:
                         if(data < 3)
-                            return materialSize + (int) data + 66;
+                            return materialSize + (int) data + 67;
                         else
                             return -1;
                     default:
@@ -165,7 +165,7 @@ public class IntMap {
 
     }
 
-    private boolean hasDataValue(int id) {
+    public boolean hasDataValue(int id) {
         switch (id) {
             case 5:
             case 6:
