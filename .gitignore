@@ -6,3 +6,7 @@
 /.idea
 /*.iml
 /out
+#and my netbeans files
+/build
+/nbproject
+manifest.mf
