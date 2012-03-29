@@ -35,7 +35,6 @@ public class NewIntMap {
             return amount;
         }
         
-        
         public void setAmount(int amount){
             this.amount = amount;
         }
@@ -64,7 +63,7 @@ public class NewIntMap {
     }
     
     private List<IntMapEntry> entryList = new ArrayList<IntMapEntry>();
-    
+    private boolean allFilled = false;
     public NewIntMap(){     
     }
     
@@ -72,7 +71,7 @@ public class NewIntMap {
         return entryList;
     }
     
-    public void addEntry(IntMapEntry ent){
+    private void addEntry(IntMapEntry ent){
         if(entryList.contains(ent)){
             //hij bevat dit element al :(
             //optellen dan maar
@@ -83,29 +82,41 @@ public class NewIntMap {
         }
     }
     
+    public void addEntry(int id, byte data, int amount){
+        addEntry(new IntMapEntry(id, data, amount));
+    }
+    
+    public void addEntry(int id, int amount){
+        addEntry(new IntMapEntry(id, (byte)-1, amount));
+    }
+    
     public void addRange(int startID, int endID, byte startData, byte endData, int amount){
         //err tja, ik wil graag dat je geen items hoeft te specificeren, dan
         //hoeven we het niet steeds te patchen
         if(startID < endID){
             //Vul vanaf de begindata tot 15 de lijst met nieuwe IntMapEntry's
             for(byte i = startData; i < 15; i++){
-                entryList.add(new IntMapEntry(startID, i, amount));
+                addEntry(new IntMapEntry(startID, i, amount));
             }
             //Vul daartussen de lijst met -1 entries (alles dus)
             for(int j = startID + 1; j < endID - 1; j++){
-                entryList.add(new IntMapEntry(j, (byte)-1, amount));
+                addEntry(new IntMapEntry(j, (byte)-1, amount));
             }
             //Vul het laastste stukje tot aan de endData
             //TODO: moet dit een > of een >= zijn?
             for(byte k = endData; k > 0; k--){
-                entryList.add(new IntMapEntry(endID, k, amount));
+                addEntry(new IntMapEntry(endID, k, amount));
             }
             
         }
     }
     
+    public void fillAll(boolean fill){
+        this.allFilled = fill;
+    }
     
-    
-    
+    public boolean isAllFilled(){
+        return allFilled;
+    }
     
 }
