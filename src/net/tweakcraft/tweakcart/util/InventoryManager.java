@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import net.tweakcraft.tweakcart.model.IntMap;
-import net.tweakcraft.tweakcart.model.NewIntMap;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -48,44 +47,6 @@ public class InventoryManager {
         }
     }
 
-    
-    public static void moveContainerContents(Inventory iFrom, Inventory iTo, NewIntMap map){
-        if(map.isAllFilled()){
-            //Nou hebben we dus een aantal stacks die afwijkende getallen hebben
-            //namelijk, die speciaal vermeld staan in de map
-            //die halen we er eerst uit
-            List<NewIntMap.IntMapEntry> tempList = new ArrayList<NewIntMap.IntMapEntry>();
-            for(NewIntMap.IntMapEntry et : map.getEntryList()){
-              //moeten we iets mee doen, nog geen idee 
-              //dit zijn dus de stacks die "extra" in de intmap gezet zijn
-              //zoals bijvoorbeeld ! stacks
-              //en stacks met andere @ values
-            }
-        }
-        else{
-            for(NewIntMap.IntMapEntry et : map.getEntryList()){
-                int amountToMove = et.getAmount();
-                HashMap<Integer, ItemStack> removeItem = iFrom.removeItem(new ItemStack(et.getId(), et.getAmount(), (short) 0, et.getData()));
-                //Ik ben eigenlijk benieuwt waar die Integer voor is
-                //Een itemstack heeft toch ook een amount?
-                for(Entry<Integer, ItemStack> notRemovable : removeItem.entrySet()){
-                    if(notRemovable.getValue().getType() == Material.getMaterial(et.getId())){
-                        amountToMove -= notRemovable.getKey();
-                    }else{
-                        //Asjemenou?
-                    }
-                }
-                HashMap<Integer, ItemStack> addItem = iTo.addItem(new ItemStack(et.getId(), amountToMove, (short) 0, et.getData()));
-                for(Entry<Integer, ItemStack> notAdded : addItem.entrySet()){
-                    //Dit *zou* goed moeten gaan, want dit is spul dat ik er
-                    //eerst uit heb gehaald, dan zou je het er toch weer
-                    //terug in moeten kunnen stoppen
-                    iFrom.addItem(notAdded.getValue());
-                }
-            }
-        }
-        
-    }
     //returns state of FROM-container {-1=empty,0=space left,1=full}
     public static int[] moveContainerContents(Inventory iFrom, Inventory iTo, IntMap map) {
         System.out.println("Moving!");

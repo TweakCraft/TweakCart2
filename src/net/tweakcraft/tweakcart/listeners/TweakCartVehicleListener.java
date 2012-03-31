@@ -142,15 +142,19 @@ public class TweakCartVehicleListener implements Listener {
             case SOUTH:
                 blockList.add(toBlock.getRelative(BlockFace.WEST));
                 blockList.add(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN));
+                blockList.add(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.UP));
                 blockList.add(toBlock.getRelative(BlockFace.EAST));
                 blockList.add(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN));
+                blockList.add(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.UP));
                 break;
             case EAST:
             case WEST:
                 blockList.add(toBlock.getRelative(BlockFace.NORTH));
                 blockList.add(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN));
+                blockList.add(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.UP));
                 blockList.add(toBlock.getRelative(BlockFace.SOUTH));
                 blockList.add(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN));
+                blockList.add(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.UP));
                 break;
         }
 
