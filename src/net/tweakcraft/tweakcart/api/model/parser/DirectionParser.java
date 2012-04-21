@@ -32,10 +32,8 @@ public class DirectionParser {
     }
 
     public static String removeDirection(String line) {
-        if (line.length() > 2) {
-            if (line.length() > 1 && line.charAt(1) == DirectionCharacter.DELIMITER.getCharacter()) {
-                return line.substring(2);
-            }
+        if (line.length() > 2 && line.charAt(1) == DirectionCharacter.DELIMITER.getCharacter()) {
+            return line.substring(2);
         }
         return line;
     }

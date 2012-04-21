@@ -22,12 +22,10 @@ import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;
 import net.tweakcraft.tweakcart.util.TweakPluginManager;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +36,9 @@ public class TweakCart extends JavaPlugin {
     private TweakCartBlockListener blockListener = new TweakCartBlockListener();
     private TweakCartPlayerListener playerListener = new TweakCartPlayerListener();
 
-    private static YamlConfiguration configuration = new YamlConfiguration();
+    public static boolean DEBUG;
+
+    private static FileConfiguration configuration;
 
     @Override
     public void onDisable() {
@@ -47,20 +47,16 @@ public class TweakCart extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        log(String.format("Enabling! Version: %s", this.getDescription().getVersion()));
+        //log(String.format("Enabling! Version: %s", this.getDescription().getVersion()));
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(vehicleListener, this);
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
 
-        try {
-            configuration.load(getFile());
-        } catch (IOException e) {
-            log("Config file could not be read. Please make sure it exists.", Level.SEVERE);
-        } catch (InvalidConfigurationException e) {
-            log("Config file has an invalid syntax. Please check.", Level.SEVERE);
-        }
+        configuration = getConfig();
+
+        DEBUG = configuration.getBoolean("debug", false);
     }
 
     public static void log(String info, Level level) {
@@ -75,7 +71,7 @@ public class TweakCart extends JavaPlugin {
         return TweakPluginManager.getInstance();
     }
 
-    public static YamlConfiguration getYamlConfig() {
+    public static FileConfiguration getPluginConfig() {
         return configuration;
     }
 }

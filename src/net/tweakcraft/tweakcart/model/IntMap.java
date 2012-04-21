@@ -18,14 +18,12 @@
 
 package net.tweakcraft.tweakcart.model;
 
+import net.tweakcraft.tweakcart.TweakCart;
 import org.bukkit.Material;
-import org.bukkit.material.MaterialData;
 
 import java.util.Arrays;
 
 /**
- * *hihi* Edited with eclipse
- *
  * @author Edoxile
  */
 public class IntMap {
@@ -45,13 +43,17 @@ public class IntMap {
         }
     }
 
+    public void clear(){
+        mapData = new int[mapSize];
+    }
+
     public static boolean isAllowedMaterial(int id, byte data) {
-        int intLocation = IntMap.getIntIndex(id, data);
+        int intLocation = getIntIndex(id, data);
         return intLocation != -1;
     }
 
     public int getInt(int id, byte data) {
-        int intLocation = IntMap.getIntIndex(id, data);
+        int intLocation = getIntIndex(id, data);
 
         if (intLocation == -1 || intLocation >= mapSize) {
             return 0;
@@ -61,7 +63,7 @@ public class IntMap {
     }
 
     public int getInt(Material m, byte data) {
-        int intLocation = IntMap.getIntIndex(m, data);
+        int intLocation = getIntIndex(m, data);
 
         if (intLocation == -1) {
             return 0;
@@ -78,7 +80,7 @@ public class IntMap {
         if (hasDataValue(id) && data == (byte) -1) {
             setDataRange(id, (byte) 0, (byte) 15, value);
         } else {
-            int intLocation = IntMap.getIntIndex(id, data);
+            int intLocation = getIntIndex(id, data);
             if (intLocation == -1) {
                 return false;
             }
@@ -88,7 +90,7 @@ public class IntMap {
     }
 
     public static int getIntIndex(int id, byte data) {
-        return getIntIndex(new MaterialData(id, data).getItemType(), data);
+        return getIntIndex(Material.getMaterial(id), data);
     }
 
     private static int getIntIndex(Material m, byte data) {
@@ -97,10 +99,9 @@ public class IntMap {
         }
         switch (data) {
             case 0:
-                //Alle items waarop we .ordinal kunnen doen
                 return m.ordinal();
             default:
-                //Alle andere gevallen
+                //TODO: reorder list
                 switch (m) {
                     case SAPLING:
                         if (data < 4)
@@ -138,25 +139,23 @@ public class IntMap {
                         else
                             return -1;
                     case LONG_GRASS:
-                        if(data < 3)
+                        if (data < 3)
                             return materialSize + (int) data + 58;
                         else
                             return -1;
                     case WOOD:
-                        if(data < 4)
+                        if (data < 4)
                             return materialSize + (int) data + 61;
                         else
                             return -1;
                     case SMOOTH_BRICK:
-                        if(data < 4)
+                        if (data < 4)
                             return materialSize + (int) data + 64;
                         else
                             return -1;
                     case SANDSTONE:
-                        if(data < 3)
-                            return materialSize + (int) data + 67;
-                        else
-                            return -1;
+                        if (data < 3)
+                            return materialSize + (int) data + 66;
                     default:
                         return m.ordinal();
                 }
@@ -165,31 +164,25 @@ public class IntMap {
 
     }
 
-    public boolean hasDataValue(int id) {
+    private boolean hasDataValue(int id) {
         switch (id) {
             case 5:
             case 6:
             case 17:
             case 18:
-            case 24:  
+            case 24:
             case 31:
             case 35:
             case 44:
             case 98:
             case 263:
-            case 351:                     
+            case 351:
                 return true;
             default:
                 return false;
         }
     }
 
-    /**
-     * Combine two IntMaps, with otherMap having higher priority than this.
-     * Please do not use this function, as it is slow.
-     *
-     * @param otherMap Map to combine with.
-     */
     @Deprecated
     public void combine(IntMap otherMap) {
         for (int index = 0; index < mapData.length; index++) {
@@ -198,27 +191,24 @@ public class IntMap {
         }
     }
 
-    /**
-     * Sets a range of the IntMap
-     * prevents multiple calls to IntMap and back
-     */
-
-    public boolean setRange(int startId, byte startdata, int endId, byte enddata, int value) {
-        if (startdata < -1 || enddata < -1 || startId > endId
-                || (startdata > 0 && !hasDataValue(startId)) || (enddata > 0 && !hasDataValue(endId))
-                || !isAllowedMaterial(startId, startdata) || !isAllowedMaterial(endId, enddata))
+    public boolean setRange(int startId, byte startData, int endId, byte endData, int value) {
+        if (startData < -1 || endData < -1 || startId > endId
+                || (startData > 0 && !hasDataValue(startId)) || (endData > 0 && !hasDataValue(endId))
+                || !isAllowedMaterial(startId, startData) || !isAllowedMaterial(endId, endData)) {
+            TweakCart.log("Requirements: {start [" + startId + "," + startData + "]" + "; end [" + endId + "," + endData + "]}");
             return false;
+        }
         if (startId < endId) {
-            if (startdata >= 0 && enddata >= 0) {
-                setDataRange(startId, startdata, (byte) 15, value);
+            if (startData >= 0 && endData >= 0) {
+                setDataRange(startId, startData, (byte) 15, value);
                 startId++;
-                setDataRange(endId, (byte) 0, enddata, value);
+                setDataRange(endId, (byte) 0, endData, value);
                 endId--;
-            } else if (startdata == -1 && enddata >= 0) {
-                setDataRange(endId, (byte) 0, enddata, value);
+            } else if (startData == -1 && endData >= 0) {
+                setDataRange(endId, (byte) 0, endData, value);
                 endId--;
-            } else if (startdata >= 0 && enddata == -1) {
-                setDataRange(startId, startdata, (byte) 15, value);
+            } else if (startData >= 0 && endData == -1) {
+                setDataRange(startId, startData, (byte) 15, value);
                 startId++;
             }
             while (startId <= endId) {
@@ -233,8 +223,8 @@ public class IntMap {
             }
             return true;
         } else if (startId == endId) {
-            if (startdata < enddata && hasDataValue(startId)) {
-                setDataRange(startId, startdata, enddata, value);
+            if (startData < endData && hasDataValue(startId)) {
+                setDataRange(startId, startData, endData, value);
                 return true;
             }
             return false;
@@ -287,7 +277,7 @@ public class IntMap {
         String str = "{\n";
         for (int i = 0; i < mapData.length; i++) {
             if (mapData[i] != 0) {
-                str += "    [" + i + "] -> " + mapData[i] + "\n";
+                str += " [" + i + "] -> " + mapData[i] + "\n";
             }
         }
         str += "}";
@@ -295,14 +285,8 @@ public class IntMap {
     }
 
     public void fillAll() {
-        fillAll(false);
-    }
-
-    public void fillAll(boolean negative) {
-        int value = negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         for (int i = 0; i < mapData.length; i++) {
-            mapData[i] = value;
+            mapData[i] = Integer.MAX_VALUE;
         }
-
     }
 }

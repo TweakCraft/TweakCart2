@@ -18,8 +18,8 @@
 
 package net.tweakcraft.tweakcart.listeners;
 
-import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
+import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
 import org.bukkit.Material;
@@ -42,20 +42,20 @@ public class TweakCartBlockListener implements Listener {
         Material type = event.getItem().getType();
         Dispenser dispenser = (Dispenser) event.getBlock().getState();
         switch (type) {
-        case MINECART:
-        case STORAGE_MINECART:
-        case POWERED_MINECART:
-            Direction d = Direction.getDirection(event.getVelocity());
-            System.out.println("Direction: " + d);
-            if(VehicleUtil.canSpawn(dispenser)){
-                manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
-                if (!event.isCancelled()) {
-                    VehicleUtil.spawnCartFromDispenser(dispenser, type);
-                    dispenser.getInventory().removeItem(event.getItem());
-                    event.setCancelled(true);
+            case MINECART:
+            case STORAGE_MINECART:
+            case POWERED_MINECART:
+                Direction d = Direction.getDirection(event.getVelocity());
+                System.out.println("Direction: " + d);
+                if (VehicleUtil.canSpawn(dispenser)) {
+                    manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
+                    if (!event.isCancelled()) {
+                        VehicleUtil.spawnCartFromDispenser(dispenser, type);
+                        dispenser.getInventory().removeItem(event.getItem());
+                        event.setCancelled(true);
+                    }
                 }
-            }
-            break;
+                break;
         }
     }
 }

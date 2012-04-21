@@ -18,21 +18,17 @@
 
 package net.tweakcraft.tweakcart.listeners;
 
-import net.tweakcraft.tweakcart.util.TweakPluginManager;
+import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.model.CartType;
 import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
 import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
-import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.model.Direction;
-import net.tweakcraft.tweakcart.util.InventoryManager;
-import net.tweakcraft.tweakcart.util.MathUtil;
-import net.tweakcraft.tweakcart.util.VehicleUtil;
+import net.tweakcraft.tweakcart.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Minecart;
@@ -43,8 +39,7 @@ import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 public class TweakCartVehicleListener implements Listener {
     private TweakPluginManager manager = TweakPluginManager.getInstance();
@@ -63,7 +58,7 @@ public class TweakCartVehicleListener implements Listener {
                     manager.callEvent(TweakCartEvent.Block.VehicleBlockDetectEvent, new TweakVehicleBlockDetectEvent(minecart, cartDriveDirection, toBlock, CartType.getCartType(minecart)));
                 }
                 //Signs worden niet door blockCollision gevonden. 'collision checks' hier.
-                if (!isRailBlock(toBlock)) {
+                if (!BlockUtil.isRailBlock(toBlock)) {
                     switch (toBlock.getType()) {
                         case WALL_SIGN:
                         case SIGN_POST:
@@ -73,8 +68,8 @@ public class TweakCartVehicleListener implements Listener {
                             break;
                     }
                 } else {
-                    List<Sign> signBlockList;
-                    if ((signBlockList = getSignLocationAround(toBlock, cartDriveDirection)).size() != 0) {
+                    Set<Sign> signBlockList;
+                    if ((signBlockList = BlockUtil.getSignLocationAround(toBlock, cartDriveDirection)).size() != 0) {
                         //Woei, we hebben bordjes gevonden
                         for (Sign sign : signBlockList) {
                             String keyword = sign.getLine(0);
@@ -118,58 +113,6 @@ public class TweakCartVehicleListener implements Listener {
                 manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent(cart, direction, block));
             }
         }
-    }
-
-    /**
-     * Adds Signs to a list, signs are searched for in the following pattern
-     * _X_
-     * XTX
-     * XBX
-     * Where X is a location to search for a sign, B is the block where the track was placed on,
-     * and T is the track itself.
-     *
-     * @param toBlock
-     * @param cartDriveDirection
-     * @return a list of all found signs
-     */
-    private List<Sign> getSignLocationAround(Block toBlock, Direction cartDriveDirection) {
-        List<Block> blockList = new ArrayList<Block>();
-        List<Sign> signList = new ArrayList<Sign>();
-        blockList.add(toBlock.getRelative(BlockFace.UP));
-
-        switch (cartDriveDirection) {
-            case NORTH:
-            case SOUTH:
-                blockList.add(toBlock.getRelative(BlockFace.WEST));
-                blockList.add(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN));
-                blockList.add(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.UP));
-                blockList.add(toBlock.getRelative(BlockFace.EAST));
-                blockList.add(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN));
-                blockList.add(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.UP));
-                break;
-            case EAST:
-            case WEST:
-                blockList.add(toBlock.getRelative(BlockFace.NORTH));
-                blockList.add(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN));
-                blockList.add(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.UP));
-                blockList.add(toBlock.getRelative(BlockFace.SOUTH));
-                blockList.add(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN));
-                blockList.add(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.UP));
-                break;
-        }
-
-        for (Block b : blockList) {
-            if (b.getState() instanceof Sign) {
-                Sign s = (Sign) b.getState();
-                signList.add(s);
-            }
-        }
-
-        return signList;
-    }
-
-    private boolean isRailBlock(Block b) {
-        return b.getType() == Material.POWERED_RAIL || b.getType() == Material.DETECTOR_RAIL || b.getType() == Material.RAILS;
     }
 
 }

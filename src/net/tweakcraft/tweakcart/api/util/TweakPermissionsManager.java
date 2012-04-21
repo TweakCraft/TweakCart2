@@ -18,13 +18,14 @@
 
 package net.tweakcraft.tweakcart.api.util;
 
+import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -44,27 +45,37 @@ public class TweakPermissionsManager {
     }
 
     public enum PermissionType {
-        REDSTONE,
-        BUILD,
-        NODE,
-        ALL
+        REDSTONE(ZonesAccess.Rights.HIT),
+        BUILD(ZonesAccess.Rights.BUILD),
+        NODE(null),
+        ALL(ZonesAccess.Rights.BUILD);
+
+        private ZonesAccess.Rights rights;
+
+        private PermissionType(ZonesAccess.Rights right) {
+            rights = right;
+        }
+
+        public ZonesAccess.Rights getRights() {
+            return rights;
+        }
     }
 
-    private boolean zonesEnabled = false;
-    private boolean worldGuardEnabled = false;
+    //private boolean zonesEnabled = false;
+    //private boolean worldGuardEnabled = false;
     private boolean permissionsEnabled = false;
 
     //private Zones zones;
     //private WorldGuardPlugin worldGuard;
 
     private ArrayList<TweakPermissionsHandler> permissionsHandlers = new ArrayList<TweakPermissionsHandler>();
-    private YamlConfiguration config = TweakCart.getYamlConfig();
+    private FileConfiguration config = TweakCart.getPluginConfig();
 
     private TweakPermissionsManager() {
         permissionsEnabled = config.getBoolean("permissions.use-permissions", false);
+        /*
         zonesEnabled = config.getBoolean("permissions.use-zones", false);
         worldGuardEnabled = config.getBoolean("permissions.use-worldguard", false);
-        /*
         if (zonesEnabled) {
             Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
             if (p != null && p instanceof Zones) {
@@ -92,6 +103,10 @@ public class TweakPermissionsManager {
                 return true;
             }
             if (player.hasPermission("tweakcart." + node)) {
+                if (type == PermissionType.NODE) {
+                    return true;
+                }
+                return false;
                 /*
                 if (zonesEnabled) {
                     if (!zones.getWorldManager(block.getWorld()).getActiveZone(block).getAccess(player).canDo(type.getRights())) {
@@ -123,13 +138,13 @@ public class TweakPermissionsManager {
                     return false;
                 }
                 */
-                return true;
             } else {
                 return false;
             }
         } else {
             return true;
         }
+
     }
 
     public void cartCanCollect(TweakVehicleCollectEvent event) {
@@ -167,11 +182,11 @@ public class TweakPermissionsManager {
 
     public void reloadConfig() {
         permissionsEnabled = config.getBoolean("permissions.use-permissions", false);
+        /*
         zonesEnabled = config.getBoolean("permissions.use-zones", false);
         worldGuardEnabled = config.getBoolean("permissions.use-worldguard", false);
 
         if (permissionsEnabled) {
-            /*
             if (zonesEnabled && zones == null) {
                 Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
                 if (p != null && p instanceof Zones) {
@@ -194,13 +209,13 @@ public class TweakPermissionsManager {
             } else {
                 worldGuard = null;
             }
-            */
         } else {
             worldGuardEnabled = false;
             zonesEnabled = false;
-            //worldGuard = null;
-            //zones = null;
+            worldGuard = null;
+            zones = null;
         }
+        */
     }
 
     public void addHandler(TweakPermissionsHandler handler) {

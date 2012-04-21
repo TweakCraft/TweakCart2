@@ -164,16 +164,16 @@ public class VehicleUtil {
 
     public static boolean canSpawn(Dispenser disp) {
         switch (disp.getData().getData()) {
-        case 0x2:
-            return(isRail(disp.getBlock().getRelative(BlockFace.EAST)));
-        case 0x3:
-            return(isRail(disp.getBlock().getRelative(BlockFace.WEST)));
-        case 0x5:
-            return(isRail(disp.getBlock().getRelative(BlockFace.SOUTH)));
-        case 0x4:
-            return(isRail(disp.getBlock().getRelative(BlockFace.NORTH)));
-        default:
-            return false;
-    }
+            case 0x2:
+                return (isRail(disp.getBlock().getRelative(BlockFace.EAST)));
+            case 0x3:
+                return (isRail(disp.getBlock().getRelative(BlockFace.WEST)));
+            case 0x5:
+                return (isRail(disp.getBlock().getRelative(BlockFace.SOUTH)));
+            case 0x4:
+                return (isRail(disp.getBlock().getRelative(BlockFace.NORTH)));
+            default:
+                return false;
+        }
     }
 }

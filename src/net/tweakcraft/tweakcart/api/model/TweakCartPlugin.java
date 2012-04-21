@@ -58,8 +58,8 @@ public abstract class TweakCartPlugin extends JavaPlugin {
     public void log(String message, Level level) {
         TweakCart.log("[" + getPluginName() + "] " + message, level);
     }
-    
-    protected TweakCart getCore(){
+
+    protected TweakCart getCore() {
         return core;
     }
 }
