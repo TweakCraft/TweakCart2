@@ -18,7 +18,7 @@
 
 package net.tweakcraft.tweakcart.api.util;
 
-import com.zones.model.ZonesAccess;
+//import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
@@ -45,20 +45,20 @@ public class TweakPermissionsManager {
     }
 
     public enum PermissionType {
-        REDSTONE(ZonesAccess.Rights.HIT),
-        BUILD(ZonesAccess.Rights.BUILD),
-        NODE(null),
-        ALL(ZonesAccess.Rights.BUILD);
-
-        private ZonesAccess.Rights rights;
-
-        private PermissionType(ZonesAccess.Rights right) {
-            rights = right;
-        }
-
-        public ZonesAccess.Rights getRights() {
-            return rights;
-        }
+//        REDSTONE(ZonesAccess.Rights.HIT),
+//        BUILD(ZonesAccess.Rights.BUILD),
+//        NODE(null),
+//        ALL(ZonesAccess.Rights.BUILD);
+//
+//        private ZonesAccess.Rights rights;
+//
+//        private PermissionType(ZonesAccess.Rights right) {
+//            rights = right;
+//        }
+//
+//        public ZonesAccess.Rights getRights() {
+//            return rights;
+//        }
     }
 
     //private boolean zonesEnabled = false;
@@ -103,9 +103,9 @@ public class TweakPermissionsManager {
                 return true;
             }
             if (player.hasPermission("tweakcart." + node)) {
-                if (type == PermissionType.NODE) {
-                    return true;
-                }
+//                if (type == PermissionType.NODE) {
+//                    return true;
+//                }
                 return false;
                 /*
                 if (zonesEnabled) {
