@@ -18,6 +18,7 @@
 
 package net.tweakcraft.tweakcart;
 
+import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;
@@ -55,6 +56,7 @@ public class TweakCart extends JavaPlugin {
         pm.registerEvents(playerListener, this);
 
         configuration = getConfig();
+        TweakPermissionsManager.initPermissionsManager();
 
         DEBUG = configuration.getBoolean("debug", false);
     }

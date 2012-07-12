@@ -38,10 +38,14 @@ import java.util.logging.Level;
  */
 
 public class TweakPermissionsManager {
-    private static TweakPermissionsManager instance = new TweakPermissionsManager();
+    private static TweakPermissionsManager instance = null;
 
     public static TweakPermissionsManager getInstance() {
         return instance;
+    }
+
+    public static void initPermissionsManager() {
+        instance = new TweakPermissionsManager();
     }
 
     public enum PermissionType {
