@@ -50,7 +50,7 @@ public class BlockUtil {
                 if(isSign(toBlock.getRelative(BlockFace.EAST)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getState());
                 if(isSign(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN).getState());
+                    signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN).getState());
                 break;
             case EAST:
             case WEST:
