@@ -85,7 +85,13 @@ public class TweakPluginManager {
             case VehiclePassesSignEvent:
                 if (event instanceof TweakVehiclePassesSignEvent) {
                     for (TweakSignEventListener listener : eventListeners) {
-                        listener.onSignPass((TweakVehiclePassesSignEvent) event);
+                        try {
+                            listener.onSignPass((TweakVehiclePassesSignEvent) event);
+                        } catch(Exception ex) {
+                            TweakCart.log("VehiclePassesSignEvent could not be passed to " + listener.getClass().getName(), Level.WARNING);
+                            TweakCart.log("Sign at " + event.getSign().getBlock().getLocation());
+                            ex.printStackTrace();
+                        }
                     }
                 } else {
                     TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Sign.VehiclePassesSignEvent, Level.WARNING);

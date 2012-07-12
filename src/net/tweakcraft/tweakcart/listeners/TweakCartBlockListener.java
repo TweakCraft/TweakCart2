@@ -29,7 +29,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 
 public class TweakCartBlockListener implements Listener {
-    private TweakPermissionsManager manager = TweakPermissionsManager.getInstance();
 
     /*
     @EventHandler
@@ -41,6 +40,8 @@ public class TweakCartBlockListener implements Listener {
     public void onBlockDispense(BlockDispenseEvent event) {
         Material type = event.getItem().getType();
         Dispenser dispenser = (Dispenser) event.getBlock().getState();
+        TweakPermissionsManager manager = TweakPermissionsManager.getInstance();
+
         switch (type) {
             case MINECART:
             case STORAGE_MINECART:

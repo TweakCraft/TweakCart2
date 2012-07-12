@@ -29,6 +29,17 @@ import org.bukkit.inventory.ItemStack;
 public class InventoryManager {
 
     public static int[] moveContainerContents(Inventory cart, Inventory chest, IntMap[] maps) {
+
+        if (maps == null) return null;
+        if (cart == null) {
+            System.out.println("Cart was null!");
+            return null;
+        }
+        if (chest == null) {
+            System.out.println("Chest was null!");
+            return null;
+        }
+
         if (maps.length == 2) {
             int data[] = moveContainerContents(cart, chest, maps[0]);
             if (data[2] == 64) {
@@ -65,9 +76,9 @@ public class InventoryManager {
                         fStack = null;
                         returnData[0]++;
                         map.setInt(
-                                fStack.getType(),
-                                (byte) fStack.getDurability(),
-                                maxAmountToMove - fStack.getAmount()
+                            to[toIndex].getType(),
+                            (byte) to[toIndex].getDurability(),
+                            maxAmountToMove - to[toIndex].getAmount()
                         );
                         break;
                     } else {

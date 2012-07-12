@@ -30,7 +30,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class TweakCartPlayerListener implements Listener {
-    private TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -39,6 +38,7 @@ public class TweakCartPlayerListener implements Listener {
         }
         if (event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Dispenser && VehicleUtil.isMinecart(event.getItem().getType())) {
             Dispenser dispenser = (Dispenser) event.getClickedBlock().getState();
+            TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
             TweakPlayerCollectEvent collectEvent = new TweakPlayerCollectEvent(event.getPlayer(), dispenser);
             permissionsManager.playerCanSlap(collectEvent);
             if (!collectEvent.isCancelled()) {

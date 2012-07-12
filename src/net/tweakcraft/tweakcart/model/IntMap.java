@@ -28,7 +28,7 @@ import java.util.Arrays;
  */
 public class IntMap {
     public static final int materialSize = Material.values().length;
-    public static final int mapSize = materialSize + 67;
+    public static final int mapSize = materialSize + 74;
     private int[] mapData;
 
     public IntMap() {
@@ -104,58 +104,58 @@ public class IntMap {
                 //TODO: reorder list
                 switch (m) {
                     case SAPLING:
-                        if (data < 4)
+                        if (data < 5)
                             return materialSize + (int) data;
                         else
                             return -1;
                     case LOG:
-                        if (data < 4)
-                            return materialSize + (int) data + 3;
+                        if (data < 5)
+                            return materialSize + (int) data + 4;
                         else
                             return -1;
                     case LEAVES:
-                        if (data < 3)
-                            return materialSize + (int) data + 6;
+                        if (data < 5)
+                            return materialSize + (int) data + 8;
                         else
                             return -1;
                     case WOOL:
                         if (data < 16)
-                            return materialSize + (int) data + 21;
+                            return materialSize + (int) data + 25;
                         else
                             return -1;
                     case INK_SACK:
                         if (data < 16)
-                            return materialSize + (int) data + 36;
+                            return materialSize + (int) data + 40;
                         else
                             return -1;
                     case COAL:
                         if (data < 2)
-                            return materialSize + (int) data + 51;
+                            return materialSize + (int) data + 55;
                         else
                             return -1;
                     case STEP:
                         if (data < 7)
-                            return materialSize + (int) data + 52;
+                            return materialSize + (int) data + 56;
                         else
                             return -1;
                     case LONG_GRASS:
                         if (data < 3)
-                            return materialSize + (int) data + 58;
+                            return materialSize + (int) data + 62;
                         else
                             return -1;
                     case WOOD:
                         if (data < 4)
-                            return materialSize + (int) data + 61;
+                            return materialSize + (int) data + 65;
                         else
                             return -1;
                     case SMOOTH_BRICK:
                         if (data < 4)
-                            return materialSize + (int) data + 64;
+                            return materialSize + (int) data + 68;
                         else
                             return -1;
                     case SANDSTONE:
                         if (data < 3)
-                            return materialSize + (int) data + 66;
+                            return materialSize + (int) data + 70;
                     default:
                         return m.ordinal();
                 }
@@ -192,6 +192,7 @@ public class IntMap {
     }
 
     public boolean setRange(int startId, byte startData, int endId, byte endData, int value) {
+        // System.out.println("setRange("+startId+","+startData+","+endId+","+endData+","+value+");");
         if (startData < -1 || endData < -1 || startId > endId
                 || (startData > 0 && !hasDataValue(startId)) || (endData > 0 && !hasDataValue(endId))
                 || !isAllowedMaterial(startId, startData) || !isAllowedMaterial(endId, endData)) {
@@ -201,15 +202,15 @@ public class IntMap {
         if (startId < endId) {
             if (startData >= 0 && endData >= 0) {
                 setDataRange(startId, startData, (byte) 15, value);
-                startId++;
+                // startId++;
                 setDataRange(endId, (byte) 0, endData, value);
-                endId--;
+                // endId--;
             } else if (startData == -1 && endData >= 0) {
                 setDataRange(endId, (byte) 0, endData, value);
-                endId--;
+                // endId--;
             } else if (startData >= 0 && endData == -1) {
                 setDataRange(startId, startData, (byte) 15, value);
-                startId++;
+                // startId++;
             }
             while (startId <= endId) {
                 if (hasDataValue(startId)) {
