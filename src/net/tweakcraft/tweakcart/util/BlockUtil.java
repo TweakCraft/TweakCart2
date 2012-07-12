@@ -48,7 +48,7 @@ public class BlockUtil {
                 if(isSign(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN).getState());
                 if(isSign(toBlock.getRelative(BlockFace.EAST)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getState());
+                    signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getState());
                 if(isSign(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN).getState());
                 break;
@@ -72,7 +72,7 @@ public class BlockUtil {
         return b.getTypeId() == Material.POWERED_RAIL.getId() || b.getTypeId() == Material.DETECTOR_RAIL.getId() || b.getTypeId() == Material.RAILS.getId();
     }
 
-    public static boolean isSign(Block b){
+    public static boolean isSign(Block b) {
         return b.getTypeId() == Material.SIGN_POST.getId() || b.getTypeId() == Material.WALL_SIGN.getId();
     }
 }
