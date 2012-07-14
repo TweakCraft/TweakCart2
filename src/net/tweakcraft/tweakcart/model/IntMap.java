@@ -1,305 +1,304 @@
-/*
- * Copyright (c) 2012.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
-
 package net.tweakcraft.tweakcart.model;
 
-import net.tweakcraft.tweakcart.TweakCart;
+import java.util.Arrays;
+import java.util.HashMap;
 import org.bukkit.Material;
 
-import java.util.Arrays;
+public class IntMap
+{
+	private int[] mapData;
+	private final static int[] materialIndex = new int[Material.values().length];
+	public final static HashMap<Integer, Byte> dataValueMap = new HashMap<Integer, Byte>();
+	public static final int mapSize;
+	public static final int materialSize = Material.values().length;
 
-/**
- * @author Edoxile
- */
-public class IntMap {
-    public static final int materialSize = Material.values().length;
-    public static final int mapSize = materialSize + 84;
-    private int[] mapData;
+	static
+	{
+		/*
+		 * dit moet dus nog worden geautomatiseerd
+		 */
+		HashMap<Integer, Byte> tmpMap = new HashMap<Integer, Byte>();
+		dataValueMap.put(5, (byte) 4);
+		dataValueMap.put(6, (byte) 4);
+		dataValueMap.put(17, (byte) 4);
+		dataValueMap.put(18, (byte) 4); // 3-4 different blocks?
+		dataValueMap.put(24, (byte) 3);
+		dataValueMap.put(31, (byte) 3);
+		dataValueMap.put(35, (byte) 16);
+		dataValueMap.put(43, (byte) 6); // double slabs
+		dataValueMap.put(44, (byte) 6);
+		dataValueMap.put(53, (byte) 4); // wooden stairs
+		dataValueMap.put(97, (byte) 3); // monster egg block
+		dataValueMap.put(98, (byte) 4);
+		dataValueMap.put(125, (byte) 4); // wooden slabs
+		dataValueMap.put(126, (byte) 4); // wooden double slabs
+		dataValueMap.put(263, (byte) 2);
+		dataValueMap.put(351, (byte) 16);
+		dataValueMap.put(373, (byte) 13); // potions
+		dataValueMap.put(383, (byte) 21); // spawn eggs
 
-    public IntMap() {
-        mapData = new int[mapSize];
-    }
+		Material[] materials = Material.values();
+		int offsetX = 0;
+		for (int x = 0; x < materialIndex.length; x++)
+		{
+			materialIndex[x] = offsetX;
+			if (dataValueMap.containsKey(x))
+			{
+				offsetX += dataValueMap.get(x);
+			}
+			else
+			{
+				offsetX++;
+			}
+		}
+		mapSize = offsetX;
+	}
 
-    private IntMap(int[] data) {
-        if (data.length != (mapSize)) {
-            mapData = new int[mapSize];
-        } else {
-            mapData = data;
-        }
-    }
+	public IntMap()
+	{
+		mapData = new int[mapSize];
+	}
 
-    public void clear() {
-        mapData = new int[mapSize];
-    }
+	private IntMap(int[] data)
+	{
+		if (data.length != (mapSize))
+		{
+			mapData = new int[mapSize];
+		}
+		else
+		{
+			mapData = data;
+		}
+	}
 
-    public static boolean isAllowedMaterial(int id, byte data) {
-        int intLocation = getIntIndex(id, data);
-        return intLocation != -1;
-    }
+	public static boolean isAllowedMaterial(int id, byte data)
+	{
+		int intLocation = IntMap.getIntIndex(id, data);
+		return intLocation != -1;
+	}
 
-    public int getInt(int id, byte data) {
-        int intLocation = getIntIndex(id, data);
+	public int getInt(int id, byte data)
+	{
+		int intLocation = IntMap.getIntIndex(id, data);
 
-        if (intLocation == -1 || intLocation >= mapSize) {
-            return 0;
-        }
+		if (intLocation == -1 || intLocation >= mapSize)
+		{
+			return 0;
+		}
 
-        return mapData[intLocation];
-    }
+		return mapData[intLocation];
+	}
 
-    public int getInt(Material m, byte data) {
-        int intLocation = getIntIndex(m, data);
+	public int getInt(Material m, byte data)
+	{
+		int intLocation = IntMap.getIntIndex(m.getId(), data);
 
-        if (intLocation == -1) {
-            return 0;
-        }
+		if (intLocation == -1)
+		{
+			return 0;
+		}
 
-        return mapData[intLocation];
-    }
+		return mapData[intLocation];
+	}
 
-    public boolean setInt(Material m, byte data, int value) {
-        return setInt(m.getId(), data, value);
-    }
+	public boolean setInt(Material m, byte data, int value)
+	{
+		return setInt(m.getId(), data, value);
+	}
 
-    public boolean setInt(int id, byte data, int value) {
-        if (hasDataValue(id) && data == (byte) -1) {
-            setDataRange(id, (byte) 0, (byte) 15, value);
-        } else {
-            int intLocation = getIntIndex(id, data);
-            if (intLocation == -1) {
-                return false;
-            }
-            mapData[intLocation] = value;
-        }
-        return true;
-    }
+	public boolean setInt(int id, byte data, int value)
+	{
+		//System.out.println("SETINT: " + id + " : " + data + " : " + value);
+		if (hasDataValue(id) && data == (byte) -1)
+		{
+			//System.out.println("range");
+			setDataRange(id, (byte) 0, (byte) 15, value);
+		}
+		else
+		{
+			int intLocation = IntMap.getIntIndex(id, data);
+			//System.out.println("loc : " + intLocation);
+			if (intLocation == -1)
+			{
+				return false;
+			}
+			//System.out.println("mapdata old : " + mapData[intLocation]);
+			mapData[intLocation] = value;
+			//System.out.println("mapdata new : " + mapData[intLocation]);
+		}
+		return true;
+	}
 
-    public static int getIntIndex(int id, byte data) {
-        if (id < 0) {
-            System.out.println("id < 0! This shouldn't happen!");
-            Thread.dumpStack();
-            return -1;
-        }
+	public static int getIntIndex(int id, byte data)
+	{
+		return ((materialIndex[id] + data) < mapSize) ? materialIndex[id] + data : -1;
+	}
 
-        Material mat = Material.getMaterial(id);
+	private boolean hasDataValue(int id)
+	{
+		return dataValueMap.containsKey(id);
+	}
 
-        if (mat == null)
-            return -1;
-        else
-            return getIntIndex(mat, data);
-    }
+	/**
+	 * Combine two IntMaps, with otherMap having higher priority than this.
+	 * Please do not use this function, as it is slow.
+	 *
+	 * @param otherMap Map to combine with.
+	 */
+	@Deprecated
+	public void combine(IntMap otherMap)
+	{
+		for (int index = 0; index < mapData.length; index++)
+		{
+			if (otherMap.mapData[index] != 0)
+			{
+				mapData[index] = otherMap.mapData[index];
+			}
+		}
+	}
 
-    private static int getIntIndex(Material m, byte data) {
-        if (m == null) {
-            return -1;
-        }
-        switch (data) {
-            case 0:
-                return m.ordinal();
-            default:
-                //TODO: reorder list
-                switch (m) {
-                    case SAPLING:
-                        if (data < 5)
-                            return materialSize + (int) data;
-                        else
-                            return -1;
-                    case LOG:
-                        if (data < 5)
-                            return materialSize + (int) data + 4;
-                        else
-                            return -1;
-                    case LEAVES:
-                        if (data < 15)
-                            return materialSize + (int) data + 8;
-                        else
-                            return -1;
-                    case WOOL:
-                        if (data < 16)
-                            return materialSize + (int) data + 35;
-                        else
-                            return -1;
-                    case INK_SACK:
-                        if (data < 16)
-                            return materialSize + (int) data + 50;
-                        else
-                            return -1;
-                    case COAL:
-                        if (data < 2)
-                            return materialSize + (int) data + 65;
-                        else
-                            return -1;
-                    case STEP:
-                        if (data < 7)
-                            return materialSize + (int) data + 66;
-                        else
-                            return -1;
-                    case LONG_GRASS:
-                        if (data < 3)
-                            return materialSize + (int) data + 72;
-                        else
-                            return -1;
-                    case WOOD:
-                        if (data < 4)
-                            return materialSize + (int) data + 75;
-                        else
-                            return -1;
-                    case SMOOTH_BRICK:
-                        if (data < 4)
-                            return materialSize + (int) data + 78;
-                        else
-                            return -1;
-                    case SANDSTONE:
-                        if (data < 3)
-                            return materialSize + (int) data + 80;
-                    default:
-                        return m.ordinal();
-                }
-        }
+	/**
+	 * Sets a range of the IntMap prevents multiple calls to IntMap and back
+	 */
+	public boolean setRange(int startId, byte startdata, int endId, byte enddata, int value)
+	{
+		if (startdata < -1 || enddata < -1 || startId > endId
+			|| (startdata > 0 && !hasDataValue(startId)) || (enddata > 0 && !hasDataValue(endId))
+			|| !isAllowedMaterial(startId, startdata) || !isAllowedMaterial(endId, enddata))
+		{
+			return false;
+		}
+		if (startId < endId)
+		{
+			if (startdata >= 0 && enddata >= 0)
+			{
+				setDataRange(startId, startdata, (byte) 15, value);
+				startId++;
+				setDataRange(endId, (byte) 0, enddata, value);
+				endId--;
+			}
+			else if (startdata == -1 && enddata >= 0)
+			{
+				setDataRange(endId, (byte) 0, enddata, value);
+				endId--;
+			}
+			else if (startdata >= 0 && enddata == -1)
+			{
+				setDataRange(startId, startdata, (byte) 15, value);
+				startId++;
+			}
+			while (startId <= endId)
+			{
+				if (hasDataValue(startId))
+				{
+					setDataRange(startId, (byte) 0, (byte) 15, value);
+				}
+				else
+				{
+					setInt(startId, (byte) 0, value);
+				}
+				do
+				{
+					startId++;
+				}
+				while (!isAllowedMaterial(startId, (byte) 0));
+			}
+			return true;
+		}
+		else if (startId == endId)
+		{
+			if (startdata < enddata && hasDataValue(startId))
+			{
+				setDataRange(startId, startdata, enddata, value);
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
+	private boolean setDataRange(int id, byte start, byte end, int amount)
+	{
+		if (!hasDataValue(id))
+		{
+			return false;
+		}
+		for (byte data = start; data <= end; data++)
+		{
+			int key = getIntIndex(id, data);
+			if (key == -1)
+			{
+				break;
+			}
+			mapData[key] = amount;
+		}
+		return true;
+	}
 
-    }
+	@Override
+	public boolean equals(Object other)
+	{
+		if (other instanceof IntMap)
+		{
+			IntMap otherMap = (IntMap) other;
+			for (int index = 0; index < mapData.length; index++)
+			{
+				if (mapData[index] != otherMap.mapData[index])
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
-    private boolean hasDataValue(int id) {
-        switch (id) {
-            case 5:
-            case 6:
-            case 17:
-            case 18:
-            case 24:
-            case 31:
-            case 35:
-            case 44:
-            case 98:
-            case 263:
-            case 351:
-                return true;
-            default:
-                return false;
-        }
-    }
+	@Override
+	public int hashCode()
+	{
+		return Arrays.hashCode(mapData);
+	}
 
-    @Deprecated
-    public void combine(IntMap otherMap) {
-        for (int index = 0; index < mapData.length; index++) {
-            if (otherMap.mapData[index] != 0)
-                mapData[index] = otherMap.mapData[index];
-        }
-    }
+	@Override
+	public IntMap clone() throws CloneNotSupportedException
+	{
+		super.clone();
+		return new IntMap(mapData.clone());
+	}
 
-    public boolean setRange(int startId, byte startData, int endId, byte endData, int value) {
-        // System.out.println("setRange("+startId+","+startData+","+endId+","+endData+","+value+");");
-        if (startData < -1 || endData < -1 || startId > endId
-            || (startData > 0 && !hasDataValue(startId)) || (endData > 0 && !hasDataValue(endId))
-            || !isAllowedMaterial(startId, startData) || !isAllowedMaterial(endId, endData)) {
-            TweakCart.log("Requirements: {start [" + startId + "," + startData + "]" + "; end [" + endId + "," + endData + "]}");
-            return false;
-        }
-        if (startId < endId) {
-            if (startData >= 0 && endData >= 0) {
-                setDataRange(startId, startData, (byte) 15, value);
-                // startId++;
-                setDataRange(endId, (byte) 0, endData, value);
-                // endId--;
-            } else if (startData == -1 && endData >= 0) {
-                setDataRange(endId, (byte) 0, endData, value);
-                // endId--;
-            } else if (startData >= 0 && endData == -1) {
-                setDataRange(startId, startData, (byte) 15, value);
-                // startId++;
-            }
-            while (startId <= endId) {
-                if (hasDataValue(startId)) {
-                    setDataRange(startId, (byte) 0, (byte) 15, value);
-                } else {
-                    setInt(startId, (byte) 0, value);
-                }
-                do {
-                    startId++;
-                    // System.out.println("startId++ "+startId);
-                } while (!isAllowedMaterial(startId, (byte) 0) && startId <= mapSize);
-            }
-            return true;
-        } else if (startId == endId) {
-            if (startData < endData && hasDataValue(startId)) {
-                setDataRange(startId, startData, endData, value);
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
+	@Override
+	public String toString()
+	{
+		String str = "{\n";
+		for (int i = 0; i < mapData.length; i++)
+		{
+			if (mapData[i] != 0)
+			{
+				str += "    [" + i + "] -> " + mapData[i] + "\n";
+			}
+		}
+		str += "}";
+		return str;
+	}
 
-    private boolean setDataRange(int id, byte start, byte end, int amount) {
-        if (!hasDataValue(id)) {
-            return false;
-        }
-        for (byte data = start; data <= end; data++) {
-            int key = getIntIndex(id, data);
-            if (key == -1) {
-                break;
-            }
-            mapData[key] = amount;
-        }
-        return true;
-    }
+	public void fillAll()
+	{
+		fillAll(false);
+	}
 
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof IntMap) {
-            IntMap otherMap = (IntMap) other;
-            for (int index = 0; index < mapData.length; index++) {
-                if (mapData[index] != otherMap.mapData[index])
-                    return false;
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
+	public void fillAll(boolean negative)
+	{
+		int value = negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+		for (int i = 0; i < mapData.length; i++)
+		{
+			mapData[i] = value;
+		}
 
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(mapData);
-    }
-
-    @Override
-    public IntMap clone() throws CloneNotSupportedException {
-        super.clone();
-        return new IntMap(mapData.clone());
-    }
-
-    @Override
-    public String toString() {
-        String str = "{\n";
-        for (int i = 0; i < mapData.length; i++) {
-            if (mapData[i] != 0) {
-                str += " [" + i + "] -> " + mapData[i] + "\n";
-            }
-        }
-        str += "}";
-        return str;
-    }
-
-    public void fillAll() {
-        for (int i = 0; i < mapData.length; i++) {
-            mapData[i] = Integer.MAX_VALUE;
-        }
-    }
+	}
 }
