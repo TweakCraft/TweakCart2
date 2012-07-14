@@ -21,14 +21,21 @@ public class IntMap
 		dataValueMap.put(5, (byte) 4);
 		dataValueMap.put(6, (byte) 4);
 		dataValueMap.put(17, (byte) 4);
-		dataValueMap.put(18, (byte) 3);
+		dataValueMap.put(18, (byte) 4); // 3-4 different blocks?
 		dataValueMap.put(24, (byte) 3);
 		dataValueMap.put(31, (byte) 3);
 		dataValueMap.put(35, (byte) 16);
+		dataValueMap.put(43, (byte) 6); // double slabs
 		dataValueMap.put(44, (byte) 6);
+		dataValueMap.put(53, (byte) 4); // wooden stairs
+		dataValueMap.put(97, (byte) 3); // monster egg block
 		dataValueMap.put(98, (byte) 4);
+		dataValueMap.put(125, (byte) 4); // wooden slabs
+		dataValueMap.put(126, (byte) 4); // wooden double slabs
 		dataValueMap.put(263, (byte) 2);
 		dataValueMap.put(351, (byte) 16);
+		dataValueMap.put(373, (byte) 13); // potions
+		dataValueMap.put(383, (byte) 21); // spawn eggs
 
 		Material[] materials = Material.values();
 		int offsetX = 0;
