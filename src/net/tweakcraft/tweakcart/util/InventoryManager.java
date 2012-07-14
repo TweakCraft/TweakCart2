@@ -97,8 +97,7 @@ public class InventoryManager {
                             (byte) fStack.getDurability(),
                             0
                         );
-						maxAmountToMove = 0;
-                        continue;
+                        break;
                     }
                 } else if (tStack.getAmount() == 64) {
 					System.out.print(" 2 ");

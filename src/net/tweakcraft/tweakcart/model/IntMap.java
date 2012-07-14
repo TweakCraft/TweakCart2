@@ -7,10 +7,11 @@ import org.bukkit.Material;
 public class IntMap
 {
 	private int[] mapData;
-	private final static int[] materialIndex = new int[Material.values().length];
+	public static final int[] materialIndex = new int[Material.values().length];
+	public static final Material[] materialList = Material.values();
 	public final static HashMap<Integer, Byte> dataValueMap = new HashMap<Integer, Byte>();
 	public static final int mapSize;
-	public static final int materialSize = Material.values().length;
+	public static final int materialSize = materialList.length;
 
 	static
 	{
@@ -37,7 +38,7 @@ public class IntMap
 		dataValueMap.put(373, (byte) 13); // potions
 		dataValueMap.put(383, (byte) 21); // spawn eggs
 
-		Material[] materials = Material.values();
+		
 		int offsetX = 0;
 		for (int x = 0; x < materialIndex.length; x++)
 		{
@@ -59,7 +60,7 @@ public class IntMap
 		mapData = new int[mapSize];
 	}
 
-	private IntMap(int[] data)
+	private IntMap( int[] data )
 	{
 		if (data.length != (mapSize))
 		{
@@ -71,27 +72,47 @@ public class IntMap
 		}
 	}
 
-	public static boolean isAllowedMaterial(int id, byte data)
+	public static int getIntIndex( int id, byte data )
 	{
-		int intLocation = IntMap.getIntIndex(id, data);
-		return intLocation != -1;
+		return getIntIndex(Material.getMaterial(id), data);
+	}
+	public static int getIntIndex( Material m, byte data )
+	{
+		if(m == null)
+		{
+			System.err.println("material null");
+			return -1;
+		}
+		return ((materialIndex[m.ordinal()] + data) < mapSize) ? materialIndex[m.ordinal()] + data : -1;
 	}
 
-	public int getInt(int id, byte data)
-	{
-		int intLocation = IntMap.getIntIndex(id, data);
 
-		if (intLocation == -1 || intLocation >= mapSize)
+
+	private boolean hasDataValue( Material m )
+	{
+		return dataValueMap.containsKey(m.getId());
+	}
+	
+	public static boolean isAllowedMaterial( Material m, byte data )
+	{
+		return IntMap.getIntIndex(m, data) != -1;
+	}
+	public static boolean isAllowedMaterial( int id, byte data )
+	{
+		return IntMap.isAllowedMaterial(Material.getMaterial(id), data);
+	}
+
+	public int getInt( int id, byte data )
+	{
+		return getInt(Material.getMaterial(id), data);
+	}
+	public int getInt( Material m, byte data )
+	{
+		if (m == null)
 		{
 			return 0;
 		}
-
-		return mapData[intLocation];
-	}
-
-	public int getInt(Material m, byte data)
-	{
-		int intLocation = IntMap.getIntIndex(m.getId(), data);
+		int intLocation = IntMap.getIntIndex(m, data);
 
 		if (intLocation == -1)
 		{
@@ -101,22 +122,25 @@ public class IntMap
 		return mapData[intLocation];
 	}
 
-	public boolean setInt(Material m, byte data, int value)
+	public boolean setInt( int id, byte data, int value )
 	{
-		return setInt(m.getId(), data, value);
+		return setInt(Material.getMaterial(id), data, value);
 	}
-
-	public boolean setInt(int id, byte data, int value)
+	public boolean setInt( Material m, byte data, int value )
 	{
+		if (m == null)
+		{
+			return false;
+		}
 		//System.out.println("SETINT: " + id + " : " + data + " : " + value);
-		if (hasDataValue(id) && data == (byte) -1)
+		if (hasDataValue(m) && data == (byte) -1)
 		{
 			//System.out.println("range");
-			setDataRange(id, (byte) 0, (byte) 15, value);
+			setDataRange(m, (byte) 0, (byte) 15, value);
 		}
 		else
 		{
-			int intLocation = IntMap.getIntIndex(id, data);
+			int intLocation = IntMap.getIntIndex(m, data);
 			//System.out.println("loc : " + intLocation);
 			if (intLocation == -1)
 			{
@@ -128,43 +152,24 @@ public class IntMap
 		}
 		return true;
 	}
-
-	public static int getIntIndex(int id, byte data)
-	{
-		return ((materialIndex[id] + data) < mapSize) ? materialIndex[id] + data : -1;
-	}
-
-	private boolean hasDataValue(int id)
-	{
-		return dataValueMap.containsKey(id);
-	}
-
-	/**
-	 * Combine two IntMaps, with otherMap having higher priority than this.
-	 * Please do not use this function, as it is slow.
-	 *
-	 * @param otherMap Map to combine with.
-	 */
-	@Deprecated
-	public void combine(IntMap otherMap)
-	{
-		for (int index = 0; index < mapData.length; index++)
-		{
-			if (otherMap.mapData[index] != 0)
-			{
-				mapData[index] = otherMap.mapData[index];
-			}
-		}
-	}
-
 	/**
 	 * Sets a range of the IntMap prevents multiple calls to IntMap and back
 	 */
-	public boolean setRange(int startId, byte startdata, int endId, byte enddata, int value)
+	public boolean setRange( int startId, byte startdata, int endId, byte enddata, int value )
 	{
+		return setRange(Material.getMaterial(startId), startdata, Material.getMaterial(endId), enddata, value);
+	}
+	public boolean setRange( Material startM, byte startdata, Material endM, byte enddata, int value )
+	{
+		if(startM == null || endM == null)
+		{
+			return false;
+		}
+		int startId = startM.getId();
+		int endId = endM.getId();
 		if (startdata < -1 || enddata < -1 || startId > endId
-			|| (startdata > 0 && !hasDataValue(startId)) || (enddata > 0 && !hasDataValue(endId))
-			|| !isAllowedMaterial(startId, startdata) || !isAllowedMaterial(endId, enddata))
+				|| (startdata > 0 && !hasDataValue(startM)) || (enddata > 0 && !hasDataValue(endM))
+				|| !isAllowedMaterial(startM, startdata) || !isAllowedMaterial(endId, enddata))
 		{
 			return false;
 		}
@@ -172,26 +177,26 @@ public class IntMap
 		{
 			if (startdata >= 0 && enddata >= 0)
 			{
-				setDataRange(startId, startdata, (byte) 15, value);
+				setDataRange(startM, startdata, (byte) 15, value);
 				startId++;
-				setDataRange(endId, (byte) 0, enddata, value);
+				setDataRange(endM, (byte) 0, enddata, value);
 				endId--;
 			}
 			else if (startdata == -1 && enddata >= 0)
 			{
-				setDataRange(endId, (byte) 0, enddata, value);
+				setDataRange(endM, (byte) 0, enddata, value);
 				endId--;
 			}
 			else if (startdata >= 0 && enddata == -1)
 			{
-				setDataRange(startId, startdata, (byte) 15, value);
+				setDataRange(startM, startdata, (byte) 15, value);
 				startId++;
 			}
 			while (startId <= endId)
 			{
-				if (hasDataValue(startId))
+				if (hasDataValue(startM))
 				{
-					setDataRange(startId, (byte) 0, (byte) 15, value);
+					setDataRange(startM, (byte) 0, (byte) 15, value);
 				}
 				else
 				{
@@ -207,9 +212,9 @@ public class IntMap
 		}
 		else if (startId == endId)
 		{
-			if (startdata < enddata && hasDataValue(startId))
+			if (startdata < enddata && hasDataValue(startM))
 			{
-				setDataRange(startId, startdata, enddata, value);
+				setDataRange(startM, startdata, enddata, value);
 				return true;
 			}
 			return false;
@@ -220,15 +225,15 @@ public class IntMap
 		}
 	}
 
-	private boolean setDataRange(int id, byte start, byte end, int amount)
+	private boolean setDataRange( Material m, byte start, byte end, int amount )
 	{
-		if (!hasDataValue(id))
+		if (!hasDataValue(m))
 		{
 			return false;
 		}
 		for (byte data = start; data <= end; data++)
 		{
-			int key = getIntIndex(id, data);
+			int key = getIntIndex(m, data);
 			if (key == -1)
 			{
 				break;
@@ -239,7 +244,7 @@ public class IntMap
 	}
 
 	@Override
-	public boolean equals(Object other)
+	public boolean equals( Object other )
 	{
 		if (other instanceof IntMap)
 		{
@@ -258,7 +263,24 @@ public class IntMap
 			return false;
 		}
 	}
-
+	/**
+	 * Combine two IntMaps, with otherMap having higher priority than this.
+	 * Please do not use this function, as it is slow.
+	 *
+	 * @param otherMap Map to combine with.
+	 */
+	@Deprecated
+	public void combine( IntMap otherMap )
+	{
+		for (int index = 0; index < mapData.length; index++)
+		{
+			if (otherMap.mapData[index] != 0)
+			{
+				mapData[index] = otherMap.mapData[index];
+			}
+		}
+	}
+	
 	@Override
 	public int hashCode()
 	{
@@ -292,7 +314,7 @@ public class IntMap
 		fillAll(false);
 	}
 
-	public void fillAll(boolean negative)
+	public void fillAll( boolean negative )
 	{
 		int value = negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 		for (int i = 0; i < mapData.length; i++)
