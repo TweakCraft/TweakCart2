@@ -18,6 +18,7 @@
 
 package net.tweakcraft.tweakcart.util;
 
+import java.util.*;
 import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.event.listeners.TweakBlockEventListener;
@@ -25,10 +26,6 @@ import net.tweakcraft.tweakcart.api.event.listeners.TweakSignEventListener;
 import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -90,6 +87,7 @@ public class TweakPluginManager {
                         } catch(Exception ex) {
                             TweakCart.log("VehiclePassesSignEvent could not be passed to " + listener.getClass().getName(), Level.WARNING);
                             TweakCart.log("Sign at " + event.getSign().getBlock().getLocation());
+							System.out.println(Arrays.toString(event.getSign().getLines()));
                             ex.printStackTrace();
                         }
                     }

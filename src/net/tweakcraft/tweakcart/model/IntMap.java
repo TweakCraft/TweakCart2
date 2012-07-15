@@ -18,7 +18,6 @@ public class IntMap
 		/*
 		 * dit moet dus nog worden geautomatiseerd
 		 */
-		HashMap<Integer, Byte> tmpMap = new HashMap<Integer, Byte>();
 		dataValueMap.put(5, (byte) 4);
 		dataValueMap.put(6, (byte) 4);
 		dataValueMap.put(17, (byte) 4);
@@ -35,8 +34,9 @@ public class IntMap
 		dataValueMap.put(126, (byte) 4); // wooden double slabs
 		dataValueMap.put(263, (byte) 2);
 		dataValueMap.put(351, (byte) 16);
-		dataValueMap.put(373, (byte) 13); // potions
-		dataValueMap.put(383, (byte) 21); // spawn eggs
+		
+		//dataValueMap.put(373, (byte) 13); // potions // id's verlefpt?
+		//dataValueMap.put(383, (byte) 21); // spawn eggs // id's verlefpt?
 
 		
 		int offsetX = 0;
@@ -80,25 +80,48 @@ public class IntMap
 	{
 		if(m == null)
 		{
-			System.err.println("material null");
 			return -1;
+		}
+		if(data < 0)
+		{
+			data = 0;
 		}
 		return ((materialIndex[m.ordinal()] + data) < mapSize) ? materialIndex[m.ordinal()] + data : -1;
 	}
 
 
-
+	private boolean hasDataValue( int id )
+	{
+		return dataValueMap.containsKey(id);
+	}
 	private boolean hasDataValue( Material m )
 	{
 		return dataValueMap.containsKey(m.getId());
 	}
-	
+	private int getMaxDataValue( int id )
+	{
+		return dataValueMap.get(id);
+	}
+	private int getMaxDataValue( Material m )
+	{
+		return dataValueMap.get(m.getId());
+	}	
 	public static boolean isAllowedMaterial( Material m, byte data )
 	{
+		if(m == null)
+		{
+			/* TODO: dit moet misschien anders? */
+			return false;
+		}
 		return IntMap.getIntIndex(m, data) != -1;
 	}
 	public static boolean isAllowedMaterial( int id, byte data )
 	{
+		if(Material.getMaterial(id) == null)
+		{
+			/* TODO: dit moet misschien anders? */
+			return false;
+		}		
 		return IntMap.isAllowedMaterial(Material.getMaterial(id), data);
 	}
 
@@ -132,23 +155,18 @@ public class IntMap
 		{
 			return false;
 		}
-		//System.out.println("SETINT: " + id + " : " + data + " : " + value);
 		if (hasDataValue(m) && data == (byte) -1)
 		{
-			//System.out.println("range");
-			setDataRange(m, (byte) 0, (byte) 15, value);
+			setDataRange(m, (byte) 0, (byte) getMaxDataValue(m), value);
 		}
 		else
 		{
 			int intLocation = IntMap.getIntIndex(m, data);
-			//System.out.println("loc : " + intLocation);
 			if (intLocation == -1)
 			{
 				return false;
 			}
-			//System.out.println("mapdata old : " + mapData[intLocation]);
 			mapData[intLocation] = value;
-			//System.out.println("mapdata new : " + mapData[intLocation]);
 		}
 		return true;
 	}
@@ -159,7 +177,7 @@ public class IntMap
 	{
 		return setRange(Material.getMaterial(startId), startdata, Material.getMaterial(endId), enddata, value);
 	}
-	public boolean setRange( Material startM, byte startdata, Material endM, byte enddata, int value )
+	public boolean setRange( Material startM, byte startData, Material endM, byte endData, int value )
 	{
 		if(startM == null || endM == null)
 		{
@@ -167,54 +185,32 @@ public class IntMap
 		}
 		int startId = startM.getId();
 		int endId = endM.getId();
-		if (startdata < -1 || enddata < -1 || startId > endId
-				|| (startdata > 0 && !hasDataValue(startM)) || (enddata > 0 && !hasDataValue(endM))
-				|| !isAllowedMaterial(startM, startdata) || !isAllowedMaterial(endId, enddata))
+		if (startData < -1 || endData < -1 || startId > endId
+				|| (startData > 0 && !hasDataValue(startM)) || (endData > 0 && !hasDataValue(endM))
+				|| !isAllowedMaterial(startM, startData) || !isAllowedMaterial(endId, endData))
 		{
 			return false;
 		}
 		if (startId < endId)
 		{
-			if (startdata >= 0 && enddata >= 0)
+			int rangeStart = IntMap.getIntIndex(startM, startData);
+			int rangeEnd = IntMap.getIntIndex(endM, endData);
+			/* if endData is -1 and the endMaterial has subdata we have to add this */
+			if(endData == -1 && hasDataValue(endM))
 			{
-				setDataRange(startM, startdata, (byte) 15, value);
-				startId++;
-				setDataRange(endM, (byte) 0, enddata, value);
-				endId--;
+				rangeEnd += IntMap.dataValueMap.get(endId);
 			}
-			else if (startdata == -1 && enddata >= 0)
+			for(int r = rangeStart; r <= rangeEnd; r++)
 			{
-				setDataRange(endM, (byte) 0, enddata, value);
-				endId--;
-			}
-			else if (startdata >= 0 && enddata == -1)
-			{
-				setDataRange(startM, startdata, (byte) 15, value);
-				startId++;
-			}
-			while (startId <= endId)
-			{
-				if (hasDataValue(startM))
-				{
-					setDataRange(startM, (byte) 0, (byte) 15, value);
-				}
-				else
-				{
-					setInt(startId, (byte) 0, value);
-				}
-				do
-				{
-					startId++;
-				}
-				while (!isAllowedMaterial(startId, (byte) 0));
+				mapData[r] = value;
 			}
 			return true;
 		}
 		else if (startId == endId)
 		{
-			if (startdata < enddata && hasDataValue(startM))
+			if (startData < endData && hasDataValue(startM))
 			{
-				setDataRange(startM, startdata, enddata, value);
+				setDataRange(startM, startData, endData, value);
 				return true;
 			}
 			return false;
