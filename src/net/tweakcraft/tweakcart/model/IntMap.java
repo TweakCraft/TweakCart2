@@ -2,8 +2,6 @@ package net.tweakcraft.tweakcart.model;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Level;
-import net.tweakcraft.tweakcart.TweakCart;
 import org.bukkit.Material;
 
 public class IntMap
@@ -76,18 +74,12 @@ public class IntMap
 
 	public static int getIntIndex( int id, byte data )
 	{
-		Material m = Material.getMaterial(id);
-		if(m == null)
-		{
-			System.err.println("1material null: " + id + ":" + data);
-		}
-		return getIntIndex(m, data);
+		return getIntIndex(Material.getMaterial(id), data);
 	}
 	public static int getIntIndex( Material m, byte data )
 	{
 		if(m == null)
 		{
-			System.err.println("material null");
 			return -1;
 		}
 		if(data < 0)
@@ -163,23 +155,18 @@ public class IntMap
 		{
 			return false;
 		}
-		//System.out.println("SETINT: " + m.getId() + " : " + data + " : " + value);
 		if (hasDataValue(m) && data == (byte) -1)
 		{
-			//System.out.println("range");
 			setDataRange(m, (byte) 0, (byte) getMaxDataValue(m), value);
 		}
 		else
 		{
 			int intLocation = IntMap.getIntIndex(m, data);
-			//System.out.println("loc : " + intLocation);
 			if (intLocation == -1)
 			{
 				return false;
 			}
-			//System.out.println("mapdata old : " + mapData[intLocation]);
 			mapData[intLocation] = value;
-			//System.out.println("mapdata new : " + mapData[intLocation]);
 		}
 		return true;
 	}
@@ -208,7 +195,6 @@ public class IntMap
 		{
 			int rangeStart = IntMap.getIntIndex(startM, startData);
 			int rangeEnd = IntMap.getIntIndex(endM, endData);
-			System.out.println(rangeStart + ":" + rangeEnd);
 			/* if endData is -1 and the endMaterial has subdata we have to add this */
 			if(endData == -1 && hasDataValue(endM))
 			{
@@ -237,11 +223,6 @@ public class IntMap
 
 	private boolean setDataRange( Material m, byte start, byte end, int amount )
 	{
-		System.err.println("Set Range:" + m.getId() + ":" + start + ":" + end + "::" + amount);
-		if(m == null)
-		{
-			System.err.println("setRange, material null: " + start + ":" + end + ":" + amount);
-		}
 		if (!hasDataValue(m))
 		{
 			return false;
