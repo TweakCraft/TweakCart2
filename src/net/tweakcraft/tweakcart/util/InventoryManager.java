@@ -71,7 +71,9 @@ public class InventoryManager {
             for (int toIndex = 0; toIndex < to.length; toIndex++) {
                 ItemStack tStack = to[toIndex];
                 if (tStack == null) {
+					//System.out.print(" 1 ");
                     if (fStack.getAmount() < maxAmountToMove) {
+						//System.out.print(" 1.1 ");
                         to[toIndex] = fStack;
                         fStack = null;
                         returnData[0]++;
@@ -82,6 +84,7 @@ public class InventoryManager {
                         );
                         break;
                     } else {
+						//System.out.print(" 1.2 : " + maxAmountToMove);
                         //TODO: check if durability & data is the same in this case
                         to[toIndex] = new ItemStack(
                                 fStack.getType(),
@@ -97,12 +100,15 @@ public class InventoryManager {
                         break;
                     }
                 } else if (tStack.getAmount() == 64) {
+					//System.out.print(" 2 ");
                     returnData[1]++;
                     continue;
                 } else if (fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().isEmpty()) {
+					//System.out.print(" 3 ");
                     //And now the magic begins
                     //First check if the stackAmount is smaller then the max amount to move
                     if (fStack.getAmount() <= maxAmountToMove) {
+						//System.out.print(" 3.1 ");
                         int total = fStack.getAmount() + tStack.getAmount();
                         if (total > 64) {
                             map.setInt(
@@ -114,6 +120,7 @@ public class InventoryManager {
                             fStack.setAmount(total - 64);
                             returnData[1]++;
                         } else {
+							//System.out.print(" 3.2 ");
                             map.setInt(
                                     tStack.getType(),
                                     (byte) tStack.getDurability(),
@@ -125,10 +132,12 @@ public class InventoryManager {
                             break;
                         }
                     } else {
+						//System.out.print(" 3.3 ");
                         //Otherwise, run some other code
                         int total = maxAmountToMove + tStack.getAmount();
                         int stableAmount = fStack.getAmount() - maxAmountToMove;
                         if (total > 64) {
+							//System.out.print(" 3.4 ");
                             map.setInt(
                                     tStack.getType(),
                                     (byte) tStack.getDurability(),
@@ -139,6 +148,7 @@ public class InventoryManager {
                             fStack.setAmount(total - 64 + stableAmount);
                             returnData[1]++;
                         } else {
+							//System.out.print(" 3.5 ");
                             map.setInt(
                                     tStack.getType(),
                                     (byte) tStack.getDurability(),
@@ -150,6 +160,7 @@ public class InventoryManager {
                         }
                     }
                 } else {
+					//System.out.print(" 4 ");
                     returnData[2]++;
                     continue;
                 }
