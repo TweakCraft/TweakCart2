@@ -63,7 +63,7 @@ public class InventoryManager {
         for (int fromIndex = 0; fromIndex < from.length; fromIndex++) {
             ItemStack fStack = from[fromIndex];
             if (fStack == null) continue;
-            int maxAmountToMove = map.getInt(fStack.getType(), (byte) fStack.getDurability());
+            int maxAmountToMove = map.getInt(fStack.getType(), fStack.getDurability());
             if (fStack == null || maxAmountToMove == 0) {
                 returnData[0]++;
                 continue;
@@ -82,7 +82,7 @@ public class InventoryManager {
                         returnData[0]++;
                         map.setInt(
                             to[toIndex].getType(),
-                            (byte) to[toIndex].getDurability(),
+                            to[toIndex].getDurability(),
                             maxAmountToMove - to[toIndex].getAmount()
                         );
                         break;
@@ -96,7 +96,7 @@ public class InventoryManager {
                         fStack.setAmount(fStack.getAmount() - maxAmountToMove);
 						map.setInt(
                             fStack.getType(),
-                            (byte) fStack.getDurability(),
+                            fStack.getDurability(),
                             0
                         );
                         break;
@@ -110,21 +110,19 @@ public class InventoryManager {
                     if (fStack.getAmount() <= maxAmountToMove) {
                         int total = fStack.getAmount() + tStack.getAmount();
                         if (total > 64) {
-							System.out.print("3");
                             map.setInt(
                                     tStack.getType(),
-                                    (byte) tStack.getDurability(),
-                                    map.getInt(tStack.getType(), (byte) tStack.getDurability()) - (64 - tStack.getAmount())
+                                    tStack.getDurability(),
+                                    map.getInt(tStack.getType(), tStack.getDurability()) - (64 - tStack.getAmount())
                             );
                             tStack.setAmount(64);
                             fStack.setAmount(total - 64);
                             returnData[1]++;
                         } else {
-							System.out.print("4");
                             map.setInt(
                                     tStack.getType(),
-                                    (byte) tStack.getDurability(),
-                                    map.getInt(tStack.getType(), (byte) tStack.getDurability()) - fStack.getAmount()
+                                    tStack.getDurability(),
+                                    map.getInt(tStack.getType(), tStack.getDurability()) - fStack.getAmount()
                             );
                             tStack.setAmount(total);
                             fStack = null;
@@ -136,22 +134,20 @@ public class InventoryManager {
                         int total = maxAmountToMove + tStack.getAmount();
                         int stableAmount = fStack.getAmount() - maxAmountToMove;
                         if (total > 64) {
-							System.out.print("5");
                             map.setInt(
                                     tStack.getType(),
-                                    (byte) tStack.getDurability(),
-                                    map.getInt(tStack.getType(), (byte) tStack.getDurability()) - (64 - tStack.getAmount())
+                                    tStack.getDurability(),
+                                    map.getInt(tStack.getType(), tStack.getDurability()) - (64 - tStack.getAmount())
                             );
                             maxAmountToMove -= 64 - tStack.getAmount();
                             tStack.setAmount(64);
                             fStack.setAmount(total - 64 + stableAmount);
                             returnData[1]++;
                         } else {
-							System.out.print("6");
                             map.setInt(
                                     tStack.getType(),
-                                    (byte) tStack.getDurability(),
-                                    map.getInt(tStack.getType(), (byte) tStack.getDurability()) - maxAmountToMove
+                                    tStack.getDurability(),
+                                    map.getInt(tStack.getType(), tStack.getDurability()) - maxAmountToMove
                             );
                             tStack.setAmount(total);
                             fStack.setAmount(stableAmount);
