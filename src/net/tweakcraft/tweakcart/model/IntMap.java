@@ -1,6 +1,7 @@
 package net.tweakcraft.tweakcart.model;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.TreeMap;
 import org.bukkit.Material;
 
@@ -22,7 +23,7 @@ public class IntMap
 		metaDataList.put(Material.getMaterial(5), 4);
 		metaDataList.put(Material.getMaterial(6), 4);
 		metaDataList.put(Material.getMaterial(17), 4);
-		metaDataList.put(Material.getMaterial(18), 4);
+		metaDataList.put(Material.getMaterial(18), 15);
 		metaDataList.put(Material.getMaterial(24), 3);
 		metaDataList.put(Material.getMaterial(31), 3);
 		metaDataList.put(Material.getMaterial(35), 16);
@@ -35,7 +36,8 @@ public class IntMap
 		//metaDataList.put(Material.getMaterial(126), 4);
 		metaDataList.put(Material.getMaterial(263), 2);
 		metaDataList.put(Material.getMaterial(351), 16);
-		Material[] matList = metaDataList.keySet().toArray(new Material[0]);
+        Set<Material> materials = metaDataList.keySet();
+        Material[] matList = materials.toArray(new Material[materials.size()]);
 		for(int m = 0; m < matList.length; m++)
 		{
 			dataValueMap.put(matList[m],new TreeMap<Integer,Integer> ()); 
