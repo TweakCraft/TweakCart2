@@ -1,7 +1,7 @@
 package net.tweakcraft.tweakcart.model;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.TreeMap;
 import org.bukkit.Material;
 
 public class IntMap
@@ -9,7 +9,7 @@ public class IntMap
 	private int[] mapData;
 	public static final int[] materialIndex = new int[Material.values().length];
 	public static final Material[] materialList = Material.values();
-	public final static HashMap<Integer, Byte> dataValueMap = new HashMap<Integer, Byte>();
+	public static final TreeMap<Material, TreeMap<Integer,Integer>> dataValueMap = new TreeMap<Material, TreeMap<Integer,Integer>>();
 	public static final int mapSize;
 	public static final int materialSize = materialList.length;
 
@@ -17,35 +17,56 @@ public class IntMap
 	{
 		/*
 		 * dit moet dus nog worden geautomatiseerd
-		 */
-		dataValueMap.put(5, (byte) 4);
-		dataValueMap.put(6, (byte) 4);
-		dataValueMap.put(17, (byte) 4);
-		dataValueMap.put(18, (byte) 4); // 3-4 different blocks?
-		dataValueMap.put(24, (byte) 3);
-		dataValueMap.put(31, (byte) 3);
-		dataValueMap.put(35, (byte) 16);
-		dataValueMap.put(43, (byte) 6); // double slabs
-		dataValueMap.put(44, (byte) 6);
-		dataValueMap.put(53, (byte) 4); // wooden stairs
-		dataValueMap.put(97, (byte) 3); // monster egg block
-		dataValueMap.put(98, (byte) 4);
-		dataValueMap.put(125, (byte) 4); // wooden slabs
-		dataValueMap.put(126, (byte) 4); // wooden double slabs
-		dataValueMap.put(263, (byte) 2);
-		dataValueMap.put(351, (byte) 16);
+		*/
+		TreeMap<Material, Integer> metaDataList = new TreeMap<Material, Integer>();
+		metaDataList.put(Material.getMaterial(5), 4);
+		metaDataList.put(Material.getMaterial(6), 4);
+		metaDataList.put(Material.getMaterial(17), 4);
+		metaDataList.put(Material.getMaterial(18), 4);
+		metaDataList.put(Material.getMaterial(24), 3);
+		metaDataList.put(Material.getMaterial(31), 3);
+		metaDataList.put(Material.getMaterial(35), 16);
+		metaDataList.put(Material.getMaterial(43), 6); 
+		metaDataList.put(Material.getMaterial(44), 6);
+		metaDataList.put(Material.getMaterial(53), 4);
+		metaDataList.put(Material.getMaterial(97), 3);
+		metaDataList.put(Material.getMaterial(98), 4);
+		//metaDataList.put(Material.getMaterial(125), 4);
+		//metaDataList.put(Material.getMaterial(126), 4);
+		metaDataList.put(Material.getMaterial(263), 2);
+		metaDataList.put(Material.getMaterial(351), 16);
+		Material[] matList = metaDataList.keySet().toArray(new Material[0]);
+		for(int m = 0; m < matList.length; m++)
+		{
+			dataValueMap.put(matList[m],new TreeMap<Integer,Integer> ()); 
+			for(int meta = 0; meta < metaDataList.get(matList[m]); meta++)
+			{
+				dataValueMap.get(matList[m]).put(meta, meta);
+			}
+		}
 		
-		//dataValueMap.put(373, (byte) 13); // potions // id's verlefpt?
-		//dataValueMap.put(383, (byte) 21); // spawn eggs // id's verlefpt?
+		int[] potionArray = new int[]{0, 16, 32, 64, 8192, 8193,8194,8195,8196,8197,8200,8201,8202,8204,8225,8226,8227,8228,8229,8232,8233,8234,8236,8257,8258,8259,8260,8261,8264,8265,8266,8268,16385,16386,16387,16388,16389,16392,16393,16394,16396,16417,16418,16419,16420,16421,16424,16425,16426,16428,16449,16450,16451,16452,16453,16456,16457,16458,16460};
+		dataValueMap.put(Material.getMaterial(373),new TreeMap<Integer,Integer> ()); 
+		for(int meta = 0; meta < potionArray.length; meta++)
+		{
+			dataValueMap.get(Material.getMaterial(373)).put(potionArray[meta], meta);
+		}
 
+		int[] eggArray = new int[]{50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 90, 91, 92, 93, 94, 95, 96, 98, 120};
+		dataValueMap.put(Material.getMaterial(383),new TreeMap<Integer,Integer> ()); 
+		for(int meta = 0; meta < eggArray.length; meta++)
+		{
+			dataValueMap.get(Material.getMaterial(383)).put(eggArray[meta], meta);
+		}
 		
 		int offsetX = 0;
+		Material m;
 		for (int x = 0; x < materialIndex.length; x++)
 		{
 			materialIndex[x] = offsetX;
-			if (dataValueMap.containsKey(x))
+			if (dataValueMap.containsKey(materialList[x]))
 			{
-				offsetX += dataValueMap.get(x);
+				offsetX += dataValueMap.get(materialList[x]).size();
 			}
 			else
 			{
@@ -72,11 +93,11 @@ public class IntMap
 		}
 	}
 
-	public static int getIntIndex( int id, byte data )
+	public static int getIntIndex( int id, int data )
 	{
 		return getIntIndex(Material.getMaterial(id), data);
 	}
-	public static int getIntIndex( Material m, byte data )
+	public static int getIntIndex( Material m, int data )
 	{
 		if(m == null)
 		{
@@ -86,27 +107,33 @@ public class IntMap
 		{
 			data = 0;
 		}
+		if(hasDataValue(m) && dataValueMap.get(m).containsKey(data))
+		{
+			data = dataValueMap.get(m).get(data);
+		}
+		else
+		{
+			data = 0;
+		}
 		return ((materialIndex[m.ordinal()] + data) < mapSize) ? materialIndex[m.ordinal()] + data : -1;
 	}
-
-
-	private boolean hasDataValue( int id )
+	private static boolean hasDataValue( int id )
 	{
-		return dataValueMap.containsKey(id);
+		return hasDataValue(Material.getMaterial(id));
 	}
-	private boolean hasDataValue( Material m )
+	private static boolean hasDataValue( Material m )
 	{
-		return dataValueMap.containsKey(m.getId());
+		return dataValueMap.containsKey(m);
 	}
-	private int getMaxDataValue( int id )
+	private static int getMaxDataValue( int id )
 	{
-		return dataValueMap.get(id);
+		return getMaxDataValue(Material.getMaterial(id));
 	}
-	private int getMaxDataValue( Material m )
+	private static int getMaxDataValue( Material m )
 	{
-		return dataValueMap.get(m.getId());
+		return dataValueMap.get(m).size();
 	}	
-	public static boolean isAllowedMaterial( Material m, byte data )
+	public static boolean isAllowedMaterial( Material m, int data )
 	{
 		if(m == null)
 		{
@@ -115,7 +142,7 @@ public class IntMap
 		}
 		return IntMap.getIntIndex(m, data) != -1;
 	}
-	public static boolean isAllowedMaterial( int id, byte data )
+	public static boolean isAllowedMaterial( int id, int data )
 	{
 		if(Material.getMaterial(id) == null)
 		{
@@ -125,11 +152,11 @@ public class IntMap
 		return IntMap.isAllowedMaterial(Material.getMaterial(id), data);
 	}
 
-	public int getInt( int id, byte data )
+	public int getInt( int id, int data )
 	{
 		return getInt(Material.getMaterial(id), data);
 	}
-	public int getInt( Material m, byte data )
+	public int getInt( Material m, int data )
 	{
 		if (m == null)
 		{
@@ -145,19 +172,19 @@ public class IntMap
 		return mapData[intLocation];
 	}
 
-	public boolean setInt( int id, byte data, int value )
+	public boolean setInt( int id, int data, int value )
 	{
 		return setInt(Material.getMaterial(id), data, value);
 	}
-	public boolean setInt( Material m, byte data, int value )
+	public boolean setInt( Material m, int data, int value )
 	{
 		if (m == null)
 		{
 			return false;
 		}
-		if (hasDataValue(m) && data == (byte) -1)
+		if (hasDataValue(m) && data == -1)
 		{
-			setDataRange(m, (byte) 0, (byte) getMaxDataValue(m), value);
+			setRange(getIntIndex(m, 0), getIntIndex(m, 0) + getMaxDataValue(m), value);
 		}
 		else
 		{
@@ -173,11 +200,11 @@ public class IntMap
 	/**
 	 * Sets a range of the IntMap prevents multiple calls to IntMap and back
 	 */
-	public boolean setRange( int startId, byte startdata, int endId, byte enddata, int value )
+	public boolean setRange( int startId, int startdata, int endId, int enddata, int value )
 	{
 		return setRange(Material.getMaterial(startId), startdata, Material.getMaterial(endId), enddata, value);
 	}
-	public boolean setRange( Material startM, byte startData, Material endM, byte endData, int value )
+	public boolean setRange( Material startM, int startData, Material endM, int endData, int value )
 	{
 		if(startM == null || endM == null)
 		{
@@ -198,7 +225,7 @@ public class IntMap
 			/* if endData is -1 and the endMaterial has subdata we have to add this */
 			if(endData == -1 && hasDataValue(endM))
 			{
-				rangeEnd += IntMap.dataValueMap.get(endId);
+				rangeEnd += getMaxDataValue(endM);
 			}
 			for(int r = rangeStart; r <= rangeEnd; r++)
 			{
@@ -210,8 +237,7 @@ public class IntMap
 		{
 			if (startData < endData && hasDataValue(startM))
 			{
-				setDataRange(startM, startData, endData, value);
-				return true;
+				return setRange(getIntIndex(startM, startData),getIntIndex(startM, endData), value);
 			}
 			return false;
 		}
@@ -220,22 +246,12 @@ public class IntMap
 			return false;
 		}
 	}
-
-	private boolean setDataRange( Material m, byte start, byte end, int amount )
+	private boolean setRange(int start, int end, int amount)
 	{
-		if (!hasDataValue(m))
+		for (int k = start; k <= end; k++)
 		{
-			return false;
-		}
-		for (byte data = start; data <= end; data++)
-		{
-			int key = getIntIndex(m, data);
-			if (key == -1)
-			{
-				break;
-			}
-			mapData[key] = amount;
-		}
+			mapData[k] = amount;
+		}		
 		return true;
 	}
 
