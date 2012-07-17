@@ -104,7 +104,7 @@ public class InventoryManager {
                 } else if (tStack.getAmount() == 64) {
                     returnData[1]++;
                     continue;
-                } else if (fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().isEmpty()) {
+                } else if (fStack.getTypeId() == tStack.getTypeId() && fStack.getDurability() == tStack.getDurability() && tStack.getEnchantments().equals(fStack.getEnchantments())) {
                     //And now the magic begins
                     //First check if the stackAmount is smaller then the max amount to move
                     if (fStack.getAmount() <= maxAmountToMove) {

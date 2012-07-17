@@ -52,7 +52,7 @@ public class TweakCartVehicleListener implements Listener {
     @EventHandler
     public void onVehicleMove(VehicleMoveEvent event) {
         if (event.getVehicle() instanceof Minecart) {
-            TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
+            // TweakPermissionsManager permissionsManager = TweakPermissionsManager.getInstance();
             Minecart minecart = (Minecart) event.getVehicle();
             if (!MathUtil.isSameBlock(event.getFrom(), event.getTo())) {
                 Block toBlock = event.getTo().getBlock();
@@ -116,7 +116,7 @@ public class TweakCartVehicleListener implements Listener {
                                     }
                                     i.setAmount(amt);
                                 }
-                                if (i != null && i.getAmount() != 0) {
+                                if (i.getAmount() != 0) {
                                     cart.getWorld().dropItem(dropLocation, i);
                                 }
                             }

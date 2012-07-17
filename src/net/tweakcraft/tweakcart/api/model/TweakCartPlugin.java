@@ -34,6 +34,7 @@ public abstract class TweakCartPlugin extends JavaPlugin {
     protected TweakCart core;
     protected TweakPluginManager pluginManager = TweakPluginManager.getInstance();
 
+	@Override
     public void onEnable() {
         Plugin p = getServer().getPluginManager().getPlugin("TweakCart");
         if (p != null && p instanceof TweakCart) {
@@ -43,6 +44,7 @@ public abstract class TweakCartPlugin extends JavaPlugin {
         log(getPluginName() + " enabled!");
     }
 
+	@Override
     public void onDisable() {
         log(getPluginName() + " disabled!");
     }
