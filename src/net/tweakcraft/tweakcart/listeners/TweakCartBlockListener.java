@@ -47,7 +47,7 @@ public class TweakCartBlockListener implements Listener {
             case STORAGE_MINECART:
             case POWERED_MINECART:
                 Direction d = Direction.getDirection(event.getVelocity());
-                System.out.println("Direction: " + d);
+                //System.out.println("Direction: " + d);
                 if (VehicleUtil.canSpawn(dispenser)) {
                     manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
                     if (!event.isCancelled()) {
