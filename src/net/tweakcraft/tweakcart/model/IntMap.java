@@ -1,8 +1,8 @@
 package net.tweakcraft.tweakcart.model;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeMap;
 import org.bukkit.Material;
 
 public class IntMap
@@ -10,7 +10,7 @@ public class IntMap
 	private int[] mapData;
 	public static final int[] materialIndex = new int[Material.values().length];
 	public static final Material[] materialList = Material.values();
-	public static final TreeMap<Material, TreeMap<Integer,Integer>> dataValueMap = new TreeMap<Material, TreeMap<Integer,Integer>>();
+	public static final HashMap<Material, HashMap<Integer,Integer>> dataValueMap = new HashMap<Material, HashMap<Integer,Integer>>();
 	public static final int mapSize;
 	public static final int materialSize = materialList.length;
 
@@ -19,7 +19,7 @@ public class IntMap
 		/*
 		 * dit moet dus nog worden geautomatiseerd
 		*/
-		TreeMap<Material, Integer> metaDataList = new TreeMap<Material, Integer>();
+		HashMap<Material, Integer> metaDataList = new HashMap<Material, Integer>();
 		metaDataList.put(Material.getMaterial(5), 4);
 		metaDataList.put(Material.getMaterial(6), 4);
 		metaDataList.put(Material.getMaterial(17), 4);
@@ -36,11 +36,11 @@ public class IntMap
 		//metaDataList.put(Material.getMaterial(126), 4);
 		metaDataList.put(Material.getMaterial(263), 2);
 		metaDataList.put(Material.getMaterial(351), 16);
-        Set<Material> materials = metaDataList.keySet();
-        Material[] matList = materials.toArray(new Material[materials.size()]);
+		Set<Material> materials = metaDataList.keySet();
+		Material[] matList = materials.toArray(new Material[materials.size()]);
 		for(int m = 0; m < matList.length; m++)
 		{
-			dataValueMap.put(matList[m],new TreeMap<Integer,Integer> ()); 
+			dataValueMap.put(matList[m],new HashMap<Integer,Integer> ()); 
 			for(int meta = 0; meta < metaDataList.get(matList[m]); meta++)
 			{
 				dataValueMap.get(matList[m]).put(meta, meta);
@@ -48,14 +48,14 @@ public class IntMap
 		}
 		
 		int[] potionArray = new int[]{0, 16, 32, 64, 8192, 8193,8194,8195,8196,8197,8200,8201,8202,8204,8225,8226,8227,8228,8229,8232,8233,8234,8236,8257,8258,8259,8260,8261,8264,8265,8266,8268,16385,16386,16387,16388,16389,16392,16393,16394,16396,16417,16418,16419,16420,16421,16424,16425,16426,16428,16449,16450,16451,16452,16453,16456,16457,16458,16460};
-		dataValueMap.put(Material.getMaterial(373),new TreeMap<Integer,Integer> ()); 
+		dataValueMap.put(Material.getMaterial(373),new HashMap<Integer,Integer> ()); 
 		for(int meta = 0; meta < potionArray.length; meta++)
 		{
 			dataValueMap.get(Material.getMaterial(373)).put(potionArray[meta], meta);
 		}
 
 		int[] eggArray = new int[]{50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 90, 91, 92, 93, 94, 95, 96, 98, 120};
-		dataValueMap.put(Material.getMaterial(383),new TreeMap<Integer,Integer> ()); 
+		dataValueMap.put(Material.getMaterial(383),new HashMap<Integer,Integer> ()); 
 		for(int meta = 0; meta < eggArray.length; meta++)
 		{
 			dataValueMap.get(Material.getMaterial(383)).put(eggArray[meta], meta);
