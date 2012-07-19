@@ -15,14 +15,14 @@ public class IntMap {
     public static final int materialSize = materialList.length;
 
     static {
-        /*
-           * dit moet dus nog worden geautomatiseerd
-          */
+        /**
+         * dit moet dus nog worden geautomatiseerd
+         */
         HashMap<Material, Integer> metaDataList = new HashMap<Material, Integer>();
         metaDataList.put(Material.getMaterial(5), 4);
         metaDataList.put(Material.getMaterial(6), 4);
         metaDataList.put(Material.getMaterial(17), 4);
-        metaDataList.put(Material.getMaterial(18), 15);
+        metaDataList.put(Material.getMaterial(18), 16);
         metaDataList.put(Material.getMaterial(24), 3);
         metaDataList.put(Material.getMaterial(31), 3);
         metaDataList.put(Material.getMaterial(35), 16);
@@ -158,7 +158,8 @@ public class IntMap {
             return false;
         }
         if (hasDataValue(m) && data == -1) {
-            setRange(getIntIndex(m, 0), getIntIndex(m, 0) + getMaxDataValue(m), value);
+            int add = getMaxDataValue(m) > 0 ? getMaxDataValue(m) - 1 : 0;
+            setRange(getIntIndex(m, 0), getIntIndex(m, 0) + add, value);
         } else {
             int intLocation = IntMap.getIntIndex(m, data);
             if (intLocation == -1) {

@@ -87,7 +87,7 @@ public class TweakPluginManager {
                         } catch(Exception ex) {
                             TweakCart.log("VehiclePassesSignEvent could not be passed to " + listener.getClass().getName(), Level.WARNING);
                             TweakCart.log("Sign at " + event.getSign().getBlock().getLocation());
-							System.out.println(Arrays.toString(event.getSign().getLines()));
+                            System.out.println(Arrays.toString(event.getSign().getLines()));
                             ex.printStackTrace();
                         }
                     }

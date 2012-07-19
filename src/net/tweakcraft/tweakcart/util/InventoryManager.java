@@ -70,11 +70,11 @@ public class InventoryManager {
             }
             for (int toIndex = 0; toIndex < to.length; toIndex++) {
                 ItemStack tStack = to[toIndex];
-				/* Extra check op maxAmountToMove */
-				if(maxAmountToMove == 0)
-				{
-					break;
-				}
+                /* Extra check op maxAmountToMove */
+                if(maxAmountToMove == 0)
+                {
+                    break;
+                }
                 if (tStack == null) {
                     if (fStack.getAmount() <= maxAmountToMove) {
                         to[toIndex] = fStack;
@@ -94,7 +94,7 @@ public class InventoryManager {
                                 fStack.getDurability()
                         );
                         fStack.setAmount(fStack.getAmount() - maxAmountToMove);
-						map.setInt(
+                        map.setInt(
                             fStack.getType(),
                             fStack.getDurability(),
                             0
