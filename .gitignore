@@ -10,3 +10,5 @@
 /build
 /nbproject
 manifest.mf
+#and please ignore Jar's, take way too much space
+*.jar
