@@ -41,6 +41,17 @@ public class BlockUtil {
             signList.add((Sign)toBlock.getRelative(BlockFace.UP).getState());
 
         switch (cartDriveDirection) {
+            case WEST:
+            case EAST:
+                if(isSign(toBlock.getRelative(BlockFace.SOUTH)))
+                    signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getState());
+                if(isSign(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN)))
+                    signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN).getState());
+                if(isSign(toBlock.getRelative(BlockFace.NORTH)))
+                    signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getState());
+                if(isSign(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN)))
+                    signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN).getState());
+                break;
             case NORTH:
             case SOUTH:
                 if(isSign(toBlock.getRelative(BlockFace.WEST)))
@@ -51,17 +62,6 @@ public class BlockUtil {
                     signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getState());
                 if(isSign(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN).getState());
-                break;
-            case EAST:
-            case WEST:
-                if(isSign(toBlock.getRelative(BlockFace.NORTH)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getState());
-                if(isSign(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN).getState());
-                if(isSign(toBlock.getRelative(BlockFace.SOUTH)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getState());
-                if(isSign(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN).getState());
                 break;
         }
 

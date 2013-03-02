@@ -73,7 +73,7 @@ public class TweakCartVehicleListener implements Listener {
                     }
                 } else {
                     Set<Sign> signBlockList;
-                    if ((signBlockList = BlockUtil.getSignLocationAround(toBlock, cartDriveDirection)).size() != 0) {
+                    if (!(signBlockList = BlockUtil.getSignLocationAround(toBlock, cartDriveDirection)).isEmpty()) {
                         //Woei, we hebben bordjes gevonden
                         for (Sign sign : signBlockList) {
                             String keyword = sign.getLine(0);
