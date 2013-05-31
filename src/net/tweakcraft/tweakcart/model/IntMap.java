@@ -25,10 +25,10 @@ public class IntMap {
         metaDataList.put(Material.LOG, 4);
         metaDataList.put(Material.LEAVES, 15);
         metaDataList.put(Material.SANDSTONE, 3);
-        metaDataList.put(Material.GRASS, 3);
+        metaDataList.put(Material.LONGGRASS, 3);
         metaDataList.put(Material.WOOL, 16);
-        metaDataList.put(Material.DOUBLE_STEP, 6);
-        metaDataList.put(Material.STEP, 6);
+        metaDataList.put(Material.DOUBLE_STEP, 10);
+        metaDataList.put(Material.STEP, 8);
         //metaDataList.put(Material.WOOD_STAIRS, 4); No longer necessairy
         metaDataList.put(Material.MONSTER_EGG, 3);
         metaDataList.put(Material.SMOOTH_BRICK, 4);
