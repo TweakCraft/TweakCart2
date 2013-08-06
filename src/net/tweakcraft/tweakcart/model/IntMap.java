@@ -41,7 +41,7 @@ public class IntMap {
         dataValueMap.put(Material.COAL, 2);
         dataValueMap.put(Material.INK_SACK, 16);
         dataValueMap.put(Material.POTION, potionDatas.size());
-        dataValueMap.put(Material.MONSTER_EGG, potionDatas.size());
+        dataValueMap.put(Material.MONSTER_EGG, monsterEggDatas.size());
 
         int offsetX = 0;
         Material m;
