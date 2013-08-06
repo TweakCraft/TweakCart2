@@ -39,8 +39,6 @@ public class TweakCart extends JavaPlugin {
 
     public static boolean DEBUG;
 
-    private static FileConfiguration configuration;
-
     @Override
     public void onDisable() {
         log("Disabled");
@@ -55,14 +53,14 @@ public class TweakCart extends JavaPlugin {
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
 
-        configuration = getConfig();
+        FileConfiguration configuration = getConfig();
         TweakPermissionsManager.initPermissionsManager();
 
         DEBUG = configuration.getBoolean("debug", false);
     }
 
     public static void log(String info, Level level) {
-        logger.log(level, "[TweakCart] " + info);
+        logger.log(level, "[TweakCart] {0}", info);
     }
 
     public static void log(String info) {
@@ -71,9 +69,5 @@ public class TweakCart extends JavaPlugin {
 
     public TweakPluginManager getPluginManager() {
         return TweakPluginManager.getInstance();
-    }
-
-    public static FileConfiguration getPluginConfig() {
-        return configuration;
     }
 }

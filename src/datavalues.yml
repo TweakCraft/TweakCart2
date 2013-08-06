@@ -1,0 +1,157 @@
+## YAML Template.
+debug: false
+## all blocks with data
+datavalues:
+  wood:
+    id: 
+    data-min: 0
+    data-max: 3
+  sappling:
+    id:
+    data-min: 0
+    data-max: 3
+  log:
+    id:
+    data-min: 0
+    data-max: 3
+  leaves:
+    id:
+    data-min: 0
+    data-max: 3
+  sandstone:
+    id:
+    data-min: 0
+    data-max: 2
+  grass:
+    id:
+    data-min: 0
+    data-max: 2
+  wool:
+    id:
+    data-min: 0
+    data-max: 15
+  double-step:
+    id:
+    data-min: 0 
+    data-max: 9
+  step:
+    id:
+    data-min: 0 
+    data-max: 7
+  monster-egg:
+    id:
+    data-min: 0
+    data-max: 2
+  smooth-brick:
+    id:
+    data-min: 0
+    data-max: 3
+  wood-double-step:
+    id:
+    data-min: 0
+    data-max: 3
+  wood-step:
+    id:
+    data-min: 0
+    data-max: 3
+  coal:
+    id:
+    data-min: 0
+    data-max: 1
+  ink-sack:
+    id:
+    data-min: 0
+    data-max: 15
+
+potiondatas:
+  - 0
+  - 16
+  - 32
+  - 64
+  - 8192
+  - 8193
+  - 8194
+  - 8195
+  - 8196
+  - 8197
+  - 8198
+  - 8200
+  - 8201
+  - 8202
+  - 8204
+  - 8206
+  - 8225
+  - 8226
+  - 8227
+  - 8228
+  - 8229
+  - 8232
+  - 8233
+  - 8234
+  - 8236
+  - 8257
+  - 8258
+  - 8259
+  - 8260
+  - 8261
+  - 8262
+  - 8264
+  - 8265
+  - 8266
+  - 8268
+  - 8270
+  - 16385
+  - 16386
+  - 16387
+  - 16388
+  - 16389
+  - 16392
+  - 16393
+  - 16394
+  - 16396
+  - 16417
+  - 16418
+  - 16419
+  - 16420
+  - 16421
+  - 16424
+  - 16425
+  - 16426
+  - 16428
+  - 16390
+  - 16398
+  - 16449
+  - 16450
+  - 16451
+  - 16452
+  - 16453
+  - 16454
+  - 16456
+  - 16457
+  - 16458
+  - 16460
+  - 16462
+   
+eggdatas:
+  - 50
+  - 51
+  - 52
+  - 54
+  - 55
+  - 56
+  - 57
+  - 58
+  - 59
+  - 60
+  - 61
+  - 62
+  - 90
+  - 91
+  - 92
+  - 93
+  - 94
+  - 95
+  - 96
+  - 98
+  - 120
+  
