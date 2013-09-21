@@ -151,7 +151,6 @@ public class VehicleUtil {
      */
     public static boolean isRail(Block b) {
 
-        //System.out.println(b.getType());
         switch (b.getType()) {
             case RAILS:
             case POWERED_RAIL:

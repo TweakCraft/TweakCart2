@@ -16,14 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api.util;
+package net.tweakcraft.tweakcart.permissions;
 
 //import com.zones.model.ZonesAccess;
 import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
-import net.tweakcraft.tweakcart.api.model.TweakPermissionsHandler;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -36,7 +35,7 @@ import java.util.logging.Level;
  *
  * @author Edoxile
  */
-
+@Deprecated
 public class TweakPermissionsManager {
     private static TweakPermissionsManager instance = null;
 
@@ -73,32 +72,8 @@ public class TweakPermissionsManager {
     //private WorldGuardPlugin worldGuard;
 
     private ArrayList<TweakPermissionsHandler> permissionsHandlers = new ArrayList<TweakPermissionsHandler>();
-    private FileConfiguration config = TweakCart.getPluginConfig();
 
     private TweakPermissionsManager() {
-        permissionsEnabled = config.getBoolean("permissions.use-permissions", false);
-        /*
-        zonesEnabled = config.getBoolean("permissions.use-zones", false);
-        worldGuardEnabled = config.getBoolean("permissions.use-worldguard", false);
-        if (zonesEnabled) {
-            Plugin p = Bukkit.getServer().getPluginManager().getPlugin("zones");
-            if (p != null && p instanceof Zones) {
-                zones = (Zones) p;
-            } else {
-                zonesEnabled = false;
-                TweakCart.log("Zones was enabled in the config but not found running on the server!", Level.SEVERE);
-            }
-        }
-        if (worldGuardEnabled) {
-            Plugin p = Bukkit.getServer().getPluginManager().getPlugin("worldguard");
-            if (p != null && p instanceof WorldGuardPlugin) {
-                worldGuard = (WorldGuardPlugin) p;
-            } else {
-                worldGuardEnabled = false;
-                TweakCart.log("WorldGuard was enabled in the config but not found running on the server!", Level.SEVERE);
-            }
-        }
-        */
     }
 
     public boolean playerCanDo(Player player, PermissionType type, String node, Block block) {
@@ -185,7 +160,6 @@ public class TweakPermissionsManager {
     }
 
     public void reloadConfig() {
-        permissionsEnabled = config.getBoolean("permissions.use-permissions", false);
         /*
         zonesEnabled = config.getBoolean("permissions.use-zones", false);
         worldGuardEnabled = config.getBoolean("permissions.use-worldguard", false);

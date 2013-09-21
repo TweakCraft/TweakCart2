@@ -16,12 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.tweakcraft.tweakcart.api.model;
+package net.tweakcraft.tweakcart.permissions;
 
 import net.tweakcraft.tweakcart.api.event.TweakPlayerCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollectEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 
+@Deprecated
 public interface TweakPermissionsHandler {
 
     public boolean canVehicleCollect(TweakVehicleCollectEvent event);

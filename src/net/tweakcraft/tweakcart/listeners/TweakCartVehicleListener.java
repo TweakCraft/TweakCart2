@@ -22,7 +22,7 @@ package net.tweakcraft.tweakcart.listeners;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.model.CartType;
 import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
-import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.permissions.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.*;
 import org.bukkit.Location;

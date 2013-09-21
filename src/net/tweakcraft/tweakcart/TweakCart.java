@@ -18,7 +18,7 @@
 
 package net.tweakcraft.tweakcart;
 
-import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.permissions.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.listeners.TweakCartBlockListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartPlayerListener;
 import net.tweakcraft.tweakcart.listeners.TweakCartVehicleListener;

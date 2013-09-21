@@ -19,7 +19,7 @@
 package net.tweakcraft.tweakcart.listeners;
 
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
-import net.tweakcraft.tweakcart.api.util.TweakPermissionsManager;
+import net.tweakcraft.tweakcart.permissions.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.model.Direction;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
 import org.bukkit.Material;

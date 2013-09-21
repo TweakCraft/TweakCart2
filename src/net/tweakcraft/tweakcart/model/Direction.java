@@ -15,13 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package net.tweakcraft.tweakcart.model;
 
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public enum Direction {
+
     NORTH(-1, 0, 0),
     EAST(0, 0, -1),
     SOUTH(1, 0, 0),
@@ -33,7 +33,6 @@ public enum Direction {
     SOUTH_EAST(SOUTH, EAST),
     SOUTH_WEST(SOUTH, WEST),
     SELF(0, 0, 0);
-
     private int modY;
     private int modZ;
     private int modX;
@@ -62,6 +61,41 @@ public enum Direction {
         return modY;
     }
 
+    public static Direction getDirectionByName(String name) {
+        switch (name.toLowerCase()) {
+            case "n":
+            case "north":
+                return Direction.NORTH;
+            case "ne":
+            case "north east":
+                return Direction.NORTH_EAST;
+            case "e":
+            case "east":
+                return Direction.EAST;
+            case "so":
+            case "south east":
+                return Direction.SOUTH_EAST;
+            case "s":
+            case "south":
+                return Direction.SOUTH;
+            case "sw":
+            case "south west":
+                return Direction.SOUTH_WEST;
+            case "w":
+            case "west":
+                return Direction.WEST;
+            case "nw":
+            case "north west":
+                return Direction.NORTH_WEST;            
+            default:
+                return Direction.SELF;
+
+        }
+    }
+    
+    public static Vector Direction2Vector(Direction dir){
+        return new Vector(dir.getModX(), dir.getModY(), dir.getModZ());
+    }
 
     public static Direction getDirection(Location from, Location to) {
         if (from.getBlockX() == to.getBlockX() + 1) {
