@@ -15,7 +15,7 @@ public class DataValueConfiguration {
     
     private List<Integer> eggdatas;
     private List<Integer> potiondatas;
-    
+        
     public DataValueConfiguration(DataValueConfigurationAccessor dac){
         this.dac = dac;
     }
