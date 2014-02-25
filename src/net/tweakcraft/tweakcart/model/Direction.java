@@ -62,35 +62,17 @@ public enum Direction {
     }
 
     public static Direction getDirectionByName(String name) {
-        switch (name.toLowerCase()) {
-            case "n":
-            case "north":
-                return Direction.NORTH;
-            case "ne":
-            case "north east":
-                return Direction.NORTH_EAST;
-            case "e":
-            case "east":
-                return Direction.EAST;
-            case "so":
-            case "south east":
-                return Direction.SOUTH_EAST;
-            case "s":
-            case "south":
-                return Direction.SOUTH;
-            case "sw":
-            case "south west":
-                return Direction.SOUTH_WEST;
-            case "w":
-            case "west":
-                return Direction.WEST;
-            case "nw":
-            case "north west":
-                return Direction.NORTH_WEST;            
-            default:
-                return Direction.SELF;
-
-        }
+        name = name.toLowerCase().trim();
+        
+        if(name.equals("n") || name.equals("north")) return Direction.NORTH;
+        else if(name.equals("ne") || name.equals("north east")) return Direction.NORTH_EAST;
+        else if(name.equals("e") || name.equals("east")) return Direction.EAST;
+        else if(name.equals("se") || name.equals("south east")) return Direction.SOUTH_EAST;
+        else if(name.equals("s") || name.equals("south")) return Direction.SOUTH;
+        else if(name.equals("sw") || name.equals("south west")) return Direction.SOUTH_WEST;
+        else if(name.equals("w") || name.equals("west")) return Direction.WEST;
+        else if(name.equals("nw") || name.equals("north west")) return Direction.NORTH_WEST;
+        else return Direction.SELF;
     }
     
     public static Vector Direction2Vector(Direction dir){
