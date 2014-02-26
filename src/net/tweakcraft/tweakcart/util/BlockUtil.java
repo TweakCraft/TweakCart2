@@ -41,8 +41,8 @@ public class BlockUtil {
             signList.add((Sign)toBlock.getRelative(BlockFace.UP).getState());
 
         switch (cartDriveDirection) {
-            case NORTH:
-            case SOUTH:
+            case EAST:
+            case WEST:
                 if(isSign(toBlock.getRelative(BlockFace.SOUTH)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getState());
                 if(isSign(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN)))
@@ -52,8 +52,8 @@ public class BlockUtil {
                 if(isSign(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN).getState());
                 break;
-            case EAST:
-            case WEST:
+            case NORTH:
+            case SOUTH:
                 if(isSign(toBlock.getRelative(BlockFace.WEST)))
                     signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getState());
                 if(isSign(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN)))

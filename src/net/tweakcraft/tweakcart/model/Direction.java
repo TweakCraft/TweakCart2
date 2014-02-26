@@ -96,13 +96,13 @@ public enum Direction {
         double xVel = velocity.getX();
         double zVel = velocity.getZ();
         if (zVel >= 0 && xVel >= 0) {
-            return (zVel > xVel) ? Direction.EAST : Direction.SOUTH;
+            return (zVel > xVel) ? Direction.SOUTH : Direction.EAST;
         } else if (zVel <= 0 && xVel <= 0) {
-            return (zVel > xVel) ? Direction.NORTH : Direction.WEST;
+            return (zVel > xVel) ? Direction.WEST : Direction.NORTH;
         } else if (zVel >= 0 && xVel <= 0) {
-            return (zVel > (-xVel)) ? Direction.EAST : Direction.NORTH;
+            return (zVel > (-xVel)) ? Direction.SOUTH : Direction.WEST;
         } else if (zVel <= 0 && xVel >= 0) {
-            return ((-zVel) > xVel) ? Direction.WEST : Direction.SOUTH;
+            return ((-zVel) > xVel) ? Direction.NORTH : Direction.EAST;
         } else {
             return Direction.SELF;
         }
