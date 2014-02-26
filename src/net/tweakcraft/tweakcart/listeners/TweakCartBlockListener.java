@@ -15,7 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package net.tweakcraft.tweakcart.listeners;
 
 import net.tweakcraft.tweakcart.api.event.TweakSignRedstoneEvent;
@@ -36,36 +35,38 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.block.Sign;
 
 public class TweakCartBlockListener implements Listener {
+
     private TweakPluginManager manager = TweakPluginManager.getInstance();
 
     /*
-    @EventHandler
-    public void onBlockRedstoneChange(BlockRedstoneEvent event) {
-    }
+     @EventHandler
+     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
+     }
      */
-
     @EventHandler
     public void onBlockDispense(BlockDispenseEvent event) {
         Material type = event.getItem().getType();
-        Dispenser dispenser = (Dispenser) event.getBlock().getState();
+
         TweakPermissionsManager manager = TweakPermissionsManager.getInstance();
 
-        switch (type) {
-            case MINECART:
-            case STORAGE_MINECART:
-            case POWERED_MINECART:
-                Direction d = Direction.getDirection(event.getVelocity());
-                //System.out.println("Direction: " + d);
-                if (VehicleUtil.canSpawn(dispenser)) {
-                    manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
-                    if (!event.isCancelled()) {
-                        VehicleUtil.spawnCartFromDispenser(dispenser, type);
-                        dispenser.getInventory().removeItem(event.getItem());
-                        event.setCancelled(true);
+        if (event.getBlock().getState() instanceof Dispenser) {
+            Dispenser dispenser = (Dispenser) event.getBlock().getState();
+            switch (type) {
+                case MINECART:
+                case STORAGE_MINECART:
+                case POWERED_MINECART:
+                    Direction d = Direction.getDirection(event.getVelocity());
+                    //System.out.println("Direction: " + d);
+                    if (VehicleUtil.canSpawn(dispenser)) {
+                        manager.cartCanDispense(new TweakVehicleDispenseEvent(d, event.getBlock(), type));
+                        if (!event.isCancelled()) {
+                            event.setCancelled(true);
+                        }
                     }
-                }
-                break;
+                    break;
+            }
         }
+
     }
 
     @EventHandler
