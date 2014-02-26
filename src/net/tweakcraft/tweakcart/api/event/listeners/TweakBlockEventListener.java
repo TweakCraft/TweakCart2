@@ -21,6 +21,7 @@ package net.tweakcraft.tweakcart.api.event.listeners;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleDestroyEvent;
 
 public abstract class TweakBlockEventListener {
 
@@ -36,5 +37,9 @@ public abstract class TweakBlockEventListener {
     public void onVehicleDetect(TweakVehicleBlockDetectEvent event) {
         //Called when a cart is detected
         //Is a default bukkit feature
+    }
+    
+    public void onVehicleDestroy(TweakVehicleDestroyEvent event) {
+        //Called when a vehicle gets destroyed
     }
 }
