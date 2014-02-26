@@ -70,34 +70,34 @@ public class TweakCartBlockListener implements Listener {
 
     @EventHandler
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
-        if (event.getNewCurrent() == event.getOldCurrent() || event.getNewCurrent() > 0 && event.getOldCurrent() > 0) {
+        if (event.getNewCurrent() == event.getOldCurrent() || event.getNewCurrent() > 0 && event.getOldCurrent() > 0 || event.getBlock().getType() != Material.REDSTONE_WIRE) {
             return;
         }
         Block block = event.getBlock();
         Sign sign;
         for (int dx = -1; dx <= 1; dx++) {
             if (BlockUtil.isSign(block.getRelative(dx, 0, 0))) {
-                sign = (Sign) event.getBlock().getState();
+                sign = (Sign) block.getRelative(dx, 0, 0).getState();
                 if (sign != null) {
                     String keyword = sign.getLine(0);
-                    manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword));
+                    manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword, event.getNewCurrent()));
                 }
             }
         }
         for (int dz = -1; dz <= 1; dz++) {
             if (BlockUtil.isSign(block.getRelative(0, 0, dz))) {
-                sign = (Sign) event.getBlock().getState();
+                sign = (Sign) block.getRelative(0, 0, dz).getState();
                 if (sign != null) {
                     String keyword = sign.getLine(0);
-                    manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword));
+                    manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword, event.getNewCurrent()));
                 }
             }
         }
-        if (BlockUtil.isSign(block.getRelative(0, -1, 0))) {
-            sign = (Sign) event.getBlock().getState();
+        if (BlockUtil.isSign(block.getRelative(0, 1, 0))) {
+            sign = (Sign) block.getRelative(0, 1, 0).getState();
             if (sign != null) {
                 String keyword = sign.getLine(0);
-                manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword));
+                manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword, event.getNewCurrent()));
             }
         }
 

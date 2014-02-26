@@ -80,13 +80,13 @@ public enum Direction {
     }
 
     public static Direction getDirection(Location from, Location to) {
-        if (from.getBlockX() == to.getBlockX() + 1) {
+        if (from.getBlockZ() == to.getBlockZ() + 1) {
             return Direction.NORTH;
-        } else if (from.getBlockX() + 1 == to.getBlockX()) {
-            return Direction.SOUTH;
-        } else if (from.getBlockZ() == to.getBlockZ() + 1) {
-            return Direction.EAST;
         } else if (from.getBlockZ() + 1 == to.getBlockZ()) {
+            return Direction.SOUTH;
+        } else if (from.getBlockX() == to.getBlockX() + 1) {
+            return Direction.EAST;
+        } else if (from.getBlockX() + 1 == to.getBlockX()) {
             return Direction.WEST;
         }
         return Direction.SELF;
@@ -95,14 +95,14 @@ public enum Direction {
     public static Direction getDirection(Vector velocity) {
         double xVel = velocity.getX();
         double zVel = velocity.getZ();
-        if (xVel >= 0 && zVel >= 0) {
-            return (xVel > zVel) ? Direction.WEST : Direction.SOUTH;
-        } else if (xVel <= 0 && zVel <= 0) {
-            return (xVel > zVel) ? Direction.NORTH : Direction.EAST;
-        } else if (xVel >= 0 && zVel <= 0) {
-            return (xVel > (-zVel)) ? Direction.WEST : Direction.NORTH;
-        } else if (xVel <= 0 && zVel >= 0) {
-            return ((-xVel) > zVel) ? Direction.EAST : Direction.SOUTH;
+        if (zVel >= 0 && xVel >= 0) {
+            return (zVel > xVel) ? Direction.WEST : Direction.SOUTH;
+        } else if (zVel <= 0 && xVel <= 0) {
+            return (zVel > xVel) ? Direction.NORTH : Direction.EAST;
+        } else if (zVel >= 0 && xVel <= 0) {
+            return (zVel > (-xVel)) ? Direction.WEST : Direction.NORTH;
+        } else if (zVel <= 0 && xVel >= 0) {
+            return ((-zVel) > xVel) ? Direction.EAST : Direction.SOUTH;
         } else {
             return Direction.SELF;
         }
