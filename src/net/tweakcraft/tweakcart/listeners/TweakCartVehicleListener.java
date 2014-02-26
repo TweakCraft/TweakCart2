@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 
 public class TweakCartVehicleListener implements Listener {
     private TweakPluginManager manager = TweakPluginManager.getInstance();
@@ -135,6 +136,14 @@ public class TweakCartVehicleListener implements Listener {
             } else {
                 manager.callEvent(TweakCartEvent.Block.VehicleBlockCollisionEvent, new TweakVehicleBlockCollisionEvent(cart, direction, block));
             }
+        }
+    }
+    
+    @EventHandler
+    public void onVehicleDestroy(VehicleDestroyEvent ev){
+        if(ev.getVehicle() instanceof Minecart) {
+            Minecart cart = (Minecart) ev.getVehicle();
+            manager.callEvent(TweakCartEvent.Block.VehicleDestroyEvent, new TweakVehicleDestroyEvent(cart));
         }
     }
 

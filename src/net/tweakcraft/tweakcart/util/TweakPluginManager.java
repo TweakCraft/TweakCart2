@@ -62,6 +62,12 @@ public class TweakPluginManager {
                             TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockDetectEvent, Level.WARNING);
                         }
                         break;
+                    case VehicleDestroyEvent:
+                        if (event instanceof TweakVehicleDestroyEvent) {
+                            eventListener.onVehicleDestroy((TweakVehicleDestroyEvent) event);
+                        } else {
+                            TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockDetectEvent, Level.WARNING);
+                        }
                     default:
                         break;
                 }
