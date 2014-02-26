@@ -18,6 +18,7 @@
 
 package net.tweakcraft.tweakcart.api.event.listeners;
 
+import net.tweakcraft.tweakcart.api.event.TweakSignRedstoneEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 
@@ -39,5 +40,8 @@ public abstract class TweakSignEventListener extends TweakBlockEventListener {
      * @param event onSignCollisionEvent with information of event
      */
     public void onSignCollision(TweakVehicleCollidesWithSignEvent event) {
+    }
+
+    public void onSignRedstone(TweakSignRedstoneEvent event){
     }
 }

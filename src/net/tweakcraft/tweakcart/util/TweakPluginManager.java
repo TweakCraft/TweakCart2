@@ -19,6 +19,7 @@
 package net.tweakcraft.tweakcart.util;
 
 import java.util.*;
+
 import net.tweakcraft.tweakcart.TweakCart;
 import net.tweakcraft.tweakcart.api.event.*;
 import net.tweakcraft.tweakcart.api.event.listeners.TweakBlockEventListener;
@@ -84,7 +85,7 @@ public class TweakPluginManager {
                     for (TweakSignEventListener listener : eventListeners) {
                         try {
                             listener.onSignPass((TweakVehiclePassesSignEvent) event);
-                        } catch(Exception ex) {
+                        } catch (Exception ex) {
                             TweakCart.log("VehiclePassesSignEvent could not be passed to " + listener.getClass().getName(), Level.WARNING);
                             TweakCart.log("Sign at " + event.getSign().getBlock().getLocation());
                             System.out.println(Arrays.toString(event.getSign().getLines()));
@@ -104,6 +105,14 @@ public class TweakPluginManager {
                     TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Sign.VehicleCollidesWithSignEvent, Level.WARNING);
                 }
                 break;
+            case RedstoneEvent:
+                if (event instanceof TweakSignRedstoneEvent) {
+                    for (TweakSignEventListener listener : eventListeners) {
+                        listener.onSignRedstone((TweakSignRedstoneEvent) event);
+                    }
+                } else {
+                    TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Sign.RedstoneEvent, Level.WARNING);
+                }
         }
     }
 

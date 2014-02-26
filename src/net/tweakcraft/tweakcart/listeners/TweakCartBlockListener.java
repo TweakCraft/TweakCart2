@@ -18,17 +18,25 @@
 
 package net.tweakcraft.tweakcart.listeners;
 
+import net.tweakcraft.tweakcart.api.event.TweakSignRedstoneEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
+import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
 import net.tweakcraft.tweakcart.permissions.TweakPermissionsManager;
 import net.tweakcraft.tweakcart.model.Direction;
+import net.tweakcraft.tweakcart.util.BlockUtil;
+import net.tweakcraft.tweakcart.util.TweakPluginManager;
 import net.tweakcraft.tweakcart.util.VehicleUtil;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.block.Sign;
 
 public class TweakCartBlockListener implements Listener {
+    private TweakPluginManager manager = TweakPluginManager.getInstance();
 
     /*
     @EventHandler
@@ -58,5 +66,40 @@ public class TweakCartBlockListener implements Listener {
                 }
                 break;
         }
+    }
+
+    @EventHandler
+    public void onBlockRedstoneChange(BlockRedstoneEvent event) {
+        if (event.getNewCurrent() == event.getOldCurrent() || event.getNewCurrent() > 0 && event.getOldCurrent() > 0) {
+            return;
+        }
+        Block block = event.getBlock();
+        Sign sign;
+        for (int dx = -1; dx <= 1; dx++) {
+            if (BlockUtil.isSign(block.getRelative(dx, 0, 0))) {
+                sign = (Sign) event.getBlock().getState();
+                if (sign != null) {
+                    String keyword = sign.getLine(0);
+                    manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword));
+                }
+            }
+        }
+        for (int dz = -1; dz <= 1; dz++) {
+            if (BlockUtil.isSign(block.getRelative(0, 0, dz))) {
+                sign = (Sign) event.getBlock().getState();
+                if (sign != null) {
+                    String keyword = sign.getLine(0);
+                    manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword));
+                }
+            }
+        }
+        if (BlockUtil.isSign(block.getRelative(0, -1, 0))) {
+            sign = (Sign) event.getBlock().getState();
+            if (sign != null) {
+                String keyword = sign.getLine(0);
+                manager.callEvent(TweakCartEvent.Sign.RedstoneEvent, new TweakSignRedstoneEvent(sign, keyword));
+            }
+        }
+
     }
 }

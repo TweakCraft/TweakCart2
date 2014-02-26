@@ -31,6 +31,7 @@ public class TweakCartEvent {
 
     public enum Sign {
         VehiclePassesSignEvent,
-        VehicleCollidesWithSignEvent
+        VehicleCollidesWithSignEvent,
+        RedstoneEvent
     }
 }
