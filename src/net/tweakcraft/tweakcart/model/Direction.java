@@ -85,9 +85,9 @@ public enum Direction {
         } else if (from.getBlockZ() + 1 == to.getBlockZ()) {
             return Direction.SOUTH;
         } else if (from.getBlockX() == to.getBlockX() + 1) {
-            return Direction.EAST;
-        } else if (from.getBlockX() + 1 == to.getBlockX()) {
             return Direction.WEST;
+        } else if (from.getBlockX() + 1 == to.getBlockX()) {
+            return Direction.EAST;
         }
         return Direction.SELF;
     }
@@ -96,13 +96,13 @@ public enum Direction {
         double xVel = velocity.getX();
         double zVel = velocity.getZ();
         if (zVel >= 0 && xVel >= 0) {
-            return (zVel > xVel) ? Direction.WEST : Direction.SOUTH;
+            return (zVel > xVel) ? Direction.EAST : Direction.SOUTH;
         } else if (zVel <= 0 && xVel <= 0) {
-            return (zVel > xVel) ? Direction.NORTH : Direction.EAST;
+            return (zVel > xVel) ? Direction.NORTH : Direction.WEST;
         } else if (zVel >= 0 && xVel <= 0) {
-            return (zVel > (-xVel)) ? Direction.WEST : Direction.NORTH;
+            return (zVel > (-xVel)) ? Direction.EAST : Direction.NORTH;
         } else if (zVel <= 0 && xVel >= 0) {
-            return ((-zVel) > xVel) ? Direction.EAST : Direction.SOUTH;
+            return ((-zVel) > xVel) ? Direction.WEST : Direction.SOUTH;
         } else {
             return Direction.SELF;
         }
