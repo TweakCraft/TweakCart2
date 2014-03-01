@@ -24,6 +24,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.minecart.PoweredMinecart;
 import org.bukkit.entity.minecart.StorageMinecart;
@@ -53,7 +54,17 @@ public class VehicleUtil {
     }
 
     public static void moveCart(Minecart cart, Location loc) {
-        cart.teleport(loc);
+        Entity passenger = cart.getPassenger();
+        if (passenger != null) {
+            cart.eject();
+            cart.teleport(loc);
+            loc.setPitch(passenger.getLocation().getPitch());
+            loc.setYaw(passenger.getLocation().getYaw());
+            passenger.teleport(loc);
+            cart.setPassenger(passenger);
+        } else {
+            cart.teleport(loc);
+        }
     }
 
     private static boolean spawnCartWithVelocity(Location location, Material type, Direction dir, double velocity) {
