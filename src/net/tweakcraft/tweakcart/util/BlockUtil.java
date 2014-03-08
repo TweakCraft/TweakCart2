@@ -37,31 +37,31 @@ public class BlockUtil {
     public static Set<Sign> getSignLocationAround(Block toBlock, Direction cartDriveDirection) {
         Set<Sign> signList = new HashSet<Sign>();
 
-        if(isSign(toBlock.getRelative(BlockFace.UP)))
-            signList.add((Sign)toBlock.getRelative(BlockFace.UP).getState());
+        if (isSign(toBlock.getRelative(BlockFace.UP)))
+            signList.add((Sign) toBlock.getRelative(BlockFace.UP).getState());
 
         switch (cartDriveDirection) {
             case EAST:
             case WEST:
-                if(isSign(toBlock.getRelative(BlockFace.SOUTH)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getState());
-                if(isSign(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN).getState());
-                if(isSign(toBlock.getRelative(BlockFace.NORTH)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getState());
-                if(isSign(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN).getState());
+                if (isSign(toBlock.getRelative(BlockFace.SOUTH)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.SOUTH).getState());
+                if (isSign(toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.SOUTH).getRelative(BlockFace.DOWN).getState());
+                if (isSign(toBlock.getRelative(BlockFace.NORTH)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.NORTH).getState());
+                if (isSign(toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.NORTH).getRelative(BlockFace.DOWN).getState());
                 break;
             case NORTH:
             case SOUTH:
-                if(isSign(toBlock.getRelative(BlockFace.WEST)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getState());
-                if(isSign(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN).getState());
-                if(isSign(toBlock.getRelative(BlockFace.EAST)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getState());
-                if(isSign(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN)))
-                    signList.add((Sign)toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN).getState());
+                if (isSign(toBlock.getRelative(BlockFace.WEST)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.WEST).getState());
+                if (isSign(toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.WEST).getRelative(BlockFace.DOWN).getState());
+                if (isSign(toBlock.getRelative(BlockFace.EAST)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.EAST).getState());
+                if (isSign(toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN)))
+                    signList.add((Sign) toBlock.getRelative(BlockFace.EAST).getRelative(BlockFace.DOWN).getState());
                 break;
         }
 
@@ -69,7 +69,15 @@ public class BlockUtil {
     }
 
     public static boolean isRailBlock(Block b) {
-        return b.getTypeId() == Material.POWERED_RAIL.getId() || b.getTypeId() == Material.DETECTOR_RAIL.getId() || b.getTypeId() == Material.RAILS.getId();
+        switch (b.getType()) {
+            case RAILS:
+            case POWERED_RAIL:
+            case DETECTOR_RAIL:
+            case ACTIVATOR_RAIL:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static boolean isSign(Block b) {

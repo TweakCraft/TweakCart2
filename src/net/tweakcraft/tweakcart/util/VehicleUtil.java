@@ -24,10 +24,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
-import org.bukkit.entity.minecart.PoweredMinecart;
-import org.bukkit.entity.minecart.StorageMinecart;
+import org.bukkit.entity.minecart.*;
 
 
 public class VehicleUtil {
@@ -54,31 +52,30 @@ public class VehicleUtil {
     }
 
     public static void moveCart(Minecart cart, Location loc) {
-        Entity passenger = cart.getPassenger();
-        if (passenger != null) {
-            cart.eject();
-            cart.teleport(loc);
-            loc.setPitch(passenger.getLocation().getPitch());
-            loc.setYaw(passenger.getLocation().getYaw());
-            passenger.teleport(loc);
-            cart.setPassenger(passenger);
-        } else {
-            cart.teleport(loc);
-        }
+        cart.teleport(loc);
     }
 
     private static boolean spawnCartWithVelocity(Location location, Material type, Direction dir, double velocity) {
-        if (isMinecart(type) && isRail(location.getBlock())) {
+        if (isMinecart(type) && BlockUtil.isRailBlock(location.getBlock())) {
             Minecart cart;
             switch (type) {
                 case MINECART:
-                    cart = location.getWorld().spawn(location, Minecart.class);
+                    cart = location.getWorld().spawn(location, RideableMinecart.class);
                     break;
                 case STORAGE_MINECART:
                     cart = location.getWorld().spawn(location, StorageMinecart.class);
                     break;
                 case POWERED_MINECART:
                     cart = location.getWorld().spawn(location, PoweredMinecart.class);
+                    break;
+                case HOPPER_MINECART:
+                    cart = location.getWorld().spawn(location, HopperMinecart.class);
+                    break;
+                case EXPLOSIVE_MINECART:
+                    cart = location.getWorld().spawn(location, ExplosiveMinecart.class);
+                    break;
+                case COMMAND_MINECART:
+                    cart = location.getWorld().spawn(location, CommandMinecart.class);
                     break;
                 default:
                     return false;
@@ -143,7 +140,12 @@ public class VehicleUtil {
     }
 
     public static boolean isMinecart(Material type) {
-        return (type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART);
+        return (type == Material.MINECART
+                || type == Material.POWERED_MINECART
+                || type == Material.STORAGE_MINECART
+                || type == Material.HOPPER_MINECART
+                || type == Material.EXPLOSIVE_MINECART
+                || type == Material.COMMAND_MINECART);
     }
 
     public static int itemId(Minecart cart) {
@@ -151,37 +153,27 @@ public class VehicleUtil {
             return Material.STORAGE_MINECART.getId();
         } else if (cart instanceof PoweredMinecart) {
             return Material.POWERED_MINECART.getId();
+        } else if (cart instanceof HopperMinecart) {
+            return Material.HOPPER_MINECART.getId();
+        } else if (cart instanceof ExplosiveMinecart) {
+            return Material.EXPLOSIVE_MINECART.getId();
+        } else if (cart instanceof CommandMinecart) {
+            return Material.COMMAND_MINECART.getId();
         } else {
             return Material.MINECART.getId();
-        }
-    }
-
-    /**
-     * @param b
-     * @return
-     */
-    public static boolean isRail(Block b) {
-
-        switch (b.getType()) {
-            case RAILS:
-            case POWERED_RAIL:
-            case DETECTOR_RAIL:
-                return true;
-            default:
-                return false;
         }
     }
 
     public static boolean canSpawn(Dispenser disp) {
         switch (disp.getData().getData()) {
             case 0x2:
-                return (isRail(disp.getBlock().getRelative(BlockFace.EAST)));
+                return (BlockUtil.isRailBlock(disp.getBlock().getRelative(BlockFace.EAST)));
             case 0x3:
-                return (isRail(disp.getBlock().getRelative(BlockFace.WEST)));
+                return (BlockUtil.isRailBlock(disp.getBlock().getRelative(BlockFace.WEST)));
             case 0x5:
-                return (isRail(disp.getBlock().getRelative(BlockFace.SOUTH)));
+                return (BlockUtil.isRailBlock(disp.getBlock().getRelative(BlockFace.SOUTH)));
             case 0x4:
-                return (isRail(disp.getBlock().getRelative(BlockFace.NORTH)));
+                return (BlockUtil.isRailBlock(disp.getBlock().getRelative(BlockFace.NORTH)));
             default:
                 return false;
         }

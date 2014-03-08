@@ -20,6 +20,7 @@ package net.tweakcraft.tweakcart.api.event.listeners;
 
 import net.tweakcraft.tweakcart.api.event.TweakSignRedstoneEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleCollidesWithSignEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleDestroyEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehiclePassesSignEvent;
 
 public abstract class TweakSignEventListener extends TweakBlockEventListener {
