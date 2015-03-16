@@ -121,9 +121,9 @@ public class TweakCartVehicleListener implements Listener {
                                 }
                             }
                         }
-                        ItemStack itemStack = new ItemStack(VehicleUtil.itemId(cart), 1);
+
                         Dispenser dispenser = (Dispenser) block.getState();
-                        ItemStack[] leftovers = InventoryManager.putContents(dispenser.getInventory(), itemStack);
+                        ItemStack[] leftovers = InventoryManager.putContents(dispenser.getInventory(), new ItemStack(VehicleUtil.getMaterial(cart), 1));
                         if (leftovers[0] == null) {
                             cart.remove();
                         }

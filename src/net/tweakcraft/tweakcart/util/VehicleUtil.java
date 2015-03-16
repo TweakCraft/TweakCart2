@@ -18,6 +18,7 @@
 
 package net.tweakcraft.tweakcart.util;
 
+import net.minecraft.server.v1_8_R1.ItemStack;
 import net.tweakcraft.tweakcart.model.Direction;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,8 +26,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Minecart;
-import org.bukkit.entity.PoweredMinecart;
-import org.bukkit.entity.StorageMinecart;
+import org.bukkit.entity.minecart.*;
 
 
 public class VehicleUtil {
@@ -135,14 +135,21 @@ public class VehicleUtil {
         return (type == Material.MINECART || type == Material.POWERED_MINECART || type == Material.STORAGE_MINECART);
     }
 
-    public static int itemId(Minecart cart) {
-        if (cart instanceof StorageMinecart) {
-            return Material.STORAGE_MINECART.getId();
-        } else if (cart instanceof PoweredMinecart) {
-            return Material.POWERED_MINECART.getId();
-        } else {
-            return Material.MINECART.getId();
-        }
+    public static Material getMaterial(Minecart cart){
+        if(cart instanceof CommandMinecart)
+            return Material.COMMAND_MINECART;
+        else if(cart instanceof StorageMinecart)
+            return Material.STORAGE_MINECART;
+        else if(cart instanceof PoweredMinecart)
+            return Material.POWERED_MINECART;
+        else if(cart instanceof ExplosiveMinecart)
+            return Material.EXPLOSIVE_MINECART;
+        else if(cart instanceof HopperMinecart)
+            return Material.HOPPER_MINECART;
+        else if(cart instanceof  SpawnerMinecart)
+            return Material.MINECART; // Not yet implemented
+        else
+            return Material.MINECART;
     }
 
     /**
