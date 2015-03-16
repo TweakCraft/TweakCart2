@@ -37,6 +37,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -99,8 +100,8 @@ public class TweakCartVehicleListener implements Listener {
                     TweakVehicleCollectEvent collectEvent = new TweakVehicleCollectEvent(cart, block);
                     permissionsManager.cartCanCollect(collectEvent);
                     if (!collectEvent.isCancelled()) {
-                        if (cart instanceof StorageMinecart) {
-                            ItemStack[] leftovers = ((StorageMinecart) cart).getInventory().getContents();
+                        if (cart instanceof InventoryHolder) {
+                            ItemStack[] leftovers = ((InventoryHolder) cart).getInventory().getContents();
                             Location dropLocation = cart.getLocation();
                             List<Chest> chests = ChestUtil.getChestsAroundBlock(dropLocation.getBlock(), 2);
                             for (ItemStack i : leftovers) {
