@@ -20,24 +20,44 @@ public class IntMap {
          * dit moet dus nog worden geautomatiseerd
          */
         HashMap<Material, Integer> metaDataList = new HashMap<Material, Integer>();
-        metaDataList.put(Material.WOOD, 4);
-        metaDataList.put(Material.SAPLING, 4);
-        metaDataList.put(Material.LOG, 4);
-        metaDataList.put(Material.LEAVES, 15);
-        metaDataList.put(Material.SANDSTONE, 3);
-        metaDataList.put(Material.GRASS, 3);
-        metaDataList.put(Material.WOOL, 16);
-        metaDataList.put(Material.DOUBLE_STEP, 10);
-        metaDataList.put(Material.STEP, 8);
-        //metaDataList.put(Material.WOOD_STAIRS, 4); No longer necessairy
-        metaDataList.put(Material.MONSTER_EGG, 3);
-        metaDataList.put(Material.SMOOTH_BRICK, 4);
-        metaDataList.put(Material.WOOD_DOUBLE_STEP, 4);
-        metaDataList.put(Material.WOOD_STEP, 4);
+        metaDataList.put(Material.ANVIL, 3);
         metaDataList.put(Material.COAL, 2);
+        metaDataList.put(Material.COBBLE_WALL, 2);
+        metaDataList.put(Material.DIRT, 3);
+        metaDataList.put(Material.DOUBLE_STEP, 15);
+        metaDataList.put(Material.DOUBLE_STONE_SLAB2, 8);
+        metaDataList.put(Material.GRASS, 3);
         metaDataList.put(Material.INK_SACK, 16);
+        metaDataList.put(Material.LEAVES, 15);
+        metaDataList.put(Material.LEAVES_2, 15);
+        metaDataList.put(Material.LOG, 15);
+        metaDataList.put(Material.LOG_2, 13);
+        metaDataList.put(Material.MONSTER_EGG, 3);
+        metaDataList.put(Material.HUGE_MUSHROOM_1, 15);
+        metaDataList.put(Material.HUGE_MUSHROOM_2, 15);
+        metaDataList.put(Material.PRISMARINE, 3);
+        metaDataList.put(Material.QUARTZ_BLOCK, 5);
+        metaDataList.put(Material.RED_SANDSTONE, 3);
+        metaDataList.put(Material.SAND, 2);
+        metaDataList.put(Material.SANDSTONE, 3);
+        metaDataList.put(Material.SAPLING, 6);
+        metaDataList.put(Material.SMOOTH_BRICK, 4);
+        metaDataList.put(Material.SPONGE, 2);
+        metaDataList.put(Material.STAINED_CLAY, 15);
+        metaDataList.put(Material.STAINED_GLASS, 15);
+        metaDataList.put(Material.STAINED_GLASS_PANE, 15);
+        metaDataList.put(Material.STEP, 15);
+        metaDataList.put(Material.STONE, 7);
+        metaDataList.put(Material.SMOOTH_BRICK, 4);
+        metaDataList.put(Material.STONE_SLAB2, 15);
+        metaDataList.put(Material.WOOD, 15);
+        metaDataList.put(Material.WOOD_DOUBLE_STEP, 15);
+        //metaDataList.put(Material.WOOD_STAIRS, 4); No longer necessairy
+        metaDataList.put(Material.WOOD_STEP, 15);
+        metaDataList.put(Material.WOOL, 16);
         Set<Material> materials = metaDataList.keySet();
         //Material[] matList = materials.toArray(new Material[materials.size()]);
+
         for (Iterator<Material> it = materials.iterator(); it.hasNext();) {
             Material mat = it.next();
             dataValueMap.put(mat, new HashMap<Integer, Integer>());
