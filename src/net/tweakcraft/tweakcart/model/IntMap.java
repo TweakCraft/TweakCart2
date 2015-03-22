@@ -22,25 +22,44 @@ public class IntMap {
         /*
          * dit moet dus nog worden geautomatiseerd
          */
-        dataValueMap.put(Material.WOOD, 4);
-        dataValueMap.put(Material.SAPLING, 4);
-        dataValueMap.put(Material.LOG, 4);
+        dataValueMap.put(Material.WOOD, 15);
+        dataValueMap.put(Material.SAPLING, 6);
+        dataValueMap.put(Material.LOG, 15);
         dataValueMap.put(Material.LEAVES, 15);
         dataValueMap.put(Material.SANDSTONE, 3);
         dataValueMap.put(Material.GRASS, 3);
         dataValueMap.put(Material.WOOL, 16);
-        dataValueMap.put(Material.DOUBLE_STEP, 10);
-        dataValueMap.put(Material.STEP, 8);
+        dataValueMap.put(Material.DOUBLE_STEP, 15);
+        dataValueMap.put(Material.STEP, 15);
         //metaDataList.put(Material.WOOD_STAIRS, 4); No longer necessairy
         dataValueMap.put(Material.MONSTER_EGG, 3);
         dataValueMap.put(Material.SMOOTH_BRICK, 4);
-        dataValueMap.put(Material.WOOD_DOUBLE_STEP, 4);
+        dataValueMap.put(Material.WOOD_DOUBLE_STEP, 15);
         dataValueMap.put(Material.WOOD_STEP, 4);
         dataValueMap.put(Material.COAL, 2);
         dataValueMap.put(Material.INK_SACK, 16);
         dataValueMap.put(Material.POTION, potionDatas.size());
         dataValueMap.put(Material.MONSTER_EGG, monsterEggDatas.size());
 
+        dataValueMap.put(Material.ANVIL, 3);
+        dataValueMap.put(Material.COBBLE_WALL, 2);
+        dataValueMap.put(Material.DIRT, 3);
+        dataValueMap.put(Material.DOUBLE_STONE_SLAB2, 8);
+        dataValueMap.put(Material.LEAVES_2, 15);
+        dataValueMap.put(Material.LOG_2, 13);
+        dataValueMap.put(Material.HUGE_MUSHROOM_1, 15);
+        dataValueMap.put(Material.HUGE_MUSHROOM_2, 15);
+        dataValueMap.put(Material.PRISMARINE, 3);
+        dataValueMap.put(Material.QUARTZ_BLOCK, 5);
+        dataValueMap.put(Material.RED_SANDSTONE, 3);
+        dataValueMap.put(Material.SAND, 2);
+        dataValueMap.put(Material.SPONGE, 2);
+        dataValueMap.put(Material.STAINED_CLAY, 15);
+        dataValueMap.put(Material.STAINED_GLASS, 15);
+        dataValueMap.put(Material.STAINED_GLASS_PANE, 15);
+        dataValueMap.put(Material.STONE, 7);
+        dataValueMap.put(Material.STONE_SLAB2, 15);
+        
         int offsetX = 0;
         Material m;
         for (int x = 0; x < materialIndex.length; x++) {
