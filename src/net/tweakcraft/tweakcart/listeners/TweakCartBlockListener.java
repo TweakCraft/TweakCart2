@@ -18,6 +18,7 @@
 package net.tweakcraft.tweakcart.listeners;
 
 import net.tweakcraft.tweakcart.api.event.TweakSignRedstoneEvent;
+import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockRedstoneEvent;
 import net.tweakcraft.tweakcart.api.event.TweakVehicleDispenseEvent;
 import net.tweakcraft.tweakcart.api.model.TweakCartEvent;
 import net.tweakcraft.tweakcart.permissions.TweakPermissionsManager;
@@ -73,6 +74,10 @@ public class TweakCartBlockListener implements Listener {
 
     @EventHandler
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
+        if(BlockUtil.isRailBlock(event.getBlock())){
+            manager.callEvent(TweakCartEvent.Block.VehicleBlockRedstoneEvent, new TweakVehicleBlockRedstoneEvent(event));
+        }
+
         if (event.getNewCurrent() == event.getOldCurrent() || event.getNewCurrent() > 0 && event.getOldCurrent() > 0 || event.getBlock().getType() != Material.REDSTONE_WIRE) {
             return;
         }

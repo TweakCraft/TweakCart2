@@ -68,6 +68,14 @@ public class TweakPluginManager {
                         } else {
                             TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockDetectEvent, Level.WARNING);
                         }
+                        break;
+                    case VehicleBlockRedstoneEvent:
+                        if (event instanceof TweakVehicleBlockRedstoneEvent) {
+                            eventListener.onVehicleBlockRedstoneEvent((TweakVehicleBlockRedstoneEvent) event);
+                        } else {
+                            TweakCart.log("Event was thrown but event and type do not correspond " + TweakCartEvent.Block.VehicleBlockRedstoneEvent, Level.WARNING);
+                        }
+                        break;
                     default:
                         break;
                 }

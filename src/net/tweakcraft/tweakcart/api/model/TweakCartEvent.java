@@ -27,7 +27,8 @@ public class TweakCartEvent {
         VehicleCollectEvent,
         VehicleSlabInDispenserEvent,
         PlayerSlapEvent,
-        VehicleDestroyEvent
+        VehicleDestroyEvent,
+        VehicleBlockRedstoneEvent
     }
 
     public enum Sign {

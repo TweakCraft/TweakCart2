@@ -18,10 +18,7 @@
 
 package net.tweakcraft.tweakcart.api.event.listeners;
 
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockChangeEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockCollisionEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleBlockDetectEvent;
-import net.tweakcraft.tweakcart.api.event.TweakVehicleDestroyEvent;
+import net.tweakcraft.tweakcart.api.event.*;
 
 public abstract class TweakBlockEventListener {
 
@@ -41,5 +38,9 @@ public abstract class TweakBlockEventListener {
     
     public void onVehicleDestroy(TweakVehicleDestroyEvent event) {
         //Called when a vehicle gets destroyed
+    }
+
+    public void onVehicleBlockRedstoneEvent(TweakVehicleBlockRedstoneEvent event) {
+        //Called when a BlockRedstoneEvent is called by a rail
     }
 }
